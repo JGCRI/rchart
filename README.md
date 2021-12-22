@@ -4,7 +4,6 @@
 [![codecov](https://codecov.io/gh/JGCRI/rchart/branch/main/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rchart) 
 [![docs](https://github.com/JGCRI/rchart/actions/workflows/docs.yaml/badge.svg?branch=main)](https://github.com/JGCRI/rchart/actions/workflows/docs.yaml)
 [![Github All Releases](https://img.shields.io/github/downloads/JGCRI/rchart/total.svg)]()
-[![status](https://joss.theoj.org/papers/4cdf462f70681bc335ddebf5868b249c/status.svg)](https://joss.theoj.org/papers/4cdf462f70681bc335ddebf5868b249c)
 <!-- badges: end -->
 
 
