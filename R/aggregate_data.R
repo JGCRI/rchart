@@ -10,6 +10,18 @@
 aggregate_data <- function(data = NULL,
                            col_agg = "class"){
 
+
+  #...........................
+  # Initialize
+  #...........................
+
+  NULL -> aggregate -> value
+
+
+  #...........................
+  # Aggregate
+  #...........................
+
   # Check if aggregate is in the column names
   if(!"aggregate" %in% names(data)){
     data <- rchart::add_missing(data)

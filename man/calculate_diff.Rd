@@ -37,7 +37,9 @@ calculate_diff(
 
 \item{diff_text_absolute}{Default = "_diffAbs"}
 
-\item{col}{Default = NULL.}
+\item{diff_text_percent_x}{Default = "_xdiffPrcnt"}
+
+\item{diff_text_absolute_x}{Default = "_xdiffAbs"}
 }
 \description{
 Calculate difference between scenarios or time periods

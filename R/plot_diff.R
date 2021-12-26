@@ -19,7 +19,11 @@ plot_diff <- function(data = NULL,
   # Initialize
   #...........................
 
-  NULL -> filter -> param -> scenario -> input -> value -> plot_out
+  NULL -> value -> param -> x -> scenario
+
+  #...........................
+  # Plots
+  #...........................
 
   plist <- list()
   count = 1
@@ -66,24 +70,25 @@ plot_diff <- function(data = NULL,
     # Plot data_ref ....................................
      p1 <-  ggplot2::ggplot(data_ref%>%
                             droplevels(),
-                            aes(x=x,y=value,
+                            ggplot2::aes(x=x,y=value,
                             group=class,
                             fill=class))+
-      ggplot2::theme_bw() +
-      xlab(NULL) +
-      ylab(unique(data$param)[i])+
-      scale_fill_manual(breaks=names(palCharts),values=palCharts) +
-      scale_y_continuous(position = "left") +
-      facet_grid(param~scenario, scales="free",switch="y") +
-      geom_bar(position="stack", stat="identity") +
-      theme(legend.position="bottom",
-            strip.text.y = element_blank(),
-            legend.title = element_blank(),
-            legend.margin=margin(t =5, r = 0, b = 5, l =0, "pt"),
-            legend.key.height=unit(0, "cm"),
-            text = element_text(size = 15),
-            plot.margin=margin(t = 20, r = 5, b = 0, l = 0, "pt"),
-            axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)))
+        ggplot2::theme_bw() +
+        ggplot2::xlab(NULL) +
+        ggplot2::ylab(unique(data$param)[i])+
+        ggplot2::scale_fill_manual(breaks=names(palCharts),values=palCharts) +
+        ggplot2::scale_y_continuous(position = "left") +
+        ggplot2::facet_grid(param~scenario, scales="free",switch="y",
+                            labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15))) +
+        ggplot2::geom_bar(position="stack", stat="identity") +
+        ggplot2::theme(legend.position="bottom",
+            strip.text.y = ggplot2::element_blank(),
+            legend.title = ggplot2::element_blank(),
+            legend.margin = ggplot2::margin(t =5, r = 0, b = 5, l =0, "pt"),
+            legend.key.height = ggplot2::unit(0, "cm"),
+            text = ggplot2::element_text(size = 15),
+            plot.margin = ggplot2::margin(t = 20, r = 5, b = 0, l = 0, "pt"),
+            axis.title.y = ggplot2::element_text(margin = ggplot2::margin(t = 0, r = 20, b = 0, l = 0)))
 
      if(!is.null(theme)){p1 <- p1 + theme}
 
@@ -93,30 +98,31 @@ plot_diff <- function(data = NULL,
     p2 <-  ggplot2::ggplot(data %>%
                            dplyr::filter(param==unique(data$param)[i], scenario != scenRef)%>%
                            droplevels(),
-                           aes(x=x,y=value,
+                           ggplot2::aes(x=x,y=value,
                            group=class,
                            color=class)) +
       ggplot2::theme_bw() +
-      xlab(NULL) +
-      ylab(NULL) +
-      scale_color_manual(breaks=names(palCharts),values=palCharts) +
-      scale_y_continuous(position = "left") +
-      facet_grid(param~scenario, scales="free",switch="y") +
-      theme(legend.position="bottom",
-            legend.title = element_blank(),
-            strip.text.y = element_blank(),
-            legend.margin=margin(t =5, r = 0, b = 5, l =0, "pt"),
-            legend.key.height=unit(0, "cm"),
-            text = element_text(size = 15),
-            plot.margin=margin(t = 20, r = 5, b = 0, l = 0, "pt"),
-            axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)))
+      ggplot2::xlab(NULL) +
+      ggplot2::ylab(NULL) +
+      ggplot2::scale_color_manual(breaks=names(palCharts),values=palCharts) +
+      ggplot2::scale_y_continuous(position = "left") +
+      ggplot2::facet_grid(param~scenario, scales="free",switch="y",
+                          labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15))) +
+      ggplot2::theme(legend.position="bottom",
+            legend.title = ggplot2::element_blank(),
+            strip.text.y = ggplot2::element_blank(),
+            legend.margin = ggplot2::margin(t =5, r = 0, b = 5, l =0, "pt"),
+            legend.key.height = ggplot2::unit(0, "cm"),
+            text = ggplot2::element_text(size = 15),
+            plot.margin = ggplot2::margin(t = 20, r = 5, b = 0, l = 0, "pt"),
+            axis.title.y = ggplot2::element_text(margin = ggplot2::margin(t = 0, r = 20, b = 0, l = 0)))
 
     if(grepl("absolute",diff_type,ignore.case = T)){
-      p2 <- p2 + geom_bar(position="stack", stat="identity")
+      p2 <- p2 + ggplot2::geom_bar(position="stack", stat="identity")
     }
 
     if(grepl("absolute",diff_type,ignore.case = T)){
-      p2 <- p2 + geom_line(size=2)
+      p2 <- p2 + ggplot2::geom_line(size=2)
     }
 
     if(!is.null(theme)){p2 <- p2 + theme}

@@ -8,16 +8,21 @@
 #' @param size Default = 10. text size
 #' @param size_title Default = NULL. size_title text
 #' @param theme Default = NULL.
+#' @param ncol Default = 3. Number of columns.
+#' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
 #' @export
 
 chart <- function(data = NULL,
                   col_agg = "class",
+                  chart_type = "all",
                   aspect_ratio = 0.75,
                   size = 10,
                   size_title = NULL,
-                  theme = NULL){
+                  theme = NULL,
+                  ncol = 3,
+                  scales = "free"){
 
   print("Starting chart...")
 

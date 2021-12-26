@@ -29,7 +29,6 @@ Imports:
 	stringr,
 	ggplot2,
 	ggrepel,
-	jgcricolors,
 	cowplot,
     markdown,
 	broom,

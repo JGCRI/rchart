@@ -7,16 +7,21 @@
 chart(
   data = NULL,
   col_agg = "class",
+  chart_type = "all",
   aspect_ratio = 0.75,
   size = 10,
   size_title = NULL,
-  theme = NULL
+  theme = NULL,
+  ncol = 3,
+  scales = "free"
 )
 }
 \arguments{
 \item{data}{Default = NULL. Dataframe to test and convert.}
 
 \item{col_agg}{Default = "class". Column to remove and then aggregate by.}
+
+\item{chart_type}{Default = "all". Choices one or more of "all", "lines", "bar", "lines_diff", "bar_diff"}
 
 \item{aspect_ratio}{Default = 0.75. aspect ratio}
 
@@ -26,7 +31,9 @@ chart(
 
 \item{theme}{Default = NULL.}
 
-\item{chart_type}{Default = "all". Choices one or more of "all", "lines", "bar", "lines_diff", "bar_diff"}
+\item{ncol}{Default = 3. Number of columns.}
+
+\item{scales}{Default = "free". Choose between "free", "free_y", "free_x", "fixed"}
 }
 \description{
 Used to add missing data to input files and customize format

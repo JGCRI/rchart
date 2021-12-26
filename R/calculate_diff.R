@@ -2,7 +2,6 @@
 #'
 #' Calculate difference between scenarios or time periods
 #' @param data Default = NULL.
-#' @param col Default = NULL.
 #' @param scenRef Default = NULL. Reference Scenario
 #' @param scenDiff Default = NULL. Difference Scenarios
 #' @param xRef Default = NULL. Reference x
@@ -12,6 +11,8 @@
 #' @param diff_type_x Default = "both". One of "absolute", "percent", "both".
 #' @param diff_text_percent Default = "_diffPrcnt"
 #' @param diff_text_absolute Default = "_diffAbs"
+#' @param diff_text_percent_x Default = "_xdiffPrcnt"
+#' @param diff_text_absolute_x Default = "_xdiffAbs"
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
 #' @export
@@ -34,6 +35,8 @@ calculate_diff <- function(data = NULL,
   # Initialize
   #...........................
 
+  NULL -> scenario -> value -> x
+
   orig_cols <- colnames(data)
   data_full <- rchart::add_missing(data)
 
@@ -53,7 +56,7 @@ calculate_diff <- function(data = NULL,
     data_temp <- data_full %>%
       dplyr::filter(scenario %in% c(scenRef, scenDiff_i))  %>%
       dplyr::filter(!(is.na(class) & value==0))%>%
-      dplyr::mutate(class=if_else(is.na(class),"NA",class))
+      dplyr::mutate(class=dplyr::if_else(is.na(class),"NA",class))
 
     data_temp <- data_temp %>%
       tidyr::spread(scenario, value)
@@ -118,7 +121,7 @@ calculate_diff <- function(data = NULL,
           dplyr::filter(scenario %in% scenario_i) %>%
           dplyr::filter(x %in% c(xRef, xDiff_i))  %>%
           dplyr::filter(!(is.na(class) & value==0)) %>%
-          dplyr::mutate(class=if_else(is.na(class),"NA",class))
+          dplyr::mutate(class = dplyr::if_else(is.na(class),"NA",class))
 
         data_temp_x <- data_temp_x %>%
           tidyr::spread(x, value)

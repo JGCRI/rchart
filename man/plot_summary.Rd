@@ -9,7 +9,9 @@ plot_summary(
   aspect_ratio = 0.75,
   size = 10,
   size_title = NULL,
-  theme = NULL
+  theme = NULL,
+  ncol = 3,
+  scales = "free"
 )
 }
 \arguments{
@@ -22,6 +24,10 @@ plot_summary(
 \item{size_title}{Default = NULL. size_title text}
 
 \item{theme}{Default = NULL.}
+
+\item{ncol}{Default = 3. Number of columns.}
+
+\item{scales}{Default = "free". Choose between "free", "free_y", "free_x", "fixed"}
 }
 \description{
 generate summary plot

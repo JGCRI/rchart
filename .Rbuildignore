@@ -28,3 +28,6 @@ rmapCheatsheet.pdf
 ^articles$
 ^paper$
 ^/paper$
+^CITATION.md$
+^CONTRIBUTE.md$
+^cran-comments.md$

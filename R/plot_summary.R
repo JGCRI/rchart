@@ -6,6 +6,8 @@
 #' @param size Default = 10. text size
 #' @param size_title Default = NULL. size_title text
 #' @param theme Default = NULL.
+#' @param ncol Default = 3. Number of columns.
+#' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
 #' @importFrom magrittr %>%
 #' @export
 
@@ -13,7 +15,9 @@ plot_summary <- function(data = NULL,
                          aspect_ratio = 0.75,
                          size = 10,
                          size_title = NULL,
-                         theme = NULL) {
+                         theme = NULL,
+                         ncol = 3,
+                         scales = "free") {
 
   #...........................
   # Initialize
@@ -31,22 +35,23 @@ plot_summary <- function(data = NULL,
   #...........................
 
   p1 <- ggplot2::ggplot(data,
-                  aes(x=x,y=value,
-                      group=scenario,
-                      color=scenario)) +
-        ggplot2::theme_bw() +
-        geom_line(size=2) +
-        ylab(NULL) +  xlab(NULL) +
-        facet_wrap(
+                        ggplot2::aes(x=x,y=value,
+                        group=scenario,
+                        color=scenario)) +
+    ggplot2::theme_bw() +
+    ggplot2::geom_line(size=2) +
+    ggplot2::ylab(NULL) +
+    ggplot2::xlab(NULL) +
+    ggplot2::facet_wrap(
           . ~ param,
-          scales = "free",
-          ncol = 3,
-          labeller = labeller(param = label_wrap_gen(15))
+          scales = scales,
+          ncol = ncol,
+          labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15))
         ) +
-        theme(legend.position="top",
-              legend.size_title = element_blank(),
-              plot.margin=margin(20,20,20,0,"pt"),
-              text=element_text(size=size),
+    ggplot2::theme(legend.position="top",
+              legend.size_title = ggplot2::element_blank(),
+              plot.margin = ggplot2::margin(20,20,20,0,"pt"),
+              text = ggplot2::element_text(size=size),
               aspect.ratio = aspect_ratio)
 
   if(!is.null(theme)){p1 <- p1 + theme}
