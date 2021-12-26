@@ -9,11 +9,13 @@ chart(
   col_agg = "class",
   chart_type = "all",
   aspect_ratio = 0.75,
-  size = 10,
-  size_title = NULL,
+  size = 1.5,
+  size_text = 10,
   theme = NULL,
-  ncol = 3,
-  scales = "free"
+  ncol = NULL,
+  scales = "free_y",
+  save = TRUE,
+  folder = getwd()
 )
 }
 \arguments{
@@ -25,15 +27,19 @@ chart(
 
 \item{aspect_ratio}{Default = 0.75. aspect ratio}
 
-\item{size}{Default = 10. text size}
+\item{size}{Default = 1.5. line size}
 
-\item{size_title}{Default = NULL. size_title text}
+\item{size_text}{Default = NULL. Text size}
 
 \item{theme}{Default = NULL.}
 
 \item{ncol}{Default = 3. Number of columns.}
 
 \item{scales}{Default = "free". Choose between "free", "free_y", "free_x", "fixed"}
+
+\item{save}{Default = TRUE. Save plots.}
+
+\item{folder}{Default = getwd().}
 }
 \description{
 Used to add missing data to input files and customize format

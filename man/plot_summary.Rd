@@ -7,11 +7,11 @@
 plot_summary(
   data = NULL,
   aspect_ratio = 0.75,
-  size = 10,
-  size_title = NULL,
+  size = 1.5,
+  size_text = 10,
   theme = NULL,
   ncol = 3,
-  scales = "free"
+  scales = "free_y"
 )
 }
 \arguments{
@@ -19,9 +19,9 @@ plot_summary(
 
 \item{aspect_ratio}{Default = 0.75. aspect ratio}
 
-\item{size}{Default = 10. text size}
+\item{size}{Default = 1.5. Line size}
 
-\item{size_title}{Default = NULL. size_title text}
+\item{size_text}{Default = 10. text size}
 
 \item{theme}{Default = NULL.}
 
