@@ -90,10 +90,13 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">chart</span><span class="op">(</span>
   data <span class="op">=</span> <span class="cn">NULL</span>,
   col_agg <span class="op">=</span> <span class="st">"class"</span>,
+  chart_type <span class="op">=</span> <span class="st">"all"</span>,
   aspect_ratio <span class="op">=</span> <span class="fl">0.75</span>,
   size <span class="op">=</span> <span class="fl">10</span>,
   size_title <span class="op">=</span> <span class="cn">NULL</span>,
-  theme <span class="op">=</span> <span class="cn">NULL</span>
+  theme <span class="op">=</span> <span class="cn">NULL</span>,
+  ncol <span class="op">=</span> <span class="fl">3</span>,
+  scales <span class="op">=</span> <span class="st">"free"</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -103,6 +106,8 @@
 <dd><p>Default = NULL. Dataframe to test and convert.</p></dd>
 <dt>col_agg</dt>
 <dd><p>Default = "class". Column to remove and then aggregate by.</p></dd>
+<dt>chart_type</dt>
+<dd><p>Default = "all". Choices one or more of "all", "lines", "bar", "lines_diff", "bar_diff"</p></dd>
 <dt>aspect_ratio</dt>
 <dd><p>Default = 0.75. aspect ratio</p></dd>
 <dt>size</dt>
@@ -111,8 +116,10 @@
 <dd><p>Default = NULL. size_title text</p></dd>
 <dt>theme</dt>
 <dd><p>Default = NULL.</p></dd>
-<dt>chart_type</dt>
-<dd><p>Default = "all". Choices one or more of "all", "lines", "bar", "lines_diff", "bar_diff"</p></dd>
+<dt>ncol</dt>
+<dd><p>Default = 3. Number of columns.</p></dd>
+<dt>scales</dt>
+<dd><p>Default = "free". Choose between "free", "free_y", "free_x", "fixed"</p></dd>
 </dl></div>
 
   </div>
