@@ -28,6 +28,12 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
+    <loc>/reference/add_missing.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calculate_diff.html</loc>
+  </url>
+  <url>
     <loc>/reference/exampleMapDataClass.html</loc>
   </url>
   <url>
@@ -35,6 +41,15 @@
   </url>
   <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot_absolute.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot_diff.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot_summary.html</loc>
   </url>
   <url>
     <loc>/reference/rchart.html</loc>
