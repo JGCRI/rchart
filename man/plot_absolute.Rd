@@ -4,12 +4,12 @@
 \alias{plot_absolute}
 \title{plot_absolute}
 \usage{
-plot_absolute(data = NULL, theme = ggplot2::theme_bw())
+plot_absolute(data = NULL, theme = NULL)
 }
 \arguments{
 \item{data}{Default = NULL.}
 
-\item{theme}{ggplot theme to use}
+\item{theme}{Default = NULL.}
 }
 \description{
 generate chart plot for absolute value

@@ -8,7 +8,8 @@ plot_diff(
   data = NULL,
   scenRef = NULL,
   scenDiff = NULL,
-  theme = ggplot2::theme_bw()
+  diff_type = "absolute",
+  theme = NULL
 )
 }
 \arguments{
@@ -18,7 +19,9 @@ plot_diff(
 
 \item{scenDiff}{Default = NULL.}
 
-\item{theme}{Default = ggplot2::theme_bw()}
+\item{diff_type}{Default = "absolute". Choose one of "absolute" or "percent"}
+
+\item{theme}{Default = NULL}
 }
 \description{
 generate chart plot for absolute difference and percent difference

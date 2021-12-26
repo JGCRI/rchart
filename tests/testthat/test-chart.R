@@ -28,3 +28,10 @@ test_that("calculate_diff with xRef and scenRef works", {
   tVal2 <- nrow(a2)
   testthat::expect_gt(tVal1,tVal2)
 })
+
+test_that("aggregate_data works", {
+  a1<-aggregate_data(data=rchart::exampleMapDataClass, col_remove="class")
+  tVal1 <- nrow(a1)
+  tVal2 <- nrow(rchart::exampleMapDataClass)
+  testthat::expect_lt(tVal1,tVal2)
+})

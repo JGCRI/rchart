@@ -11,6 +11,7 @@ calculate_diff(
   xRef = NULL,
   xDiff = NULL,
   diff_type = "both",
+  diff_type_x = "both",
   diff_text_percent = "diffPrcnt",
   diff_text_absolute = "diffAbs",
   diff_text_percent_x = "xdiffPrcnt",
@@ -30,13 +31,13 @@ calculate_diff(
 
 \item{diff_type}{Default = "both". One of "absolute", "percent", "both".}
 
+\item{diff_type_x}{Default = "both". One of "absolute", "percent", "both".}
+
 \item{diff_text_percent}{Default = "_diffPrcnt"}
 
 \item{diff_text_absolute}{Default = "_diffAbs"}
 
 \item{col}{Default = NULL.}
-
-\item{diff_type_x}{Default = "both". One of "absolute", "percent", "both".}
 }
 \description{
 Calculate difference between scenarios or time periods

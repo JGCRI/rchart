@@ -9,19 +9,19 @@ plot_summary(
   aspect_ratio = 0.75,
   size = 10,
   size_title = NULL,
-  theme = ggplot2::theme_bw()
+  theme = NULL
 )
 }
 \arguments{
-\item{data}{data()}
+\item{data}{Default = NULL.}
 
-\item{aspect_ratio}{aspect ratio}
+\item{aspect_ratio}{Default = 0.75. aspect ratio}
 
-\item{size}{text size}
+\item{size}{Default = 10. text size}
 
-\item{size_title}{size_title text}
+\item{size_title}{Default = NULL. size_title text}
 
-\item{theme}{ggplot theme to use}
+\item{theme}{Default = NULL.}
 }
 \description{
 generate summary plot

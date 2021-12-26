@@ -2,11 +2,11 @@
 #'
 #' generate chart plot for absolute value
 #' @param data Default = NULL.
-#' @param theme ggplot theme to use
+#' @param theme Default = NULL.
 #' @importFrom magrittr %>%
 #' @export
 plot_absolute <- function(data = NULL,
-                          theme = ggplot2::theme_bw()){
+                          theme = NULL){
 
   NULL -> filter -> param -> scenario -> input -> value -> x
 
@@ -37,12 +37,12 @@ plot_absolute <- function(data = NULL,
 
     palCharts <- palCharts[names(palCharts) %in% unique(chartz$class)]
 
-    plist[[count_i]] <-  ggplot2::ggplot(chartz%>%
-                                           droplevels(),
-                                         aes(x=x,y=value,
-                                             group=scenario,
-                                             fill=class))+
-      theme +
+    p1 <-  ggplot2::ggplot(chartz%>%
+                           droplevels(),
+                           aes(x=x,y=value,
+                           group=scenario,
+                           fill=class))+
+      ggplot2::theme_bw() +
       xlab(NULL) +
       ylab(unique(data$param)[i])+
       scale_fill_manual(breaks=names(palCharts),values=palCharts) +
@@ -58,8 +58,15 @@ plot_absolute <- function(data = NULL,
             plot.margin=margin(t = 20, r = 5, b = 0, l = 0, "pt"),
             axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)))
 
+    if(!is.null(theme)){p1 <- p1 + theme}
+
+    plist[[count_i]] <- p1
     count_i = count_i + 1
 
   }
-  cowplot::plot_grid(plotlist = plist, ncol=1, align="v", rel_widths = c(1, length(unique(data$scenario))-1))
+
+  plot_out <- cowplot::plot_grid(plotlist = plist, ncol=1, align="v", rel_widths = c(1, length(unique(data$scenario))-1))
+
+  invisible(plot_out)
+
 }

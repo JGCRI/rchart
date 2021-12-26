@@ -4,14 +4,16 @@
 #' @param data Default = NULL.
 #' @param scenRef Default = NULL.
 #' @param scenDiff Default = NULL.
-#' @param theme Default = ggplot2::theme_bw()
+#' @param diff_type Default = "absolute". Choose one of "absolute" or "percent"
+#' @param theme Default = NULL
 #' @importFrom magrittr %>%
 #' @export
 
 plot_diff <- function(data = NULL,
                       scenRef = NULL,
                       scenDiff = NULL,
-                      theme = ggplot2::theme_bw()) {
+                      diff_type = "absolute",
+                      theme = NULL) {
 
   #...........................
   # Initialize
@@ -62,18 +64,18 @@ plot_diff <- function(data = NULL,
     palCharts <- palCharts[names(palCharts) %in% unique(c(unique(data_diff$class),unique(data_ref$class)))]
 
     # Plot data_ref ....................................
-    plist[[count]] <-  ggplot2::ggplot(data_ref%>%
-                                         droplevels(),
-                                       aes(x=x,y=value,
-                                           group=class,
-                                           fill=class))+
-      theme +
+     p1 <-  ggplot2::ggplot(data_ref%>%
+                            droplevels(),
+                            aes(x=x,y=value,
+                            group=class,
+                            fill=class))+
+      ggplot2::theme_bw() +
       xlab(NULL) +
       ylab(unique(data$param)[i])+
       scale_fill_manual(breaks=names(palCharts),values=palCharts) +
-      scale_y_continuous(position = "left")+
+      scale_y_continuous(position = "left") +
+      facet_grid(param~scenario, scales="free",switch="y") +
       geom_bar(position="stack", stat="identity") +
-      facet_grid(param~scenario, scales="free",switch="y")+
       theme(legend.position="bottom",
             strip.text.y = element_blank(),
             legend.title = element_blank(),
@@ -83,19 +85,22 @@ plot_diff <- function(data = NULL,
             plot.margin=margin(t = 20, r = 5, b = 0, l = 0, "pt"),
             axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)))
 
+     if(!is.null(theme)){p1 <- p1 + theme}
+
+    plist[[count]] <- p1
+
     # Plot data_diff ....................................
-    plist[[count + 1]] <-  ggplot2::ggplot(data %>%
-                                       dplyr::filter(param==unique(data$param)[i], scenario != scenRef)%>%
-                                       droplevels(),
-                                     aes(x=x,y=value,
-                                         group=class,
-                                         color=class)) +
-      theme +
+    p2 <-  ggplot2::ggplot(data %>%
+                           dplyr::filter(param==unique(data$param)[i], scenario != scenRef)%>%
+                           droplevels(),
+                           aes(x=x,y=value,
+                           group=class,
+                           color=class)) +
+      ggplot2::theme_bw() +
       xlab(NULL) +
       ylab(NULL) +
       scale_color_manual(breaks=names(palCharts),values=palCharts) +
-      scale_y_continuous(position = "left")+
-      geom_line(size=2)+
+      scale_y_continuous(position = "left") +
       facet_grid(param~scenario, scales="free",switch="y") +
       theme(legend.position="bottom",
             legend.title = element_blank(),
@@ -106,9 +111,19 @@ plot_diff <- function(data = NULL,
             plot.margin=margin(t = 20, r = 5, b = 0, l = 0, "pt"),
             axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)))
 
+    if(grepl("absolute",diff_type,ignore.case = T)){
+      p2 <- p2 + geom_bar(position="stack", stat="identity")
+    }
 
+    if(grepl("absolute",diff_type,ignore.case = T)){
+      p2 <- p2 + geom_line(size=2)
+    }
+
+    if(!is.null(theme)){p2 <- p2 + theme}
+    plist[[count + 1]] <- p2
     count =  count +2
-  }
+
+    }
 
   plot_out <- cowplot::plot_grid(plotlist = plist, ncol=2, align="v", rel_widths = c(1, length(unique(data$scenario))-1))
 
@@ -118,6 +133,6 @@ plot_diff <- function(data = NULL,
     plot_out = NULL
   }
 
-  return(plot_out)
+  invisible(plot_out)
 
   }

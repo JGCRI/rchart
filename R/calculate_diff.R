@@ -9,6 +9,7 @@
 #' @param xDiff Default = NULL. Difference x
 #' @param diff_type Default = "both". One of "absolute", "percent", "both".
 #' @param diff_type_x Default = "both". One of "absolute", "percent", "both".
+#' @param diff_type_x Default = "both". One of "absolute", "percent", "both".
 #' @param diff_text_percent Default = "_diffPrcnt"
 #' @param diff_text_absolute Default = "_diffAbs"
 #' @importFrom magrittr %>%
@@ -21,6 +22,7 @@ calculate_diff <- function(data = NULL,
                            xRef = NULL,
                            xDiff = NULL,
                            diff_type = "both",
+                           diff_type_x = "both",
                            diff_text_percent = "diffPrcnt",
                            diff_text_absolute = "diffAbs",
                            diff_text_percent_x = "xdiffPrcnt",
