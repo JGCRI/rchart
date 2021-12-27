@@ -49,13 +49,13 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/plot_absolute.html</loc>
+    <loc>/reference/plot_bar_absolute.html</loc>
   </url>
   <url>
-    <loc>/reference/plot_diff.html</loc>
+    <loc>/reference/plot_difference.html</loc>
   </url>
   <url>
-    <loc>/reference/plot_summary.html</loc>
+    <loc>/reference/plot_line_absolute.html</loc>
   </url>
   <url>
     <loc>/reference/rchart.html</loc>
