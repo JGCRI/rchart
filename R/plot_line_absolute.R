@@ -1,4 +1,4 @@
-#' plot_summary
+#' plot_line_absolute
 #'
 #' generate summary plot
 #' @param data Default = NULL.
@@ -11,13 +11,13 @@
 #' @importFrom magrittr %>%
 #' @export
 
-plot_summary <- function(data = NULL,
-                         aspect_ratio = 0.75,
-                         size = 1.5,
-                         size_text = 10,
-                         theme = NULL,
-                         ncol = 3,
-                         scales = "free_y") {
+plot_line_absolute <- function(data = NULL,
+                               aspect_ratio = 0.75,
+                               size = 1.5,
+                               size_text = 10,
+                               theme = NULL,
+                               ncol = 3,
+                               scales = "free_y") {
 
   #...........................
   # Initialize

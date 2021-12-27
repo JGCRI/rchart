@@ -12,6 +12,17 @@
 #' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
 #' @param save Default = TRUE. Save plots.
 #' @param folder Default = getwd().
+#' @param scenRef Default = NULL. Reference Scenario
+#' @param scenDiff Default = NULL. Difference Scenarios
+#' @param xRef Default = NULL. Reference x
+#' @param xDiff Default = NULL. Difference x
+#' @param diff_type Default = "both". One of "absolute", "percent", "both".
+#' @param diff_type_x Default = "both". One of "absolute", "percent", "both".
+#' @param diff_type_x Default = "both". One of "absolute", "percent", "both".
+#' @param diff_text_percent Default = "_diffPrcnt"
+#' @param diff_text_absolute Default = "_diffAbs"
+#' @param diff_text_percent_x Default = "_xdiffPrcnt"
+#' @param diff_text_absolute_x Default = "_xdiffAbs"
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
 #' @export
@@ -26,12 +37,22 @@ chart <- function(data = NULL,
                   ncol = NULL,
                   scales = "free_y",
                   save = TRUE,
-                  folder = getwd()){
+                  folder = getwd(),
+                  scenRef = NULL,
+                  scenDiff = NULL,
+                  xRef = NULL,
+                  xDiff = NULL,
+                  diff_type = "both",
+                  diff_type_x = "both",
+                  diff_text_percent = "diffPrcnt",
+                  diff_text_absolute = "diffAbs",
+                  diff_text_percent_x = "xdiffPrcnt",
+                  diff_text_absolute_x = "xdiffAbs"){
 
   print("Starting chart...")
 
   # Check
-  # data = NULL
+  # data = rchart::exampleMapDataClass
   # col_agg = "class"
   # chart_type = "all"
   # aspect_ratio = 0.75
@@ -42,6 +63,16 @@ chart <- function(data = NULL,
   # scales = "free"
   # save = TRUE
   # folder = getwd()
+  # scenRef = NULL
+  # scenDiff = NULL
+  # xRef = NULL
+  # xDiff = NULL
+  # diff_type = "both"
+  # diff_type_x = "both"
+  # diff_text_percent = "diffPrcnt"
+  # diff_text_absolute = "diffAbs"
+  # diff_text_percent_x = "xdiffPrcnt"
+  # diff_text_absolute_x = "xdiffAbs"
 
   #...........................
   # Initialize
@@ -59,7 +90,40 @@ chart <- function(data = NULL,
   #.................................
 
   data_full <- rchart::add_missing(data)
-  data_agg = rchart::aggregate_data(data = data_full, col_agg = col_agg)
+  data_agg <- rchart::aggregate_data(data = data_full, col_agg = col_agg)
+  data_full_diff <- rchart::calculate_diff(data = data_full,
+                                           scenRef = scenRef,
+                                           scenDiff = scenDiff,
+                                           xRef = xRef,
+                                           xDiff = xDiff,
+                                           diff_type = diff_type,
+                                           diff_type_x = diff_type_x,
+                                           diff_text_percent = diff_text_percent,
+                                           diff_text_absolute = diff_text_absolute,
+                                           diff_text_percent_x = diff_text_percent_x,
+                                           diff_text_absolute_x = diff_text_absolute_x)
+
+  data_agg_diff <- rchart::calculate_diff(data = data_agg,
+                                           scenRef = scenRef,
+                                           scenDiff = scenDiff,
+                                           xRef = xRef,
+                                           xDiff = xDiff,
+                                           diff_type = diff_type,
+                                           diff_type_x = diff_type_x,
+                                           diff_text_percent = diff_text_percent,
+                                           diff_text_absolute = diff_text_absolute,
+                                           diff_text_percent_x = diff_text_percent_x,
+                                           diff_text_absolute_x = diff_text_absolute_x)
+
+  # Find difference scenarios to plot
+  if(is.null(scenDiff) & !is.null(scenRef)){
+    scenDiff_plot <- unique(c(unique(data_agg_diff$scenario),unique(data_full_diff$scenario)))
+    scenDiff_plot <- scenDiff_plot[grepl(paste0(diff_text_percent,"|",
+                                         diff_text_absolute,"|",
+                                         diff_text_percent_x, "|",
+                                         diff_text_absolute_x),scenDiff_plot)]
+  }
+
   n_param = length(unique(data_agg$param))
   if(is.null(ncol)){ncol = as.integer(ceiling(n_param^0.5))}
   width_i = 7*max(ncol^0.5,1)
@@ -69,15 +133,38 @@ chart <- function(data = NULL,
   # Summary Plot comparing scenarios absolute
   #.................................
 
-  chart_name_i <- "chart_summary"
+  chart_name_i <- "chart_lines"
   fname_i <- paste0(folder,"/",chart_name_i,".png")
-  charts_out[[count]] <- rchart::plot_summary(data = data_agg,
-                                            aspect_ratio = aspect_ratio,
-                                            size = size,
-                                            size_text = size_text,
-                                            theme = theme,
-                                            ncol = ncol,
-                                            scales = scales)
+  charts_out[[count]] <- rchart::plot_line_absolute(data = data_agg,
+                                                    aspect_ratio = aspect_ratio,
+                                                    size = size,
+                                                    size_text = size_text,
+                                                    theme = theme,
+                                                    ncol = ncol,
+                                                    scales = scales)
+  names(charts_out)[count] <- chart_name_i
+
+  if(save){
+    ggplot2::ggsave(filename = fname_i,
+                           plot = charts_out[[count]],
+                           width = width_i,
+                           height = height_i,
+                           units = "in")
+    print(paste0("Figure saved as: ",fname_i))
+    }
+
+  #.................................
+  # Summary Plot comparing scenarios diff absolute
+  #.................................
+
+  chart_name_i <- "chart_lines_diff"
+  fname_i <- paste0(folder,"/",chart_name_i,".png")
+
+  charts_out[[count]] <- rchart::plot_difference(data = data_agg_diff,
+                                                 scenRef = scenRef,
+                                                 scenDiff = scenDiff_plot,
+                                                 plot_type = "line",
+                                                 theme = theme)
   names(charts_out)[count] <- chart_name_i
 
   if(save){ggplot2::ggsave(filename = fname_i,
@@ -87,11 +174,7 @@ chart <- function(data = NULL,
                            units = "in")
 
     print(paste0("Figure saved as: ",fname_i))
-    }
-
-  #.................................
-  # Summary Plot comparing scenarios diff absolute
-  #.................................
+  }
 
   #.................................
   # Summary Plot comparing scenarios diff percent

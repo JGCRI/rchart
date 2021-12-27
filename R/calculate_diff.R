@@ -29,6 +29,18 @@ calculate_diff <- function(data = NULL,
                            diff_text_percent_x = "xdiffPrcnt",
                            diff_text_absolute_x = "xdiffAbs") {
 
+  # data = data_full
+  # scenRef = "GCAM_SSP3"
+  # scenDiff = NULL
+  # xRef = NULL
+  # xDiff = NULL
+  # diff_type = "both"
+  # diff_type_x = "both"
+  # diff_text_percent = "diffPrcnt"
+  # diff_text_absolute = "diffAbs"
+  # diff_text_percent_x = "xdiffPrcnt"
+  # diff_text_absolute_x = "xdiffAbs"
+
   print("Starting calculate_diff ...")
 
   #...........................

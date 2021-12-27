@@ -1,19 +1,26 @@
-#' plot_diff
+#' plot_difference
 #'
 #' generate chart plot for absolute difference and percent difference
 #' @param data Default = NULL.
 #' @param scenRef Default = NULL.
 #' @param scenDiff Default = NULL.
-#' @param diff_type Default = "absolute". Choose one of "absolute" or "percent"
+#' @param plot_type Default = "bar". Choose one of "bar" or "line",
 #' @param theme Default = NULL
 #' @importFrom magrittr %>%
 #' @export
 
-plot_diff <- function(data = NULL,
-                      scenRef = NULL,
-                      scenDiff = NULL,
-                      diff_type = "absolute",
-                      theme = NULL) {
+plot_difference <- function(data = NULL,
+                                scenRef = NULL,
+                                scenDiff = NULL,
+                                plot_type = "bar",
+                                theme = NULL) {
+
+
+  # data = data_agg_diff
+  # scenRef = scenRef
+  # scenDiff = scenDiff
+  # plot_type = "line"
+  # theme = NULL
 
   #...........................
   # Initialize
@@ -29,9 +36,11 @@ plot_diff <- function(data = NULL,
   count = 1
 
   if(!scenRef %in% unique(data$scenario)){scenRef = NULL}
-  if(is.null(scenDiff) & !is.null(scenRef)){scenDiff = unique(data$scenario)[!unique(data$scenario) %in% scenRef]} else {
+  if(is.null(scenDiff)){
+  if(is.null(scenDiff) & !is.null(scenRef)){
+    scenDiff = unique(data$scenario)[!unique(data$scenario) %in% scenRef]} else {
     scenDiff = NULL
-  }
+  }}
 
   #...........................
   # Plot
@@ -117,11 +126,11 @@ plot_diff <- function(data = NULL,
             plot.margin = ggplot2::margin(t = 20, r = 5, b = 0, l = 0, "pt"),
             axis.title.y = ggplot2::element_text(margin = ggplot2::margin(t = 0, r = 20, b = 0, l = 0)))
 
-    if(grepl("absolute",diff_type,ignore.case = T)){
+    if(grepl("bar",plot_type,ignore.case = T)){
       p2 <- p2 + ggplot2::geom_bar(position="stack", stat="identity")
     }
 
-    if(grepl("absolute",diff_type,ignore.case = T)){
+    if(grepl("line",plot_type,ignore.case = T)){
       p2 <- p2 + ggplot2::geom_line(size=2)
     }
 

@@ -15,7 +15,17 @@ chart(
   ncol = NULL,
   scales = "free_y",
   save = TRUE,
-  folder = getwd()
+  folder = getwd(),
+  scenRef = NULL,
+  scenDiff = NULL,
+  xRef = NULL,
+  xDiff = NULL,
+  diff_type = "both",
+  diff_type_x = "both",
+  diff_text_percent = "diffPrcnt",
+  diff_text_absolute = "diffAbs",
+  diff_text_percent_x = "xdiffPrcnt",
+  diff_text_absolute_x = "xdiffAbs"
 )
 }
 \arguments{
@@ -40,6 +50,26 @@ chart(
 \item{save}{Default = TRUE. Save plots.}
 
 \item{folder}{Default = getwd().}
+
+\item{scenRef}{Default = NULL. Reference Scenario}
+
+\item{scenDiff}{Default = NULL. Difference Scenarios}
+
+\item{xRef}{Default = NULL. Reference x}
+
+\item{xDiff}{Default = NULL. Difference x}
+
+\item{diff_type}{Default = "both". One of "absolute", "percent", "both".}
+
+\item{diff_type_x}{Default = "both". One of "absolute", "percent", "both".}
+
+\item{diff_text_percent}{Default = "_diffPrcnt"}
+
+\item{diff_text_absolute}{Default = "_diffAbs"}
+
+\item{diff_text_percent_x}{Default = "_xdiffPrcnt"}
+
+\item{diff_text_absolute_x}{Default = "_xdiffAbs"}
 }
 \description{
 Used to add missing data to input files and customize format

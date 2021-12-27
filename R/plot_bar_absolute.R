@@ -1,11 +1,11 @@
-#' plot_absolute
+#' plot_bar_absolute
 #'
 #' generate chart plot for absolute value
 #' @param data Default = NULL.
 #' @param theme Default = NULL.
 #' @importFrom magrittr %>%
 #' @export
-plot_absolute <- function(data = NULL,
+plot_bar_absolute <- function(data = NULL,
                           theme = NULL){
 
   #...........................
