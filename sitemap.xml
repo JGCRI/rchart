@@ -52,10 +52,13 @@
     <loc>/reference/plot_bar_absolute.html</loc>
   </url>
   <url>
-    <loc>/reference/plot_difference.html</loc>
+    <loc>/reference/plot_class_difference.html</loc>
   </url>
   <url>
     <loc>/reference/plot_line_absolute.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot_param_difference.html</loc>
   </url>
   <url>
     <loc>/reference/rchart.html</loc>

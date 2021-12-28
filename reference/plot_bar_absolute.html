@@ -87,7 +87,11 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_bar_absolute</span><span class="op">(</span>data <span class="op">=</span> <span class="cn">NULL</span>, theme <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_bar_absolute</span><span class="op">(</span>
+  data <span class="op">=</span> <span class="cn">NULL</span>,
+  theme <span class="op">=</span> <span class="cn">NULL</span>,
+  theme_default <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -96,6 +100,8 @@
 <dd><p>Default = NULL.</p></dd>
 <dt>theme</dt>
 <dd><p>Default = NULL.</p></dd>
+<dt>theme_default</dt>
+<dd><p>Default = ggplot2::theme_bw(). Default rchart themes.</p></dd>
 </dl></div>
 
   </div>
