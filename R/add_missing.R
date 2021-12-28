@@ -17,17 +17,25 @@ add_missing <- function(data){
     data <- data %>% dplyr::rename(!!"scenario" := (names(data)[grepl("\\<scenarios\\>",names(data),ignore.case = T)])[1])
     data<-data%>%dplyr::mutate(scenario = as.character(scenario),
                                scenario=dplyr::case_when(is.na(scenario)~"scenario",TRUE~scenario))}
-  if(!any(grepl("\\<region\\>",names(data),ignore.case = T))){data<-data%>%dplyr::mutate(region="region")}else{
+  if(!any(grepl("\\<region\\>",names(data),ignore.case = T))){data<-data%>%dplyr::mutate(
+    region = as.character(region),
+    region="region")}else{
     data <- data %>% dplyr::rename(!!"region" := (names(data)[grepl("\\<region\\>",names(data),ignore.case = T)])[1])
-    data<-data%>%dplyr::mutate(region=dplyr::case_when(is.na(region)~"region",TRUE~region))}
+    data<-data%>%dplyr::mutate(region = as.character(region),
+                               region=dplyr::case_when(is.na(region)~"region",TRUE~region))}
   if(!any(grepl("\\<subRegion\\>",names(data),ignore.case = T))){
-    if(!any(grepl("\\<region\\>",names(data),ignore.case = T))){data<-data%>%dplyr::mutate(subRegion="region")
-    }else{data<-data%>%dplyr::mutate(subRegion="subRegion")}}else{
+    if(!any(grepl("\\<region\\>",names(data),ignore.case = T))){
+      data<-data%>%dplyr::mutate(subRegion = as.character(subRegion),
+                                 subRegion="subRegion")
+    }else{data<-data%>%dplyr::mutate(subRegion = as.character(subRegion),
+                                     subRegion="subRegion")}}else{
     data <- data %>% dplyr::rename(!!"subRegion" := (names(data)[grepl("\\<subRegion\\>",names(data),ignore.case = T)])[1])
-    data<-data%>%dplyr::mutate(subRegion=dplyr::case_when(is.na(subRegion)~"subRegion",TRUE~subRegion))}
+    data<-data%>%dplyr::mutate(subRegion = as.character(subRegion),
+                               subRegion=dplyr::case_when(is.na(subRegion)~"subRegion",TRUE~subRegion))}
   if(!any(grepl("\\<subRegions\\>",names(data),ignore.case = T))){}else{
     data <- data %>% dplyr::rename(!!"subRegion" := (names(data)[grepl("\\<subRegions\\>",names(data),ignore.case = T)])[1])
-    data<-data%>%dplyr::mutate(subRegion=dplyr::case_when(is.na(subRegion)~"subRegion",TRUE~subRegion))}
+    data<-data%>%dplyr::mutate(subRegion = as.character(subRegion),
+                               subRegion=dplyr::case_when(is.na(subRegion)~"subRegion",TRUE~subRegion))}
   if(!any(grepl("\\<param\\>",names(data),ignore.case = T))){data<-data%>%dplyr::mutate(param="param")}else{
     data <- data %>% dplyr::rename(!!"param" := (names(data)[grepl("\\<param\\>",names(data),ignore.case = T)])[1])
     data<-data%>%dplyr::mutate(param = as.character(param),
