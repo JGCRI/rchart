@@ -7,7 +7,7 @@
 #' @export
 
 add_missing <- function(data){
-  NULL -> year -> aggregate -> scenario -> subRegion -> param -> x -> value
+  NULL -> year -> aggregate -> scenario -> subRegion -> param -> x -> value -> region
 
   if(!any(grepl("\\<scenario\\>",names(data),ignore.case = T))){data<-data%>%dplyr::mutate(scenario="scenario")}else{
     data <- data %>% dplyr::rename(!!"scenario" := (names(data)[grepl("\\<scenario\\>",names(data),ignore.case = T)])[1])
@@ -15,7 +15,12 @@ add_missing <- function(data){
   if(!any(grepl("\\<scenarios\\>",names(data),ignore.case = T))){}else{
     data <- data %>% dplyr::rename(!!"scenario" := (names(data)[grepl("\\<scenarios\\>",names(data),ignore.case = T)])[1])
     data<-data%>%dplyr::mutate(scenario=dplyr::case_when(is.na(scenario)~"scenario",TRUE~scenario))}
-  if(!any(grepl("\\<subRegion\\>",names(data),ignore.case = T))){data<-data%>%dplyr::mutate(subRegion="subRegion")}else{
+  if(!any(grepl("\\<region\\>",names(data),ignore.case = T))){data<-data%>%dplyr::mutate(region="region")}else{
+    data <- data %>% dplyr::rename(!!"region" := (names(data)[grepl("\\<region\\>",names(data),ignore.case = T)])[1])
+    data<-data%>%dplyr::mutate(region=dplyr::case_when(is.na(region)~"region",TRUE~region))}
+  if(!any(grepl("\\<subRegion\\>",names(data),ignore.case = T))){
+    if(!any(grepl("\\<region\\>",names(data),ignore.case = T))){data<-data%>%dplyr::mutate(subRegion="region")
+    }else{data<-data%>%dplyr::mutate(subRegion="subRegion")}}else{
     data <- data %>% dplyr::rename(!!"subRegion" := (names(data)[grepl("\\<subRegion\\>",names(data),ignore.case = T)])[1])
     data<-data%>%dplyr::mutate(subRegion=dplyr::case_when(is.na(subRegion)~"subRegion",TRUE~subRegion))}
   if(!any(grepl("\\<subRegions\\>",names(data),ignore.case = T))){}else{
@@ -58,7 +63,7 @@ add_missing <- function(data){
         data<-data%>%dplyr::mutate(class=dplyr::case_when(is.na(class)~"class",TRUE~class))}
 
   data <- data %>%
-    dplyr::select(scenario,subRegion,param,class,x,aggregate,value) %>%
+    dplyr::select(scenario,region,subRegion,param,class,x,aggregate,value) %>%
     dplyr::mutate(x=as.character(x))
   return(data)
 }

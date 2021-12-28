@@ -6,11 +6,13 @@
 #' @param col_agg Default = "class". Column to remove and then aggregate by.
 #' @param aspect_ratio Default = 0.75. aspect ratio
 #' @param size Default = 1.5. line size
-#' @param size_text Default = NULL. Text size
+#' @param size_text Default = 15. Text size
 #' @param theme Default = NULL.
 #' @param ncol Default = 3. Number of columns.
 #' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
 #' @param save Default = TRUE. Save plots.
+#' @param show Default = TRUE. Whether to show figure outputs in console.
+#' @param title Default = TRUE. Used for region or subRegions or to add title to all plots.
 #' @param folder Default = getwd().
 #' @param scenRef Default = NULL. Reference Scenario
 #' @param scenDiff Default = NULL. Difference Scenarios
@@ -32,11 +34,13 @@ chart <- function(data = NULL,
                   chart_type = "all",
                   aspect_ratio = 0.75,
                   size = 1.5,
-                  size_text = 10,
+                  size_text = 15,
                   theme = NULL,
                   ncol = NULL,
                   scales = "free_y",
                   save = TRUE,
+                  show = TRUE,
+                  title = TRUE,
                   folder = getwd(),
                   scenRef = NULL,
                   scenDiff = NULL,
@@ -52,16 +56,17 @@ chart <- function(data = NULL,
   print("Starting chart...")
 
   # Check
-  # data = rchart::exampleMapDataClass
   # col_agg = "class"
   # chart_type = "all"
   # aspect_ratio = 0.75
-  # size = 10
-  # size_title = NULL
+  # size = 1.5
+  # size_text = 10
   # theme = NULL
-  # ncol = 3
-  # scales = "free"
+  # ncol = NULL
+  # scales = "free_y"
   # save = TRUE
+  # show = TRUE
+  # title = TRUE
   # folder = getwd()
   # scenRef = NULL
   # scenDiff = NULL
@@ -78,12 +83,21 @@ chart <- function(data = NULL,
   # Initialize
   #...........................
 
+  NULL -> region -> subRegion
+
   charts_out <- list()
   count <- 1
 
   if(save){
     if(!dir.exists(folder)){dir.create(folder)}
   }
+
+  theme_default <- ggplot2::theme(
+    strip.background = ggplot2::element_rect(color = "black", fill = "gray30"),
+    strip.text = ggplot2::element_text(color = "white"),
+    aspect.ratio = aspect_ratio,
+    text = ggplot2::element_text(size = size_text)
+  )
 
   #.................................
   # Prepare Data
@@ -125,60 +139,214 @@ chart <- function(data = NULL,
   }
 
   n_param = length(unique(data_agg$param))
-  if(is.null(ncol)){ncol = as.integer(ceiling(n_param^0.5))}
+  if(is.null(ncol)){
+    if((n_param %% 2) == 0){ncol = as.integer(ceiling(n_param^0.5))}
+    if((n_param %% 2) != 0){ncol = as.integer(ceiling(n_param^0.5))+1}
+  }
   width_i = 7*max(ncol^0.5,1)
   height_i = 5*max((n_param-ncol)^0.5,1)
+
+  #.................................
+  # Prepare region subRegion append
+  #.................................
+
+  regions <- data_full$region %>% unique()
+  subRegions <- data_full$subRegion %>% unique()
+
+  for(region_i in regions){
+    for(subRegion_i in subRegions){
+
+      # Prepare data for region_subRegion loops
+      data_full_i <- data_full
+      data_agg_i <- data_agg
+      data_full_diff_i <- data_full_diff
+      data_agg_diff_i <- data_agg_diff
+
+      # Filter for region if more than 1 region
+      if(length(regions)==1){region_i = ""} else {
+        if(nrow(data_full_i)>0){ data_full_i<- data_full %>% dplyr::filter(region == region_i)}
+        if(nrow(data_agg_i)>0){ data_agg_i <- data_agg %>% dplyr::filter(region == region_i)}
+        if(nrow(data_full_diff_i)>0){ data_full_diff_i <- data_full_diff %>% dplyr::filter(region == region_i)}
+        if(nrow(data_agg_diff_i)>0){ data_agg_diff_i <- data_agg_diff %>% dplyr::filter(region == region_i)}
+      }
+      # Filter for subRegions if more than 1 subRegion
+      if(length(subRegions)==1){subRegion_i=""} else {
+        if(nrow(data_full_i)>0){ data_full_i<- data_full %>% dplyr::filter(subRegion == subRegion_i)}
+        if(nrow(data_agg_i)>0){ data_agg_i <- data_agg %>% dplyr::filter(subRegion == subRegion_i)}
+        if(nrow(data_full_diff_i)>0){ data_full_diff_i <- data_full_diff %>% dplyr::filter(subRegion == subRegion_i)}
+        if(nrow(data_agg_diff_i)>0){ data_agg_diff_i <- data_agg_diff %>% dplyr::filter(subRegion == subRegion_i)}
+      }
+
+      if(region_i == "" & subRegion_i == ""){
+        region_subRegion = ""
+      } else if (region_i == "" & subRegion_i != ""){
+      region_subRegion = paste0(subRegion_i)
+      }  else if (region_i != "" & subRegion_i == ""){
+        region_subRegion = paste0(region_i)
+      } else {
+        region_subRegion = paste0(region_i,"_",subRegion_i)
+      }
+
 
   #.................................
   # Summary Plot comparing scenarios absolute
   #.................................
 
-  chart_name_i <- "chart_lines"
-  fname_i <- paste0(folder,"/",chart_name_i,".png")
-  charts_out[[count]] <- rchart::plot_line_absolute(data = data_agg,
-                                                    aspect_ratio = aspect_ratio,
-                                                    size = size,
-                                                    size_text = size_text,
-                                                    theme = theme,
-                                                    ncol = ncol,
-                                                    scales = scales)
-  names(charts_out)[count] <- chart_name_i
+      if (nrow(data_agg_i) > 0) {
+        chart_name_i <- "chart_lines"
+        fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion, ".png")
+        charts_out[[count]] <-
+          rchart::plot_line_absolute(
+            data = data_agg_i,
+            size = size,
+            theme = theme,
+            theme_default = theme_default,
+            ncol = ncol,
+            scales = scales
+          )
 
-  if(save){
-    ggplot2::ggsave(filename = fname_i,
-                           plot = charts_out[[count]],
-                           width = width_i,
-                           height = height_i,
-                           units = "in")
-    print(paste0("Figure saved as: ",fname_i))
-    }
+        # Set title if provided or turn off
+        if(title != F){
+        if(is.character(title)){
+          charts_out[[count]] <- charts_out[[count]] +
+          ggplot2::ggtitle(paste0(title," ",region_subRegion))}else{
+            charts_out[[count]] <- charts_out[[count]] +
+              ggplot2::ggtitle(region_subRegion)
+          }
+        }
+
+        names(charts_out)[count] <- chart_name_i
+
+        if(show){ print(charts_out[[count]])}
+
+        if (save) {
+          ggplot2::ggsave(
+            filename = fname_i,
+            plot = charts_out[[count]],
+            width = width_i,
+            height = height_i,
+            units = "in"
+          )
+          print(paste0("Figure saved as: ", fname_i))
+        }
+
+        count = count + 1
+      }
 
   #.................................
   # Summary Plot comparing scenarios diff absolute
   #.................................
 
-  chart_name_i <- "chart_lines_diff"
-  fname_i <- paste0(folder,"/",chart_name_i,".png")
+      if (nrow(data_agg_diff_i) > 0) {
 
-  charts_out[[count]] <- rchart::plot_difference(data = data_agg_diff,
-                                                 scenRef = scenRef,
-                                                 scenDiff = scenDiff_plot,
-                                                 plot_type = "line",
-                                                 theme = theme)
-  names(charts_out)[count] <- chart_name_i
+        scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_absolute, scenDiff_plot)]
 
-  if(save){ggplot2::ggsave(filename = fname_i,
-                           plot = charts_out[[count]],
-                           width = width_i,
-                           height = height_i,
-                           units = "in")
+        chart_name_i <- "chart_lines_diff_absolute"
+        fname_i <-
+          paste0(folder, "/", chart_name_i, "_", region_subRegion, ".png")
 
-    print(paste0("Figure saved as: ",fname_i))
-  }
+        charts_out[[count]] <-
+          rchart::plot_param_difference(
+            data = data_agg_diff_i,
+            scenRef = scenRef,
+            scenDiff = scenDiff_plot_i,
+            theme = theme,
+            theme_default = theme_default,
+            facet_label_diff = "Difference Absolute",
+            size = size,
+            diff_text = diff_text_absolute
+          )
+
+        # data = data_agg_diff_i
+        # scenRef = scenRef
+        # scenDiff = scenDiff_plot_i
+        # theme = theme
+        # facet_label_diff = "Difference Absolute"
+        # size = size
+        # diff_text = diff_text_absolute
+
+        # Set title if provided or turn off
+        if(title != F){
+          if(is.character(title)){
+            charts_out[[count]] <- charts_out[[count]] +
+              ggplot2::ggtitle(paste0(title," ",region_subRegion))}else{
+                charts_out[[count]] <- charts_out[[count]] +
+                  ggplot2::ggtitle(region_subRegion)
+              }
+        }
+
+        names(charts_out)[count] <- chart_name_i
+
+        if(show){ print(charts_out[[count]])}
+
+        if (save) {
+          ggplot2::ggsave(
+            filename = fname_i,
+            plot = charts_out[[count]],
+            width = width_i,
+            height = height_i,
+            units = "in"
+          )
+
+          print(paste0("Figure saved as: ", fname_i))
+        }
+
+        count = count + 1
+      }
 
   #.................................
   # Summary Plot comparing scenarios diff percent
   #.................................
+
+      if (nrow(data_agg_diff_i) > 0) {
+
+        scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_percent, scenDiff_plot)]
+
+        chart_name_i <- "chart_lines_diff_percent"
+        fname_i <-
+          paste0(folder, "/", chart_name_i, "_", region_subRegion, ".png")
+
+        charts_out[[count]] <-
+          rchart::plot_param_difference(
+            data = data_agg_diff_i,
+            scenRef = scenRef,
+            scenDiff = scenDiff_plot_i,
+            theme = theme,
+            theme_default = theme_default,
+            facet_label_diff = "Difference Percent",
+            y_label_diff = "%",
+            size = size,
+            diff_text = diff_text_percent
+          )
+
+        # Set title if provided or turn off
+        if(title != F){
+          if(is.character(title)){
+            charts_out[[count]] <- charts_out[[count]] +
+              ggplot2::ggtitle(paste0(title," ",region_subRegion))}else{
+                charts_out[[count]] <- charts_out[[count]] +
+                  ggplot2::ggtitle(region_subRegion)
+              }
+        }
+
+        names(charts_out)[count] <- chart_name_i
+
+        if(show){ print(charts_out[[count]])}
+
+        if (save) {
+          ggplot2::ggsave(
+            filename = fname_i,
+            plot = charts_out[[count]],
+            width = width_i,
+            height = height_i,
+            units = "in"
+          )
+
+          print(paste0("Figure saved as: ", fname_i))
+        }
+
+        count = count + 1
+      }
 
   #.................................
   # Bar Chart comparing scenarios Absolute
@@ -196,6 +364,10 @@ chart <- function(data = NULL,
   #...........................
   # Close-out
   #...........................
+
+    } # Close for(subRegion_i in subRegions){
+  } # Close for(region_i in regions){
+
 
   print("Completed chart.")
 

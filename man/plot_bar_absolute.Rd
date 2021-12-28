@@ -4,12 +4,18 @@
 \alias{plot_bar_absolute}
 \title{plot_bar_absolute}
 \usage{
-plot_bar_absolute(data = NULL, theme = NULL)
+plot_bar_absolute(
+  data = NULL,
+  theme = NULL,
+  theme_default = ggplot2::theme_bw()
+)
 }
 \arguments{
 \item{data}{Default = NULL.}
 
 \item{theme}{Default = NULL.}
+
+\item{theme_default}{Default = ggplot2::theme_bw(). Default rchart themes.}
 }
 \description{
 generate chart plot for absolute value

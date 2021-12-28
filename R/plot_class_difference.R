@@ -1,4 +1,4 @@
-#' plot_difference
+#' plot_class_difference
 #'
 #' generate chart plot for absolute difference and percent difference
 #' @param data Default = NULL.
@@ -6,14 +6,16 @@
 #' @param scenDiff Default = NULL.
 #' @param plot_type Default = "bar". Choose one of "bar" or "line",
 #' @param theme Default = NULL
+#' @param theme_default Default = ggplot2::theme_bw(). Default rchart themes.
 #' @importFrom magrittr %>%
 #' @export
 
-plot_difference <- function(data = NULL,
+plot_class_difference <- function(data = NULL,
                                 scenRef = NULL,
                                 scenDiff = NULL,
                                 plot_type = "bar",
-                                theme = NULL) {
+                                theme = NULL,
+                                theme_default = ggplot2::theme_bw()){
 
 
   # data = data_agg_diff
@@ -83,6 +85,7 @@ plot_difference <- function(data = NULL,
                             group=class,
                             fill=class))+
         ggplot2::theme_bw() +
+        theme_default +
         ggplot2::xlab(NULL) +
         ggplot2::ylab(unique(data$param)[i])+
         ggplot2::scale_fill_manual(breaks=names(palCharts),values=palCharts) +
@@ -111,6 +114,7 @@ plot_difference <- function(data = NULL,
                            group=class,
                            color=class)) +
       ggplot2::theme_bw() +
+      theme_default +
       ggplot2::xlab(NULL) +
       ggplot2::ylab(NULL) +
       ggplot2::scale_color_manual(breaks=names(palCharts),values=palCharts) +

@@ -6,10 +6,9 @@
 \usage{
 plot_line_absolute(
   data = NULL,
-  aspect_ratio = 0.75,
   size = 1.5,
-  size_text = 10,
   theme = NULL,
+  theme_default = ggplot2::theme_bw(),
   ncol = 3,
   scales = "free_y"
 )
@@ -17,13 +16,11 @@ plot_line_absolute(
 \arguments{
 \item{data}{Default = NULL.}
 
-\item{aspect_ratio}{Default = 0.75. aspect ratio}
-
 \item{size}{Default = 1.5. Line size}
 
-\item{size_text}{Default = 10. text size}
-
 \item{theme}{Default = NULL.}
+
+\item{theme_default}{Default = ggplot2::theme_bw(). Default rchart themes.}
 
 \item{ncol}{Default = 3. Number of columns.}
 

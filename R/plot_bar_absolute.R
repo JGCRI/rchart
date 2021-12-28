@@ -3,10 +3,12 @@
 #' generate chart plot for absolute value
 #' @param data Default = NULL.
 #' @param theme Default = NULL.
+#' @param theme_default Default = ggplot2::theme_bw(). Default rchart themes.
 #' @importFrom magrittr %>%
 #' @export
 plot_bar_absolute <- function(data = NULL,
-                          theme = NULL){
+                          theme = NULL,
+                          theme_default = ggplot2::theme_bw()){
 
   #...........................
   # Initialize
@@ -52,6 +54,7 @@ plot_bar_absolute <- function(data = NULL,
                            group=scenario,
                            fill=class))+
       ggplot2::theme_bw() +
+      theme_default() +
       ggplot2::xlab(NULL) +
       ggplot2::ylab(unique(data$param)[i])+
       ggplot2::scale_fill_manual(breaks=names(palCharts),values=palCharts) +

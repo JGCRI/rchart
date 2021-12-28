@@ -10,11 +10,13 @@ chart(
   chart_type = "all",
   aspect_ratio = 0.75,
   size = 1.5,
-  size_text = 10,
+  size_text = 15,
   theme = NULL,
   ncol = NULL,
   scales = "free_y",
   save = TRUE,
+  show = TRUE,
+  title = TRUE,
   folder = getwd(),
   scenRef = NULL,
   scenDiff = NULL,
@@ -39,7 +41,7 @@ chart(
 
 \item{size}{Default = 1.5. line size}
 
-\item{size_text}{Default = NULL. Text size}
+\item{size_text}{Default = 15. Text size}
 
 \item{theme}{Default = NULL.}
 
@@ -48,6 +50,10 @@ chart(
 \item{scales}{Default = "free". Choose between "free", "free_y", "free_x", "fixed"}
 
 \item{save}{Default = TRUE. Save plots.}
+
+\item{show}{Default = TRUE. Whether to show figure outputs in console.}
+
+\item{title}{Default = TRUE. Used for region or subRegions or to add title to all plots.}
 
 \item{folder}{Default = getwd().}
 
