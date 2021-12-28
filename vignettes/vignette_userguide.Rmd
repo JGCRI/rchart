@@ -79,7 +79,7 @@ brew install imagemagick@6
 
 The main input is the `data` argument in the `chart()` function. This will be an R table which can be created within R or read in from a csv file as shown below.
 
-<p align="center"> <img src="vignetteFigs/inputs.PNG"></p>
+<p align="center"> <img src="vignetteFigs/inputs.JPG"></p>
 
 <!-------------------------->
 <!-------------------------->

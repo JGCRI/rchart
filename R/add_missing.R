@@ -11,7 +11,8 @@ add_missing <- function(data){
 
   if(!any(grepl("\\<scenario\\>",names(data),ignore.case = T))){data<-data%>%dplyr::mutate(scenario="scenario")}else{
     data <- data %>% dplyr::rename(!!"scenario" := (names(data)[grepl("\\<scenario\\>",names(data),ignore.case = T)])[1])
-    data<-data%>%dplyr::mutate(scenario=dplyr::case_when(is.na(scenario)~"scenario",TRUE~scenario))}
+    data<-data%>%dplyr::mutate(scenario = as.character(scenario),
+                               scenario=dplyr::case_when(is.na(scenario)~"scenario",TRUE~scenario))}
   if(!any(grepl("\\<scenarios\\>",names(data),ignore.case = T))){}else{
     data <- data %>% dplyr::rename(!!"scenario" := (names(data)[grepl("\\<scenarios\\>",names(data),ignore.case = T)])[1])
     data<-data%>%dplyr::mutate(scenario=dplyr::case_when(is.na(scenario)~"scenario",TRUE~scenario))}
