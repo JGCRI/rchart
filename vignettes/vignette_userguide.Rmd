@@ -100,7 +100,7 @@ The output of the `chart()` function is a named list with all charts and animati
 Chart with `params` in each facet and multiple lines for each scenario.
 
 ## Single Param
-```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=7, fig.height = 5}
 library(rchart);
 data = data.frame(scenario = c("scen1","scen1","scen1",
                                "scen2","scen2","scen2",
@@ -142,7 +142,7 @@ rchart::chart(data)
 ```
 
 ## Multiple Params & Regions
-```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 5}
 library(rchart);
 data = data.frame(region = rep(c("Spain", "India","Spain", "India","Spain", "India",
                                 "Spain", "India","Spain", "India","Spain", "India",
@@ -179,8 +179,8 @@ rchart::chart(data)
 
 Chart with `params` in each facet and multiple lines for each scenario.
 
-## Single Param
-```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+## Single Param Diff
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=14, fig.height = 5}
 library(rchart);
 data = data.frame(scenario = c("scen1","scen1","scen1",
                                "scen2","scen2","scen2",
@@ -199,4 +199,61 @@ my_chart$chart_lines_diff_percent
 
 ```
 
+## Multi Param Diff
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=14, fig.height=15}
+library(rchart);
+data = data.frame(scenario = rep(c("scen1","scen1","scen1",
+                               "scen2","scen2","scen2",
+                               "scen3","scen3","scen3"),3),
+                  year = rep(c("2010","2020","2030",
+                           "2010","2020","2030",
+                           "2010","2020","2030"),3),
+                  param = c(rep("param_1",9),
+                            rep("param_2",9),
+                            rep("param_3",9)),
+                  value = c(c(32, 38, 54,
+                              37, 53, 23,
+                              40, 44, 12),
+                            c(10, 21, 24,
+                              67, 83, 93, 
+                              10, 34, 02),
+                            c(50, 121, 124,
+                              367, 483, 593,
+                              100, 304, 102)))
 
+my_chart <- rchart::chart(data, scenRef="scen1",show=F) # So that all plots are not shown
+my_chart$chart_lines_diff_absolute
+my_chart$chart_lines_diff_percent
+
+```
+
+## Multi Param & Region Diff
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=14, fig.height=15}
+library(rchart);
+data = data.frame(region = rep(c("Spain", "India","Spain", "India","Spain", "India",
+                                "Spain", "India","Spain", "India","Spain", "India",
+                                "Spain", "India","Spain", "India","Spain", "India"),3),
+                  scenario = rep(c("scen1","scen1","scen1","scen1","scen1","scen1",
+                               "scen2","scen2","scen2","scen2","scen2","scen2",
+                               "scen3","scen3","scen3","scen3","scen3","scen3"),3),
+                  year = rep(c("2010","2010","2020","2020","2030","2030",
+                           "2010","2010","2020","2020","2030","2030",
+                           "2010","2010","2020","2020","2030","2030"),3),
+                  param = c(rep("param_1",18),
+                            rep("param_2",18),
+                            rep("param_3",18)),
+                  value = c(c(32, 38, 54, 63, 24, 23,
+                              37, 53, 23, 12, 45, 47,
+                              40, 44, 12, 30, 99, 103),
+                            c(10, 21, 24, 13, 14, 13,
+                              67, 83, 93, 92, 95, 107,
+                              10, 34, 02, 10, 39, 33),
+                            c(50, 121, 124, 113, 214, 313,
+                              367, 483, 593, 692, 795, 907,
+                              100, 304, 102, 107, 339, 233)))
+
+my_chart <- rchart::chart(data, scenRef="scen1",show=F) # So that all plots are not shown
+my_chart$chart_lines_diff_absolute
+my_chart$chart_lines_diff_percent
+
+```

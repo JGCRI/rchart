@@ -27,7 +27,9 @@ chart(
   diff_text_percent = "diffPrcnt",
   diff_text_absolute = "diffAbs",
   diff_text_percent_x = "xdiffPrcnt",
-  diff_text_absolute_x = "xdiffAbs"
+  diff_text_absolute_x = "xdiffAbs",
+  width = NULL,
+  height = NULL
 )
 }
 \arguments{
@@ -76,6 +78,10 @@ chart(
 \item{diff_text_percent_x}{Default = "_xdiffPrcnt"}
 
 \item{diff_text_absolute_x}{Default = "_xdiffAbs"}
+
+\item{width}{= NULL}
+
+\item{height}{= NULL}
 }
 \description{
 Used to add missing data to input files and customize format

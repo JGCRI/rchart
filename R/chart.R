@@ -25,6 +25,8 @@
 #' @param diff_text_absolute Default = "_diffAbs"
 #' @param diff_text_percent_x Default = "_xdiffPrcnt"
 #' @param diff_text_absolute_x Default = "_xdiffAbs"
+#' @param width = NULL
+#' @param height = NULL
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
 #' @export
@@ -51,7 +53,9 @@ chart <- function(data = NULL,
                   diff_text_percent = "diffPrcnt",
                   diff_text_absolute = "diffAbs",
                   diff_text_percent_x = "xdiffPrcnt",
-                  diff_text_absolute_x = "xdiffAbs"){
+                  diff_text_absolute_x = "xdiffAbs",
+                  width = NULL,
+                  height = NULL){
 
   print("Starting chart...")
 
@@ -96,7 +100,14 @@ chart <- function(data = NULL,
     strip.background = ggplot2::element_rect(color = "black", fill = "gray30"),
     strip.text = ggplot2::element_text(color = "white"),
     aspect.ratio = aspect_ratio,
-    text = ggplot2::element_text(size = size_text)
+    text = ggplot2::element_text(size = size_text),
+    axis.title.y = ggplot2::element_text(vjust = 5),
+    axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust=1),
+    legend.title = ggplot2::element_blank(),
+    strip.text.y = ggplot2::element_blank(),
+    legend.margin = ggplot2::margin(t = 2.5, r = 2.5, b = 2.5, l =2.5, "pt"),
+    plot.margin = ggplot2::margin(t = 10, r = 0, b = 0, l = 0, "pt"),
+    panel.spacing = ggplot2::unit(5, "pt")
   )
 
   #.................................
@@ -139,12 +150,6 @@ chart <- function(data = NULL,
   }
 
   n_param = length(unique(data_agg$param))
-  if(is.null(ncol)){
-    if((n_param %% 2) == 0){ncol = as.integer(ceiling(n_param^0.5))}
-    if((n_param %% 2) != 0){ncol = as.integer(ceiling(n_param^0.5))+1}
-  }
-  width_i = 7*max(ncol^0.5,1)
-  height_i = 5*max((n_param-ncol)^0.5,1)
 
   #.................................
   # Prepare region subRegion append
@@ -194,7 +199,12 @@ chart <- function(data = NULL,
 
       if (nrow(data_agg_i) > 0) {
         chart_name_i <- "chart_lines"
-        fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion, ".png")
+        if(region_subRegion==""){
+          fname_i <- paste0(folder, "/", chart_name_i,".png")
+        } else {
+          fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion, ".png")
+        }
+
         charts_out[[count]] <-
           rchart::plot_line_absolute(
             data = data_agg_i,
@@ -220,6 +230,17 @@ chart <- function(data = NULL,
         if(show){ print(charts_out[[count]])}
 
         if (save) {
+
+          if(is.null(ncol)){
+            if((n_param %% 2) == 0){ncol = as.integer(ceiling(n_param^0.5))}
+            if((n_param %% 2) != 0){ncol = as.integer(ceiling(n_param^0.5))+1}
+          }
+          width_i = 7*max(ncol^0.5,1)
+          height_i = 5*max((n_param-ncol)^0.5,1)
+
+          if(!is.null(width)){width_i = width}
+          if(!is.null(height)){height_i = height}
+
           ggplot2::ggsave(
             filename = fname_i,
             plot = charts_out[[count]],
@@ -242,8 +263,11 @@ chart <- function(data = NULL,
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_absolute, scenDiff_plot)]
 
         chart_name_i <- "chart_lines_diff_absolute"
-        fname_i <-
-          paste0(folder, "/", chart_name_i, "_", region_subRegion, ".png")
+        if(region_subRegion==""){
+          fname_i <- paste0(folder, "/", chart_name_i,".png")
+        } else {
+          fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion, ".png")
+        }
 
         charts_out[[count]] <-
           rchart::plot_param_difference(
@@ -261,6 +285,7 @@ chart <- function(data = NULL,
         # scenRef = scenRef
         # scenDiff = scenDiff_plot_i
         # theme = theme
+        # theme_default = theme_default
         # facet_label_diff = "Difference Absolute"
         # size = size
         # diff_text = diff_text_absolute
@@ -268,11 +293,15 @@ chart <- function(data = NULL,
         # Set title if provided or turn off
         if(title != F){
           if(is.character(title)){
-            charts_out[[count]] <- charts_out[[count]] +
-              ggplot2::ggtitle(paste0(title," ",region_subRegion))}else{
-                charts_out[[count]] <- charts_out[[count]] +
-                  ggplot2::ggtitle(region_subRegion)
-              }
+            title_label <- cowplot::ggdraw() +
+              cowplot::draw_label(paste0(title," ",region_subRegion), fontface='bold', vjust=0, hjust=-0.25,x=0, y=0)
+            charts_out[[count]] <- cowplot::plot_grid(title_label, charts_out[[count]], ncol=1, rel_heights=c(0.5,5*n_param))
+          }else{
+            title_label <- cowplot::ggdraw() +
+              cowplot::draw_label(paste0(region_subRegion), fontface='bold', vjust=0, hjust=-0.25,x=0, y=0)
+            charts_out[[count]] <- cowplot::plot_grid(title_label, charts_out[[count]], ncol=1, rel_heights=c(0.5,5*n_param))
+
+          }
         }
 
         names(charts_out)[count] <- chart_name_i
@@ -280,6 +309,13 @@ chart <- function(data = NULL,
         if(show){ print(charts_out[[count]])}
 
         if (save) {
+
+          width_i = 14
+          height_i = 5*n_param
+
+          if(!is.null(width)){width_i = width}
+          if(!is.null(height)){height_i = height}
+
           ggplot2::ggsave(
             filename = fname_i,
             plot = charts_out[[count]],
@@ -303,8 +339,11 @@ chart <- function(data = NULL,
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_percent, scenDiff_plot)]
 
         chart_name_i <- "chart_lines_diff_percent"
-        fname_i <-
-          paste0(folder, "/", chart_name_i, "_", region_subRegion, ".png")
+        if(region_subRegion==""){
+          fname_i <- paste0(folder, "/", chart_name_i,".png")
+        } else {
+          fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion, ".png")
+        }
 
         charts_out[[count]] <-
           rchart::plot_param_difference(
@@ -322,11 +361,15 @@ chart <- function(data = NULL,
         # Set title if provided or turn off
         if(title != F){
           if(is.character(title)){
-            charts_out[[count]] <- charts_out[[count]] +
-              ggplot2::ggtitle(paste0(title," ",region_subRegion))}else{
-                charts_out[[count]] <- charts_out[[count]] +
-                  ggplot2::ggtitle(region_subRegion)
-              }
+            title_label <- cowplot::ggdraw() +
+              cowplot::draw_label(paste0(title," ",region_subRegion), fontface='bold', vjust=0, hjust=-0.25,x=0, y=0)
+            charts_out[[count]] <- cowplot::plot_grid(title_label, charts_out[[count]], ncol=1, rel_heights=c(0.5,5*n_param))
+          }else{
+            title_label <- cowplot::ggdraw() +
+              cowplot::draw_label(paste0(region_subRegion), fontface='bold', vjust=0, hjust=-0.25,x=0, y=0)
+            charts_out[[count]] <- cowplot::plot_grid(title_label, charts_out[[count]], ncol=1, rel_heights=c(0.5,5*n_param))
+
+          }
         }
 
         names(charts_out)[count] <- chart_name_i
@@ -334,6 +377,13 @@ chart <- function(data = NULL,
         if(show){ print(charts_out[[count]])}
 
         if (save) {
+
+          width_i = 14
+          height_i = 5*n_param
+
+          if(!is.null(width)){width_i = width}
+          if(!is.null(height)){height_i = height}
+
           ggplot2::ggsave(
             filename = fname_i,
             plot = charts_out[[count]],

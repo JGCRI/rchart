@@ -24,11 +24,15 @@ plot_param_difference <- function(data = NULL,
                                 diff_text = NULL) {
 
 
-  # data = data_agg_diff
-  # scenRef = scenRef
-  # scenDiff = scenDiff
-  # plot_type = "line"
+  # data = NULL
+  # scenRef = NULL
+  # scenDiff = NULL
+  # size = 1.5
   # theme = NULL
+  # theme_default = ggplot2::theme_bw()
+  # y_label_diff = NULL
+  # facet_label_diff = "Difference"
+  # diff_text = NULL
 
   #...........................
   # Initialize
@@ -97,7 +101,6 @@ plot_param_difference <- function(data = NULL,
                             fill=scenario,
                             color=scenario))+
         ggplot2::theme_bw() +
-        theme_default +
         ggplot2::xlab(NULL) +
         ggplot2::ylab(unique(data$param)[i])+
         ggplot2::scale_color_manual(breaks=names(palCharts_ref),values=palCharts_ref) +
@@ -105,10 +108,9 @@ plot_param_difference <- function(data = NULL,
         ggplot2::facet_grid(param~"Reference", scales="free",switch="y",
                             labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15))) +
         ggplot2::geom_line(size=size) +
-        ggplot2::theme(legend.position="bottom",
-            strip.text.y = ggplot2::element_blank(),
-            legend.title = ggplot2::element_blank()) +
-       ggplot2::guides(color=ggplot2::guide_legend(nrow=n_legend_rows,byrow=TRUE))
+        ggplot2::theme(legend.position="bottom") +
+        ggplot2::guides(color=ggplot2::guide_legend(nrow=n_legend_rows,byrow=TRUE)) +
+        theme_default
 
      if(!is.null(theme)){p1 <- p1 + theme}
 
@@ -120,7 +122,6 @@ plot_param_difference <- function(data = NULL,
                            group=scenario,
                            color=scenario)) +
       ggplot2::theme_bw() +
-      theme_default +
       ggplot2::xlab(NULL) +
       ggplot2::ylab(y_label_diff) +
       ggplot2::scale_color_manual(breaks=names(palCharts_diff),values=palCharts_diff) +
@@ -128,10 +129,9 @@ plot_param_difference <- function(data = NULL,
       ggplot2::scale_y_continuous(position = "left") +
       ggplot2::facet_grid(param~paste0(facet_label_diff), scales="free",switch="y",
                           labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15))) +
-      ggplot2::theme(legend.position="bottom",
-            legend.title = ggplot2::element_blank(),
-            strip.text.y = ggplot2::element_blank())+
-      ggplot2::guides(color=ggplot2::guide_legend(nrow=n_legend_rows,byrow=TRUE))
+      ggplot2::theme(legend.position="bottom")+
+      ggplot2::guides(color=ggplot2::guide_legend(nrow=n_legend_rows,byrow=TRUE)) +
+      theme_default
 
 
     if(!is.null(theme)){p2 <- p2 + theme}
@@ -140,7 +140,7 @@ plot_param_difference <- function(data = NULL,
 
     }
 
-  plot_out <- cowplot::plot_grid(plotlist = plist, ncol=2, align="v", rel_widths = c(1, 1))
+  plot_out <- cowplot::plot_grid(plotlist=plist, ncol=2, align="v")
 
   } else {
 

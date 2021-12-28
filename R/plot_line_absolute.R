@@ -59,9 +59,7 @@ plot_line_absolute <- function(data = NULL,
           ncol = ncol,
           labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15))
         ) +
-    ggplot2::theme(legend.position="bottom",
-              legend.title = ggplot2::element_blank(),
-              axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust=1))
+    ggplot2::theme(legend.position="bottom")
 
   if(!is.null(theme)){p1 <- p1 + theme}
   invisible(p1)
