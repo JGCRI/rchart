@@ -5,7 +5,8 @@
 #' @param size Default = 1.5. Line size
 #' @param theme Default = NULL.
 #' @param theme_default Default = ggplot2::theme_bw(). Default rchart themes.
-#' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
+#' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed",
+#' @param size_text Default = 15. Text size
 #' @importFrom magrittr %>%
 #' @export
 
@@ -13,7 +14,8 @@ plot_reg_absolute <- function(data = NULL,
                                size = 1.5,
                                theme = NULL,
                                theme_default = ggplot2::theme_bw(),
-                               scales = "free_y") {
+                               scales = "free_y",
+                               size_text = 15) {
 
   #...........................
   # Initialize
