@@ -125,6 +125,7 @@ plot_param_difference <- function(data = NULL,
                            color=scenario)) +
       ggplot2::theme_bw() +
       ggplot2::xlab(NULL) +
+      ggplot2::ylab(NULL) +
       ggplot2::scale_color_manual(breaks=names(palCharts_diff),values=palCharts_diff) +
       ggplot2::geom_line(size=size) +
       ggplot2::scale_y_continuous(position = "left") +

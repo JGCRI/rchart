@@ -18,7 +18,7 @@
 <br>
 
 <p align="center">
-<a href="https://jgcri.github.io/rchart/articles/vignette_map.html" target="_blank"><img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_user_guide.PNG?raw=true" alt="https://jgcri.github.io/rchart/articles/vignette_map.html" height="60"/></a>
+<a href="https://jgcri.github.io/rchart/articles/vignette_userguide.html" target="_blank"><img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_user_guide.PNG?raw=true" alt="https://jgcri.github.io/rchart/articles/vignette_userguide.html" height="60"/></a>
 <img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_divider.PNG?raw=true" height="40"/>
 <a href="https://jgcri.github.io/rchart/cheatsheet.pdf" target="_blank"><img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_cheatsheet.PNG?raw=true" alt="https://jgcri.github.io/rchart/cheatsheet.pdf" height="60"/></a>  
 </p>
