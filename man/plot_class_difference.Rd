@@ -8,9 +8,12 @@ plot_class_difference(
   data = NULL,
   scenRef = NULL,
   scenDiff = NULL,
-  plot_type = "bar",
   theme = NULL,
-  theme_default = ggplot2::theme_bw()
+  theme_default = ggplot2::theme_bw(),
+  diff_text = NULL,
+  scales = "free",
+  diff_type = "bar",
+  size = 1.5
 )
 }
 \arguments{
@@ -20,11 +23,17 @@ plot_class_difference(
 
 \item{scenDiff}{Default = NULL.}
 
-\item{plot_type}{Default = "bar". Choose one of "bar" or "line",}
-
 \item{theme}{Default = NULL}
 
 \item{theme_default}{Default = ggplot2::theme_bw(). Default rchart themes.}
+
+\item{diff_text}{Default = NULL. Text to remove from diff scenario names.}
+
+\item{scales}{Default = "free". Choose between "free", "free_y", "free_x", "fixed"}
+
+\item{diff_type}{Default = "bar". Choose between "bar" or "line"}
+
+\item{size}{Default = 1.5. Line size}
 }
 \description{
 generate chart plot for absolute difference and percent difference

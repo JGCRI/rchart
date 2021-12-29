@@ -15,7 +15,7 @@ chart(
   ncol = NULL,
   scales = "free_y",
   save = TRUE,
-  show = TRUE,
+  show = FALSE,
   title = TRUE,
   folder = getwd(),
   scenRef = NULL,
@@ -53,7 +53,7 @@ chart(
 
 \item{save}{Default = TRUE. Save plots.}
 
-\item{show}{Default = TRUE. Whether to show figure outputs in console.}
+\item{show}{Default = FALSE. Whether to show figure outputs in console.}
 
 \item{title}{Default = TRUE. Used for region or subRegions or to add title to all plots.}
 

@@ -4,25 +4,32 @@
 #' @param data Default = NULL.
 #' @param scenRef Default = NULL.
 #' @param scenDiff Default = NULL.
-#' @param plot_type Default = "bar". Choose one of "bar" or "line",
 #' @param theme Default = NULL
 #' @param theme_default Default = ggplot2::theme_bw(). Default rchart themes.
+#' @param diff_text Default = NULL. Text to remove from diff scenario names.
+#' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
+#' @param diff_type Default = "bar". Choose between "bar" or "line"
+#' @param size Default = 1.5. Line size
 #' @importFrom magrittr %>%
 #' @export
 
 plot_class_difference <- function(data = NULL,
-                                scenRef = NULL,
-                                scenDiff = NULL,
-                                plot_type = "bar",
-                                theme = NULL,
-                                theme_default = ggplot2::theme_bw()){
+                                  scenRef = NULL,
+                                  scenDiff = NULL,
+                                  theme = NULL,
+                                  theme_default = ggplot2::theme_bw(),
+                                  diff_text = NULL,
+                                  scales = "free",
+                                  diff_type = "bar",
+                                  size = 1.5) {
 
 
-  # data = data_agg_diff
-  # scenRef = scenRef
-  # scenDiff = scenDiff
-  # plot_type = "line"
+  # data = NULL
+  # scenRef = NULL
+  # scenDiff = NULL
   # theme = NULL
+  # theme_default = ggplot2::theme_bw()
+  # diff_text = NULL
 
   #...........................
   # Initialize
@@ -39,10 +46,10 @@ plot_class_difference <- function(data = NULL,
 
   if(!scenRef %in% unique(data$scenario)){scenRef = NULL}
   if(is.null(scenDiff)){
-  if(is.null(scenDiff) & !is.null(scenRef)){
-    scenDiff = unique(data$scenario)[!unique(data$scenario) %in% scenRef]} else {
-    scenDiff = NULL
-  }}
+    if(is.null(scenDiff) & !is.null(scenRef)){
+      scenDiff = unique(data$scenario)[!unique(data$scenario) %in% scenRef]} else {
+        scenDiff = NULL
+      }}
 
   #...........................
   # Plot
@@ -50,101 +57,90 @@ plot_class_difference <- function(data = NULL,
 
   if(!is.null(scenRef) & !is.null(scenDiff)){
 
-  for(i in 1:length(unique(data$param))){
+    for(i in 1:length(unique(data$param))){
 
-    data <- data %>%
-      dplyr::filter(!(is.na(class) & value==0))%>%
-      dplyr::mutate(class=dplyr::if_else(is.na(class),"NA",class))
+      # Check Color Palettes ....................................
+      palAdd <- rep(jgcricolors::jgcricol()$pal_16,1000)
+      missNames <- unique(data$class)
 
-    # Check Color Palettes ....................................
-    palAdd <- rep(c("firebrick3","dodgerblue3","forestgreen","black","darkgoldenrod3","darkorchid3","gray50", "darkturquoise"),1000)
-    missNames <- unique(data$class)[!unique(data$class) %in%
-                                               names(jgcricolors::jgcricol()$pal_all)]
-    if (length(missNames) > 0) {
-      palAdd <- palAdd[1:length(missNames)]
-      names(palAdd) <- missNames
-      palCharts <- c(jgcricolors::jgcricol()$pal_all, palAdd)
-    } else{
-      palCharts <- jgcricolors::jgcricol()$pal_all
-    }
+      if (length(missNames) > 0) {
+        palAdd <- palAdd[1:length(missNames)]
+        names(palAdd) <- missNames
+        palCharts <- c(jgcricolors::jgcricol()$pal_all, palAdd)
+      } else{
+        palCharts <- jgcricolors::jgcricol()$pal_all
+      }
 
-    # Prep Data Ref and Diff ....................................
-    data_ref <- data %>%
-      dplyr::filter(param==unique(data$param)[i], scenario == scenRef)
+      palCharts <- palCharts[names(palCharts) %in% unique(data$class)]
 
-    data_diff <- data %>%
-      dplyr::filter(param==unique(data$param)[i], scenario %in% scenDiff)%>%
-      droplevels()
+      # Prep Data Ref and Diff ....................................
+      data_ref <- data %>%
+        dplyr::filter(param==unique(data$param)[i], scenario == scenRef)%>%
+        droplevels()
 
-    palCharts <- palCharts[names(palCharts) %in% unique(c(unique(data_diff$class),unique(data_ref$class)))]
+      data_diff <- data %>%
+        dplyr::filter(param==unique(data$param)[i], scenario %in% scenDiff) %>%
+        droplevels()
 
-    # Plot data_ref ....................................
-     p1 <-  ggplot2::ggplot(data_ref%>%
-                            droplevels(),
-                            ggplot2::aes(x=x,y=value,
-                            group=class,
-                            fill=class))+
+
+      if(!is.null(diff_text)){
+        data_diff <- data_diff %>%
+          dplyr::mutate(scenario = gsub(paste0("_",scenRef),"",scenario))
+      }
+
+      # Plot data_ref ....................................
+      p1 <-  ggplot2::ggplot(data_ref,
+                             ggplot2::aes(x=x,y=value,
+                                          group=class,
+                                          fill=class
+                                          ))+
         ggplot2::theme_bw() +
-        theme_default +
         ggplot2::xlab(NULL) +
         ggplot2::ylab(unique(data$param)[i])+
         ggplot2::scale_fill_manual(breaks=names(palCharts),values=palCharts) +
         ggplot2::scale_y_continuous(position = "left") +
-        ggplot2::facet_grid(param~scenario, scales="free",switch="y",
+        ggplot2::facet_grid(param~scenario, scales=scales,switch="y",
                             labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15))) +
         ggplot2::geom_bar(position="stack", stat="identity") +
-        ggplot2::theme(legend.position="bottom",
-            strip.text.y = ggplot2::element_blank(),
-            legend.title = ggplot2::element_blank(),
-            legend.margin = ggplot2::margin(t =5, r = 0, b = 5, l =0, "pt"),
-            legend.key.height = ggplot2::unit(0, "cm"),
-            text = ggplot2::element_text(size = 15),
-            plot.margin = ggplot2::margin(t = 20, r = 5, b = 0, l = 0, "pt"),
-            axis.title.y = ggplot2::element_text(margin = ggplot2::margin(t = 0, r = 20, b = 0, l = 0)))
+        ggplot2::theme(legend.position="none") +
+        theme_default
 
-     if(!is.null(theme)){p1 <- p1 + theme}
+      if(!is.null(theme)){p1 <- p1 + theme}
 
-    plist[[count]] <- p1
+      plist[[count]] <- p1
 
-    # Plot data_diff ....................................
-    p2 <-  ggplot2::ggplot(data %>%
-                           dplyr::filter(param==unique(data$param)[i], scenario != scenRef)%>%
-                           droplevels(),
-                           ggplot2::aes(x=x,y=value,
-                           group=class,
-                           color=class)) +
-      ggplot2::theme_bw() +
-      theme_default +
-      ggplot2::xlab(NULL) +
-      ggplot2::ylab(NULL) +
-      ggplot2::scale_color_manual(breaks=names(palCharts),values=palCharts) +
-      ggplot2::scale_y_continuous(position = "left") +
-      ggplot2::facet_grid(param~scenario, scales="free",switch="y",
-                          labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15))) +
-      ggplot2::theme(legend.position="bottom",
-            legend.title = ggplot2::element_blank(),
-            strip.text.y = ggplot2::element_blank(),
-            legend.margin = ggplot2::margin(t =5, r = 0, b = 5, l =0, "pt"),
-            legend.key.height = ggplot2::unit(0, "cm"),
-            text = ggplot2::element_text(size = 15),
-            plot.margin = ggplot2::margin(t = 20, r = 5, b = 0, l = 0, "pt"),
-            axis.title.y = ggplot2::element_text(margin = ggplot2::margin(t = 0, r = 20, b = 0, l = 0)))
+      # Plot empty ....................................
+      plist[[count+1]] <- NULL
 
-    if(grepl("bar",plot_type,ignore.case = T)){
-      p2 <- p2 + ggplot2::geom_bar(position="stack", stat="identity")
-    }
+      # Plot data_diff ....................................
+      p2 <-  ggplot2::ggplot(data_diff,
+                             ggplot2::aes(x=x,y=value,
+                                          group=class)) +
+        ggplot2::theme_bw() +
+        ggplot2::xlab(NULL) +
+        ggplot2::ylab(NULL) +
+        ggplot2::scale_y_continuous(position = "left") +
+        ggplot2::facet_grid(param~scenario, scales=scales,switch="y",
+                            labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15))) +
+        ggplot2::theme(legend.position="right") +
+        theme_default
 
-    if(grepl("line",plot_type,ignore.case = T)){
-      p2 <- p2 + ggplot2::geom_line(size=2)
-    }
+      if(diff_type=="bar"){p2 <- p2 +
+        ggplot2::geom_bar(ggplot2::aes(fill=class),position="stack", stat="identity") +
+        ggplot2::scale_fill_manual(breaks=names(palCharts),values=palCharts)}
 
-    if(!is.null(theme)){p2 <- p2 + theme}
-    plist[[count + 1]] <- p2
-    count =  count +2
+      if(diff_type=="line"){p2 <- p2 +
+        ggplot2::geom_line(ggplot2::aes(color=class),size=size) +
+        ggplot2::scale_color_manual(breaks=names(palCharts),values=palCharts)}
+
+
+      if(!is.null(theme)){p2 <- p2 + theme}
+      plist[[count + 2]] <- p2
+      count =  count +3
 
     }
 
-  plot_out <- cowplot::plot_grid(plotlist = plist, ncol=2, align="v", rel_widths = c(1, length(unique(data$scenario))-1))
+    plot_out <- cowplot::plot_grid(plotlist=plist, ncol=3, rel_widths = c(1, -0.4,length(scenDiff)))
 
   } else {
 
@@ -154,4 +150,4 @@ plot_class_difference <- function(data = NULL,
 
   invisible(plot_out)
 
-  }
+}

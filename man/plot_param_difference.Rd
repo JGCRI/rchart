@@ -13,7 +13,8 @@ plot_param_difference(
   theme_default = ggplot2::theme_bw(),
   y_label_diff = NULL,
   facet_label_diff = "Difference",
-  diff_text = NULL
+  diff_text = NULL,
+  scales = "free"
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ plot_param_difference(
 \item{facet_label_diff}{Default = Difference}
 
 \item{diff_text}{Default = NULL. Text to remove from diff scenario names.}
+
+\item{scales}{Default = "free". Choose between "free", "free_y", "free_x", "fixed"}
 }
 \description{
 generate chart plot for absolute difference and percent difference

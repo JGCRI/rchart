@@ -10,6 +10,7 @@
 #' @param y_label_diff Default = NULL
 #' @param facet_label_diff Default = Difference
 #' @param diff_text Default = NULL. Text to remove from diff scenario names.
+#' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
 #' @importFrom magrittr %>%
 #' @export
 
@@ -21,7 +22,8 @@ plot_param_difference <- function(data = NULL,
                                 theme_default = ggplot2::theme_bw(),
                                 y_label_diff = NULL,
                                 facet_label_diff = "Difference",
-                                diff_text = NULL) {
+                                diff_text = NULL,
+                                scales = "free") {
 
 
   # data = NULL
@@ -105,7 +107,7 @@ plot_param_difference <- function(data = NULL,
         ggplot2::ylab(unique(data$param)[i])+
         ggplot2::scale_color_manual(breaks=names(palCharts_ref),values=palCharts_ref) +
         ggplot2::scale_y_continuous(position = "left") +
-        ggplot2::facet_grid(param~"Reference", scales="free",switch="y",
+        ggplot2::facet_grid(param~"Reference", scales=scales,switch="y",
                             labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15))) +
         ggplot2::geom_line(size=size) +
         ggplot2::theme(legend.position="bottom") +
@@ -115,6 +117,9 @@ plot_param_difference <- function(data = NULL,
      if(!is.null(theme)){p1 <- p1 + theme}
 
     plist[[count]] <- p1
+
+    # Plot empty ....................................
+    plist[[count+1]] <- NULL
 
     # Plot data_diff ....................................
     p2 <-  ggplot2::ggplot(data_diff,
@@ -127,20 +132,19 @@ plot_param_difference <- function(data = NULL,
       ggplot2::scale_color_manual(breaks=names(palCharts_diff),values=palCharts_diff) +
       ggplot2::geom_line(size=size) +
       ggplot2::scale_y_continuous(position = "left") +
-      ggplot2::facet_grid(param~paste0(facet_label_diff), scales="free",switch="y",
+      ggplot2::facet_grid(param~paste0(facet_label_diff), scales=scales,switch="y",
                           labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15))) +
       ggplot2::theme(legend.position="bottom")+
       ggplot2::guides(color=ggplot2::guide_legend(nrow=n_legend_rows,byrow=TRUE)) +
       theme_default
 
-
     if(!is.null(theme)){p2 <- p2 + theme}
-    plist[[count + 1]] <- p2
-    count =  count +2
+    plist[[count + 2]] <- p2
+    count =  count +3
 
-    }
+  }
 
-  plot_out <- cowplot::plot_grid(plotlist=plist, ncol=2, align="v")
+    plot_out <- cowplot::plot_grid(plotlist=plist, ncol=3, rel_widths = c(1,-0.4,1))
 
   } else {
 
