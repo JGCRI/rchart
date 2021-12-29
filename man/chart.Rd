@@ -37,7 +37,8 @@ chart(
 
 \item{col_agg}{Default = "class". Column to remove and then aggregate by.}
 
-\item{chart_type}{Default = "all". Choices one or more of "all", "lines", "bar", "lines_diff", "bar_diff"}
+\item{chart_type}{Default = "all". Choices one or more of "all", "param_absolute", "class_absolute",
+"param_diff_absolute", "class_diff_absolute", "param_diff_percent", "class_diff_percent"}
 
 \item{aspect_ratio}{Default = 0.75. aspect ratio}
 

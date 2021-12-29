@@ -11,7 +11,6 @@ plot_param_difference(
   size = 1.5,
   theme = NULL,
   theme_default = ggplot2::theme_bw(),
-  y_label_diff = NULL,
   facet_label_diff = "Difference",
   diff_text = NULL,
   scales = "free"
@@ -29,8 +28,6 @@ plot_param_difference(
 \item{theme}{Default = NULL}
 
 \item{theme_default}{Default = ggplot2::theme_bw(). Default rchart themes.}
-
-\item{y_label_diff}{Default = NULL}
 
 \item{facet_label_diff}{Default = Difference}
 

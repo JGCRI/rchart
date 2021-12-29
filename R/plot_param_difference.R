@@ -7,7 +7,6 @@
 #' @param size Default = 1.5. Line size
 #' @param theme Default = NULL
 #' @param theme_default Default = ggplot2::theme_bw(). Default rchart themes.
-#' @param y_label_diff Default = NULL
 #' @param facet_label_diff Default = Difference
 #' @param diff_text Default = NULL. Text to remove from diff scenario names.
 #' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
@@ -20,7 +19,6 @@ plot_param_difference <- function(data = NULL,
                                 size = 1.5,
                                 theme = NULL,
                                 theme_default = ggplot2::theme_bw(),
-                                y_label_diff = NULL,
                                 facet_label_diff = "Difference",
                                 diff_text = NULL,
                                 scales = "free") {
@@ -32,7 +30,6 @@ plot_param_difference <- function(data = NULL,
   # size = 1.5
   # theme = NULL
   # theme_default = ggplot2::theme_bw()
-  # y_label_diff = NULL
   # facet_label_diff = "Difference"
   # diff_text = NULL
 
@@ -128,7 +125,6 @@ plot_param_difference <- function(data = NULL,
                            color=scenario)) +
       ggplot2::theme_bw() +
       ggplot2::xlab(NULL) +
-      ggplot2::ylab(y_label_diff) +
       ggplot2::scale_color_manual(breaks=names(palCharts_diff),values=palCharts_diff) +
       ggplot2::geom_line(size=size) +
       ggplot2::scale_y_continuous(position = "left") +

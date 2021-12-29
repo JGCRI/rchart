@@ -92,7 +92,7 @@ The output of the `chart()` function is a named list with all charts and animati
 
 <!-------------------------->
 <!-------------------------->
-# Plot Lines Absolute
+# Plot Param Absolute
 <!-------------------------->
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
@@ -174,7 +174,7 @@ my_chart$lines_India
 
 <!-------------------------->
 <!-------------------------->
-# Plot Lines Difference
+# Plot Param Difference
 <!-------------------------->
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
@@ -261,16 +261,17 @@ my_chart$chart_param_diff_percent_Spain
 my_chart$chart_param_diff_percent_India
 
 ```
+
 <!-------------------------->
 <!-------------------------->
-# Plot Bar Absolute
+# Plot Class Absolute
 <!-------------------------->
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
 Chart with `params` in each facet and multiple lines for each scenario.
 
-## Single Param Multi Class
+## Multi Class Single Param
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 5}
 library(rchart);
 data = data.frame(scenario = rep(c("scen1","scen1","scen1",
@@ -296,7 +297,7 @@ my_chart <- rchart::chart(data)
 my_chart$chart_class
 ```
 
-## Multi Param Multi Class
+## Multi Class Multi Param
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 10}
 library(rchart);
 data = data.frame(param = rep(c("param_1", "param_2","param_1", "param_2","param_1", "param_2",
@@ -325,7 +326,7 @@ my_chart <- rchart::chart(data)
 my_chart$chart_class
 ```
 
-## Multi Param Multi Class Multi Region
+## Multi Class Multi Param Multi Region
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 10}
 library(rchart);
 data = data.frame(region = c(rep("Spain",54),
@@ -356,16 +357,17 @@ my_chart <- rchart::chart(data)
 my_chart$chart_class_Spain
 my_chart$chart_class_India
 ```
+
 <!-------------------------->
 <!-------------------------->
-# Plot Bar Difference
+# Plot Class Difference
 <!-------------------------->
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
 Chart with `params` in each facet and multiple lines for each scenario.
 
-## Single Param Multi Class Diff
+## Multi Class Single Param Diff
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 5}
 library(rchart);
 data = data.frame(scenario = rep(c("scen1","scen1","scen1",
@@ -392,7 +394,7 @@ my_chart$chart_class_diff_absolute
 my_chart$chart_class_diff_percent
 ```
 
-## Multi Param Multi Class Diff
+## Multi Class Multi Param Diff
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 10}
 library(rchart);
 data = data.frame(param = rep(c("param_1", "param_2","param_1", "param_2","param_1", "param_2",
@@ -422,7 +424,7 @@ my_chart$chart_class_diff_absolute
 my_chart$chart_class_diff_percent
 ```
 
-## Multi Param Multi Class Multi Region
+## Multi Class Multi Param Multi Region
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 10}
 library(rchart);
 data = data.frame(region = c(rep("Spain",54),

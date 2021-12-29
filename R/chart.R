@@ -2,7 +2,8 @@
 #'
 #' Used to add missing data to input files and customize format
 #' @param data Default = NULL. Dataframe to test and convert.
-#' @param chart_type Default = "all". Choices one or more of "all", "lines", "bar", "lines_diff", "bar_diff"
+#' @param chart_type Default = "all". Choices one or more of "all", "param_absolute", "class_absolute",
+#' "param_diff_absolute", "class_diff_absolute", "param_diff_percent", "class_diff_percent"
 #' @param col_agg Default = "class". Column to remove and then aggregate by.
 #' @param aspect_ratio Default = 0.75. aspect ratio
 #' @param size Default = 1.5. line size
@@ -200,7 +201,7 @@ chart <- function(data = NULL,
   # Params (Aggregated Classes) Line Plot Scenarios Absolute
   #.................................
 
-      if (nrow(data_agg_i) > 0) {
+      if (nrow(data_agg_i) > 0 & grepl("all|param_absolute",chart_type,ignore.case = T)) {
         chart_name_i <- "chart_param"
         if(region_subRegion==""){
           fname_i <- paste0(folder, "/", chart_name_i,".png")
@@ -262,7 +263,7 @@ chart <- function(data = NULL,
   # Params (Aggregated Classes) Line Plot Scenarios Difference Absolute
   #.................................
 
-      if (nrow(data_agg_diff_i) > 0) {
+      if (nrow(data_agg_diff_i) > 0 & grepl("all|param_diff_absolute",chart_type,ignore.case = T)) {
 
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_absolute, scenDiff_plot)]
 
@@ -339,7 +340,7 @@ chart <- function(data = NULL,
   # Params (Aggregated Classes) Line Plot Scenarios Difference Percent
   #.................................
 
-      if (nrow(data_agg_diff_i) > 0) {
+      if (nrow(data_agg_diff_i) > 0 & grepl("all|param_diff_percent",chart_type,ignore.case = T)) {
 
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_percent, scenDiff_plot)]
 
@@ -359,7 +360,6 @@ chart <- function(data = NULL,
             theme = theme,
             theme_default = theme_default,
             facet_label_diff = "Difference Percent",
-            y_label_diff = "%",
             size = size,
             diff_text = diff_text_percent
           )
@@ -408,7 +408,7 @@ chart <- function(data = NULL,
   # Params and Classes Bar Plot Scenarios Absolute
   #.................................
 
-      if (nrow(data_full_i) > 0) {
+      if (nrow(data_full_i) > 0 & grepl("all|class_absolute",chart_type,ignore.case = T)) {
         chart_name_i <- "chart_class"
         if(region_subRegion==""){
           fname_i <- paste0(folder, "/", chart_name_i,".png")
@@ -473,7 +473,7 @@ chart <- function(data = NULL,
   #.................................
 
 
-      if (nrow(data_full_diff_i) > 0) {
+      if (nrow(data_full_diff_i) > 0 & grepl("all|class_diff_absolute",chart_type,ignore.case = T)) {
 
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_absolute, scenDiff_plot)]
 
@@ -548,7 +548,7 @@ chart <- function(data = NULL,
 
 
 
-      if (nrow(data_full_diff_i) > 0) {
+      if (nrow(data_full_diff_i) > 0 & grepl("all|class_diff_percent",chart_type,ignore.case = T)) {
 
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_percent, scenDiff_plot)]
 
