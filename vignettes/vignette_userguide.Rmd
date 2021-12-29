@@ -113,7 +113,8 @@ data = data.frame(scenario = c("scen1","scen1","scen1",
                             37, 53, 23,
                             40, 44, 12))
 
-rchart::chart(data)
+my_chart <- rchart::chart(data)
+my_chart$chart_param
 ```
 
 ## Multiple Params
@@ -138,7 +139,8 @@ data = data.frame(scenario = rep(c("scen1","scen1","scen1",
                               367, 483, 593,
                               100, 304, 102)))
 
-rchart::chart(data)
+my_chart <- rchart::chart(data)
+my_chart$chart_param
 ```
 
 ## Multiple Params & Regions

@@ -404,6 +404,9 @@ chart <- function(data = NULL,
         count = count + 1
       }
 
+
+  if(length(unique(data_full_i$class))>1){
+
   #.................................
   # Params and Classes Bar Plot Scenarios Absolute
   #.................................
@@ -618,6 +621,8 @@ chart <- function(data = NULL,
 
         count = count + 1
       }
+
+    } # if > 1 class
 
   #...........................
   # Close-out
