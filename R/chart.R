@@ -3,7 +3,7 @@
 #' Used to add missing data to input files and customize format
 #' @param data Default = NULL. Dataframe to test and convert.
 #' @param chart_type Default = "all". Choices one or more of "all", "param_absolute", "class_absolute",
-#' "param_diff_absolute", "class_diff_absolute", "param_diff_percent", "class_diff_percent"
+#' "param_diff_absolute", "class_diff_absolute", "param_diff_percent", "class_diff_percent", "region_absolute"
 #' @param col_agg Default = "class". Column to remove and then aggregate by.
 #' @param aspect_ratio Default = 0.75. aspect ratio
 #' @param size Default = 1.5. line size
@@ -405,6 +405,10 @@ chart <- function(data = NULL,
       }
 
 
+  #.................................
+  # By Classes Expanded if Class is > 1
+  #.................................
+
   if(length(unique(data_full_i$class))>1){
 
   #.................................
@@ -624,13 +628,85 @@ chart <- function(data = NULL,
 
     } # if > 1 class
 
-  #...........................
-  # Close-out
-  #...........................
 
     } # Close for(subRegion_i in subRegions){
   } # Close for(region_i in regions){
 
+  #.................................
+  # Compare Region_subRegions
+  #.................................
+
+  if((length(unique(data_agg$region))>1) | (length(unique(data_agg$subRegion))>1)){
+
+    # Assign region_subRegion to class category
+    if((length(unique(data_agg$region))>1) & (length(unique(data_agg$subRegion))>1)){
+      data_agg_reg <- data_agg %>%
+        dplyr::mutate(class = paste0(region,"_",subRegion))
+    }
+    if(!(length(unique(data_agg$region))>1) & (length(unique(data_agg$subRegion))>1)){
+      data_agg_reg <- data_agg %>%
+        dplyr::mutate(class = paste0(subRegion))
+    }
+    if((length(unique(data_agg$region))>1) & !(length(unique(data_agg$subRegion))>1)){
+      data_agg_reg <- data_agg %>%
+        dplyr::mutate(class = paste0(region))
+    }
+
+    if (nrow(data_agg_reg) > 0 & grepl("all|region_absolute",chart_type,ignore.case = T)) {
+
+      chart_name_i <- "chart_region_absolute"
+      fname_i <- paste0(folder, "/", chart_name_i,".png")
+
+      charts_out[[count]] <-
+        rchart::plot_reg_absolute(
+          data = data_agg_reg,
+          size = size,
+          theme = theme,
+          theme_default = theme_default,
+          scales = scales
+        )
+
+      # Set title if provided or turn off
+      if(title != F){
+        if(is.character(title)){
+          charts_out[[count]] <- charts_out[[count]] +
+            ggplot2::ggtitle(paste0(title))}
+      }
+
+      names(charts_out)[count] <- chart_name_i
+
+      if(show){ print(charts_out[[count]])}
+
+      if (save) {
+
+        if(is.null(ncol)){
+          if((n_param %% 2) == 0){ncol = as.integer(ceiling(n_param^0.5))}
+          if((n_param %% 2) != 0){ncol = as.integer(ceiling(n_param^0.5))+1}
+        }
+        width_i = 7*n_scenario
+        height_i = 5*n_param
+
+        if(!is.null(width)){width_i = width}
+        if(!is.null(height)){height_i = height}
+
+        ggplot2::ggsave(
+          filename = fname_i,
+          plot = charts_out[[count]],
+          width = width_i,
+          height = height_i,
+          units = "in"
+        )
+        print(paste0("Figure saved as: ", fname_i))
+      }
+
+      count = count + 1
+    }
+
+  }
+
+  #...........................
+  # Close-out
+  #...........................
 
   print("Completed chart.")
 

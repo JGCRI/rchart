@@ -113,8 +113,8 @@ data = data.frame(scenario = c("scen1","scen1","scen1",
                             37, 53, 23,
                             40, 44, 12))
 
-my_chart <- rchart::chart(data)
-my_chart$chart_param
+my_chart <- rchart::chart(data) 
+my_chart$chart_param # For just this chart rchart::chart(data, chart_type="param_absolute")
 ```
 
 ## Multiple Params
@@ -139,8 +139,8 @@ data = data.frame(scenario = rep(c("scen1","scen1","scen1",
                               367, 483, 593,
                               100, 304, 102)))
 
-my_chart <- rchart::chart(data)
-my_chart$chart_param
+my_chart <- rchart::chart(data) 
+my_chart$chart_param # For just this chart rchart::chart(data, chart_type="param_absolute")
 ```
 
 ## Multiple Params & Regions
@@ -168,8 +168,8 @@ data = data.frame(region = rep(c("Spain", "India","Spain", "India","Spain", "Ind
                               367, 483, 593, 692, 795, 907,
                               100, 304, 102, 107, 339, 233)))
 
-my_chart <- rchart::chart(data)
-my_chart$lines_Spain
+my_chart <- rchart::chart(data) # For just this chart rchart::chart(data, chart_type="param_absolute")
+my_chart$lines_Spain 
 my_chart$lines_India
 ```
 
@@ -198,8 +198,8 @@ data = data.frame(scenario = c("scen1","scen1","scen1",
                             40, 44, 12))
 
 my_chart <- rchart::chart(data, scenRef="scen1") # So that all plots are not shown
-my_chart$chart_param_diff_absolute
-my_chart$chart_param_diff_percent
+my_chart$chart_param_diff_absolute # For just this chart rchart::chart(data, chart_type="param_diff_absolute")
+my_chart$chart_param_diff_percent # For just this chart rchart::chart(data, chart_type="param_diff_percent")
 
 ```
 
@@ -226,8 +226,8 @@ data = data.frame(scenario = rep(c("scen1","scen1","scen1",
                               100, 304, 102)))
 
 my_chart <- rchart::chart(data, scenRef="scen1") # So that all plots are not shown
-my_chart$chart_param_diff_absolute
-my_chart$chart_param_diff_percent
+my_chart$chart_param_diff_absolute # For just this chart rchart::chart(data, scenRef = "scen1", chart_type="param_diff_absolute")
+my_chart$chart_param_diff_percent # For just this chart rchart::chart(data, scenRef = "scen1", chart_type="param_diff_percent")
 
 ```
 
@@ -257,10 +257,12 @@ data = data.frame(region = rep(c("Spain", "India","Spain", "India","Spain", "Ind
                               100, 304, 102, 107, 339, 233)))
 
 my_chart <- rchart::chart(data, scenRef="scen1") # So that all plots are not shown
-my_chart$chart_param_diff_absolute_Spain
-my_chart$chart_param_diff_absolute_India
-my_chart$chart_param_diff_percent_Spain
-my_chart$chart_param_diff_percent_India
+# For just these charts rchart::chart(data, scenRef = "scen1", chart_type="param_diff_absolute")
+# For just these charts rchart::chart(data, scenRef = "scen1", chart_type="param_diff_percent")
+my_chart$chart_param_diff_absolute_Spain 
+my_chart$chart_param_diff_absolute_India 
+my_chart$chart_param_diff_percent_Spain 
+my_chart$chart_param_diff_percent_India 
 
 ```
 
@@ -296,7 +298,7 @@ data = data.frame(scenario = rep(c("scen1","scen1","scen1",
                               100, 304, 102)))
 
 my_chart <- rchart::chart(data)
-my_chart$chart_class
+my_chart$chart_class # For just this chart rchart::chart(data, chart_type="class_absolute")
 ```
 
 ## Multi Class Multi Param
@@ -325,7 +327,7 @@ data = data.frame(param = rep(c("param_1", "param_2","param_1", "param_2","param
                               100, 1304, 102, 1107, 339, 1233)))
 
 my_chart <- rchart::chart(data)
-my_chart$chart_class
+my_chart$chart_class  # For just this chart rchart::chart(data, chart_type="class_absolute")
 ```
 
 ## Multi Class Multi Param Multi Region
@@ -355,8 +357,8 @@ data = data.frame(region = c(rep("Spain",54),
                               367, 1483, 593, 1692, 795, 1907,
                               100, 1304, 102, 1107, 339, 1233)),2))
 
-my_chart <- rchart::chart(data)
-my_chart$chart_class_Spain
+my_chart <- rchart::chart(data) # For just this chart rchart::chart(data, chart_type="class_absolute")
+my_chart$chart_class_Spain 
 my_chart$chart_class_India
 ```
 
@@ -422,8 +424,8 @@ data = data.frame(param = rep(c("param_1", "param_2","param_1", "param_2","param
                               100, 1304, 102, 1107, 339, 1233)))
 
 my_chart <- rchart::chart(data, scenRef = "scen1")
-my_chart$chart_class_diff_absolute
-my_chart$chart_class_diff_percent
+my_chart$chart_class_diff_absolute  # For just this chart rchart::chart(data, scenRef = "scen1", chart_type="class_absolute")
+my_chart$chart_class_diff_percent  # For just this chart rchart::chart(data, scenRef = "scen1", chart_type="class_percent")
 ```
 
 ## Multi Class Multi Param Multi Region
@@ -454,8 +456,48 @@ data = data.frame(region = c(rep("Spain",54),
                               100, 1304, 102, 1107, 339, 1233)),2))
 
 my_chart <- rchart::chart(data, scenRef = "scen1")
+# For just this chart rchart::chart(data, scenRef = "scen1", chart_type="class_absolute")
+# For just this chart rchart::chart(data, scenRef = "scen1", chart_type="class_percent")
 my_chart$chart_class_diff_absolute_Spain
 my_chart$chart_class_diff_absolute_India
 my_chart$chart_class_diff_percent_Spain
 my_chart$chart_class_diff_percent_India
+```
+
+
+<!-------------------------->
+<!-------------------------->
+# Plot Region Compare
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+To compare regions across scenarios and parameters.
+
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=7, fig.height = 5}
+library(rchart);
+data = data.frame(region = rep(c("Spain", "India","Spain", "India","Spain", "India",
+                                "Spain", "India","Spain", "India","Spain", "India",
+                                "Spain", "India","Spain", "India","Spain", "India"),3),
+                  scenario = rep(c("scen1","scen1","scen1","scen1","scen1","scen1",
+                               "scen2","scen2","scen2","scen2","scen2","scen2",
+                               "scen3","scen3","scen3","scen3","scen3","scen3"),3),
+                  year = rep(c("2010","2010","2020","2020","2030","2030",
+                           "2010","2010","2020","2020","2030","2030",
+                           "2010","2010","2020","2020","2030","2030"),3),
+                  param = c(rep("param_1",18),
+                            rep("param_2",18),
+                            rep("param_3",18)),
+                  value = c(c(32, 38, 54, 63, 24, 23,
+                              37, 53, 23, 12, 45, 47,
+                              40, 44, 12, 30, 99, 103),
+                            c(10, 21, 24, 13, 14, 13,
+                              67, 83, 93, 92, 95, 107,
+                              10, 34, 02, 10, 39, 33),
+                            c(50, 121, 124, 113, 214, 313,
+                              367, 483, 593, 692, 795, 907,
+                              100, 304, 102, 107, 339, 233)))
+
+my_chart <- rchart::chart(data) # For just this chart rchart::chart(data, chart_type="region_absolute")
+my_chart$chart_region_absolute
 ```
