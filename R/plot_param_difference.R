@@ -141,7 +141,7 @@ plot_param_difference <- function(data = NULL,
 
   }
 
-    plot_out <- cowplot::plot_grid(plotlist=plist, ncol=3, rel_widths = c(1,-0.4,1))
+    plot_out <- cowplot::plot_grid(plotlist=plist, ncol=3, rel_widths = c(1,-0.25,1))
 
   } else {
 
