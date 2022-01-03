@@ -52,4 +52,4 @@ jobs:
         with:
           add:
              cheatsheet.pdf
-          push: origin <gh-pages>
+          push: origin gh-pages --set-upstream
