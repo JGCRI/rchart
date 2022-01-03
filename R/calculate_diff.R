@@ -41,7 +41,7 @@ calculate_diff <- function(data = NULL,
   # diff_text_percent_x = "xdiffPrcnt"
   # diff_text_absolute_x = "xdiffAbs"
 
-  print("Starting calculate_diff ...")
+  # print("Starting calculate_diff ...")
 
   #...........................
   # Initialize
@@ -107,7 +107,6 @@ calculate_diff <- function(data = NULL,
   }
 
   } else {
-    print("No scenRef provided. Skipping scenario differece.")
   }
 
   #...........................
@@ -174,7 +173,6 @@ calculate_diff <- function(data = NULL,
     } # close for(scenario_i in data_out$scenario%>%unique()){
 
   } else { # Close if(!is.null(xRef)){
-    print("No xRef provided. Skipping x difference.")
   }
 
 
@@ -182,7 +180,7 @@ calculate_diff <- function(data = NULL,
   # Close out
   #...........................
 
-  print("Completed calculate_diff.")
+  # print("Completed calculate_diff.")
 
   invisible(data_out)
 

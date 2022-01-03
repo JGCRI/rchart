@@ -92,6 +92,60 @@ The output of the `chart()` function is a named list with all charts and animati
 
 <!-------------------------->
 <!-------------------------->
+# Save, file, folders
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+The following example show the key arguments available to save output charts
+
+```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=7, fig.height = 5}
+library(rchart);
+data = data.frame(scenario = c("scen1","scen1","scen1",
+                               "scen2","scen2","scen2",
+                               "scen3","scen3","scen3"),
+                  year = c("2010","2020","2030",
+                           "2010","2020","2030",
+                           "2010","2020","2030"),
+                  param = c(rep("param_1",9)),
+                  value = c(32, 38, 54,
+                            37, 53, 23,
+                            40, 44, 12))
+
+my_chart <- rchart::chart(data, 
+                          append = "_appendName", # Will apend names to each chart
+                          folder = "myfolder", # Will create a new folder if needed
+                          save = T, # This is True by default but can be turned off for rmakdown docs
+                          show = T # This is true by default but can be turned off to speed up processing and avoid charts displayed in console.
+                          ) 
+
+my_chart$chart_param # For just this chart rchart::chart(data, chart_type="param_absolute")
+```
+
+<!-------------------------->
+<!-------------------------->
+# Chart Type
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+As demonstrated in the various examples below, `rchart` can produce various types (line,bar, absolute, diff) charts. For each `param` in a given datatable `rchart` produces line charts while for each `class` (sub-categories of `param`) `rchart` produces bar charts as well as line charts (for percentage differences). The user can set the `chart_type` argument in order to only produce the particular kind of chart they would like. A summary of `chart_type` options is provided below:
+
+* "all" (Default)
+* "param_absolute"
+* "param_diff
+* "class_absolute",
+* "param_diff_absolute"
+* "class_diff_absolute"
+* "param_diff_percent"
+* "class_diff_percent"
+* "region_absolute"
+
+Users can also choose a combination of one or more of these arguments such as in: `class_type = c(""param_diff","class_diff_percent")`
+
+
+<!-------------------------->
+<!-------------------------->
 # Plot Param Absolute
 <!-------------------------->
 <!-------------------------->

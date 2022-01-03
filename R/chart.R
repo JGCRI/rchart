@@ -87,6 +87,7 @@ chart <- function(data = NULL,
   # diff_text_absolute_x = "xdiffAbs"
   # width = NULL
   # height = NULL
+  # append= ""
 
   #...........................
   # Initialize
@@ -98,7 +99,10 @@ chart <- function(data = NULL,
   count <- 1
 
   if(save){
-    if(!dir.exists(folder)){dir.create(folder)}
+    if(!dir.exists(folder)){
+      dir.create(folder)
+      folder <- dirname(normalizePath(folder))
+      }
   }
 
   theme_default <- ggplot2::theme(
@@ -121,6 +125,7 @@ chart <- function(data = NULL,
 
   data_full <- rchart::add_missing(data)
   data_agg <- rchart::aggregate_data(data = data_full, col_agg = col_agg)
+  if(!is.null(scenRef)){
   data_full_diff <- rchart::calculate_diff(data = data_full,
                                            scenRef = scenRef,
                                            scenDiff = scenDiff,
@@ -144,6 +149,10 @@ chart <- function(data = NULL,
                                            diff_text_absolute = diff_text_absolute,
                                            diff_text_percent_x = diff_text_percent_x,
                                            diff_text_absolute_x = diff_text_absolute_x)
+  } else {
+    data_full_diff <- tibble::tibble()
+    data_agg_diff <- tibble::tibble()
+  }
 
   # Find difference scenarios to plot
   if(is.null(scenDiff) & !is.null(scenRef)){
@@ -203,7 +212,7 @@ chart <- function(data = NULL,
   # Params (Aggregated Classes) Line Plot Scenarios Absolute
   #.................................
 
-      if (nrow(data_agg_i) > 0 & grepl("all|param_absolute",chart_type,ignore.case = T)) {
+      if (nrow(data_agg_i) > 0 & any(grepl("all|param_absolute",chart_type,ignore.case = T))) {
         chart_name_i <- "chart_param"
         if(region_subRegion==""){
           fname_i <- paste0(folder, "/", chart_name_i,append,".png")
@@ -265,7 +274,7 @@ chart <- function(data = NULL,
   # Params (Aggregated Classes) Line Plot Scenarios Difference Absolute
   #.................................
 
-      if (nrow(data_agg_diff_i) > 0 & grepl("all|param_diff_absolute",chart_type,ignore.case = T)) {
+      if (nrow(data_agg_diff_i) > 0 & any(grepl("all|param_diff_absolute",chart_type,ignore.case = T))) {
 
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_absolute, scenDiff_plot)]
 
@@ -342,7 +351,7 @@ chart <- function(data = NULL,
   # Params (Aggregated Classes) Line Plot Scenarios Difference Percent
   #.................................
 
-      if (nrow(data_agg_diff_i) > 0 & grepl("all|param_diff_percent",chart_type,ignore.case = T)) {
+      if (nrow(data_agg_diff_i) > 0 & any(grepl("all|param_diff_percent",chart_type,ignore.case = T))) {
 
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_percent, scenDiff_plot)]
 
@@ -417,7 +426,7 @@ chart <- function(data = NULL,
   # Params and Classes Bar Plot Scenarios Absolute
   #.................................
 
-      if (nrow(data_full_i) > 0 & grepl("all|class_absolute",chart_type,ignore.case = T)) {
+      if (nrow(data_full_i) > 0 & any(grepl("all|class_absolute",chart_type,ignore.case = T))) {
         chart_name_i <- "chart_class"
         if(region_subRegion==""){
           fname_i <- paste0(folder, "/", chart_name_i,append,".png")
@@ -482,7 +491,7 @@ chart <- function(data = NULL,
   #.................................
 
 
-      if (nrow(data_full_diff_i) > 0 & grepl("all|class_diff_absolute",chart_type,ignore.case = T)) {
+      if (nrow(data_full_diff_i) > 0 & any(grepl("all|class_diff_absolute",chart_type,ignore.case = T))) {
 
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_absolute, scenDiff_plot)]
 
@@ -557,7 +566,7 @@ chart <- function(data = NULL,
 
 
 
-      if (nrow(data_full_diff_i) > 0 & grepl("all|class_diff_percent",chart_type,ignore.case = T)) {
+      if (nrow(data_full_diff_i) > 0 & any(grepl("all|class_diff_percent",chart_type,ignore.case = T))) {
 
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_percent, scenDiff_plot)]
 
@@ -654,7 +663,7 @@ chart <- function(data = NULL,
         dplyr::mutate(class = paste0(region))
     }
 
-    if (nrow(data_agg_reg) > 0 & grepl("all|region_absolute",chart_type,ignore.case = T)) {
+    if (nrow(data_agg_reg) > 0 & any(grepl("all|region_absolute",chart_type,ignore.case = T))) {
 
       chart_name_i <- "chart_region_absolute"
       fname_i <- paste0(folder, "/", chart_name_i,append,".png")

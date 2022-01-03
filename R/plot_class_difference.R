@@ -71,8 +71,6 @@ plot_class_difference <- function(data = NULL,
         palCharts <- jgcricolors::jgcricol()$pal_all
       }
 
-      palCharts <- palCharts[names(palCharts) %in% unique(data$class)]
-
       # Prep Data Ref and Diff ....................................
       data_ref <- data %>%
         dplyr::filter(param==unique(data$param)[i], scenario == scenRef)%>%
@@ -82,6 +80,7 @@ plot_class_difference <- function(data = NULL,
         dplyr::filter(param==unique(data$param)[i], scenario %in% scenDiff) %>%
         droplevels()
 
+      palCharts <- palCharts[names(palCharts) %in% c(unique(data_ref$class),unique(data_diff$class))]
 
       if(!is.null(diff_text)){
         data_diff <- data_diff %>%

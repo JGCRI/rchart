@@ -27,23 +27,31 @@ plot_class_absolute <- function(data = NULL,
   # Plot
   #...........................
 
-  # Check Color Palettes ....................................
-  palAdd <- rep(jgcricolors::jgcricol()$pal_16,1000)
-  missNames <- unique(data$class)
 
-  if (length(missNames) > 0) {
-    palAdd <- palAdd[1:length(missNames)]
-    names(palAdd) <- missNames
-    palCharts <- c(jgcricolors::jgcricol()$pal_all, palAdd)
-  } else{
-    palCharts <- jgcricolors::jgcricol()$pal_all
-  }
+  plist <- list()
+  count = 1
 
-  palCharts <- palCharts[names(palCharts) %in% unique(data$class)]
+  for(i in 1:length(unique(data$param))){
 
+    # Check Color Palettes ....................................
+    palAdd <- rep(jgcricolors::jgcricol()$pal_16,1000)
+    missNames <- unique(data$class)
+
+    if (length(missNames) > 0) {
+      palAdd <- palAdd[1:length(missNames)]
+      names(palAdd) <- missNames
+      palCharts <- c(jgcricolors::jgcricol()$pal_all, palAdd)
+    } else{
+      palCharts <- jgcricolors::jgcricol()$pal_all
+    }
+
+    data_plot <- data %>%
+      dplyr::filter(param==unique(data$param)[i])
+
+   palCharts <- palCharts[names(palCharts) %in% unique(data_plot$class)]
 
   # Plot
-  p1 <- ggplot2::ggplot(data,
+  p1 <- ggplot2::ggplot(data_plot,
                         ggplot2::aes(x=x,y=value,
                                      group=class,
                                      fill=class)) +
@@ -65,6 +73,15 @@ plot_class_absolute <- function(data = NULL,
                    strip.placement = "outside");p1
 
   if(!is.null(theme)){p1 <- p1 + theme}
-  invisible(p1)
+
+  plist[[count]] <- p1
+
+  count <- count + 1
+
+  }
+
+  plot_out <- cowplot::plot_grid(plotlist=plist, ncol=1)
+
+  invisible(plot_out)
 
 }
