@@ -52,4 +52,4 @@ jobs:
         with:
           add:
              cheatsheet.pdf
-          branch: gh-pages
+          push: origin <gh-pages>
