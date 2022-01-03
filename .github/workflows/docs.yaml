@@ -50,6 +50,5 @@ jobs:
 
       - uses: EndBug/add-and-commit@v7
         with:
-          add:
-             cheatsheet.pdf
-          push: origin gh-pages --set-upstream
+          add: '*.pdf --force'
+          branch: gh-pages
