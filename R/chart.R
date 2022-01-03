@@ -26,8 +26,9 @@
 #' @param diff_text_absolute Default = "_diffAbs"
 #' @param diff_text_percent_x Default = "_xdiffPrcnt"
 #' @param diff_text_absolute_x Default = "_xdiffAbs"
-#' @param width = NULL
-#' @param height = NULL
+#' @param width Default = NULL
+#' @param height Default = NULL
+#' @param append Default = ""
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
 #' @export
@@ -56,7 +57,8 @@ chart <- function(data = NULL,
                   diff_text_percent_x = "xdiffPrcnt",
                   diff_text_absolute_x = "xdiffAbs",
                   width = NULL,
-                  height = NULL){
+                  height = NULL,
+                  append = ""){
 
   print("Starting chart...")
 
@@ -204,9 +206,9 @@ chart <- function(data = NULL,
       if (nrow(data_agg_i) > 0 & grepl("all|param_absolute",chart_type,ignore.case = T)) {
         chart_name_i <- "chart_param"
         if(region_subRegion==""){
-          fname_i <- paste0(folder, "/", chart_name_i,".png")
+          fname_i <- paste0(folder, "/", chart_name_i,append,".png")
         } else {
-          fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion, ".png")
+          fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion,append,".png")
           chart_name_i <- paste0(chart_name_i, "_", region_subRegion)
         }
 
@@ -269,9 +271,9 @@ chart <- function(data = NULL,
 
         chart_name_i <- "chart_param_diff_absolute"
         if(region_subRegion==""){
-          fname_i <- paste0(folder, "/", chart_name_i,".png")
+          fname_i <- paste0(folder, "/", chart_name_i,append,".png")
         } else {
-          fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion, ".png")
+          fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion,append,".png")
           chart_name_i <- paste0(chart_name_i, "_", region_subRegion)
         }
 
@@ -346,9 +348,9 @@ chart <- function(data = NULL,
 
         chart_name_i <- "chart_param_diff_percent"
         if(region_subRegion==""){
-          fname_i <- paste0(folder, "/", chart_name_i,".png")
+          fname_i <- paste0(folder, "/", chart_name_i,append,".png")
         } else {
-          fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion, ".png")
+          fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion,append,".png")
           chart_name_i <- paste0(chart_name_i, "_", region_subRegion)
         }
 
@@ -418,9 +420,9 @@ chart <- function(data = NULL,
       if (nrow(data_full_i) > 0 & grepl("all|class_absolute",chart_type,ignore.case = T)) {
         chart_name_i <- "chart_class"
         if(region_subRegion==""){
-          fname_i <- paste0(folder, "/", chart_name_i,".png")
+          fname_i <- paste0(folder, "/", chart_name_i,append,".png")
         } else {
-          fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion, ".png")
+          fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion,append,".png")
           chart_name_i <- paste0(chart_name_i, "_", region_subRegion)
         }
 
@@ -486,9 +488,9 @@ chart <- function(data = NULL,
 
         chart_name_i <- "chart_class_diff_absolute"
         if(region_subRegion==""){
-          fname_i <- paste0(folder, "/", chart_name_i,".png")
+          fname_i <- paste0(folder, "/", chart_name_i,append,".png")
         } else {
-          fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion, ".png")
+          fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion,append,".png")
           chart_name_i <- paste0(chart_name_i, "_", region_subRegion)
         }
 
@@ -561,9 +563,9 @@ chart <- function(data = NULL,
 
         chart_name_i <- "chart_class_diff_percent"
         if(region_subRegion==""){
-          fname_i <- paste0(folder, "/", chart_name_i,".png")
+          fname_i <- paste0(folder, "/", chart_name_i,append,".png")
         } else {
-          fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion, ".png")
+          fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion,append,".png")
           chart_name_i <- paste0(chart_name_i, "_", region_subRegion)
         }
 
@@ -655,7 +657,7 @@ chart <- function(data = NULL,
     if (nrow(data_agg_reg) > 0 & grepl("all|region_absolute",chart_type,ignore.case = T)) {
 
       chart_name_i <- "chart_region_absolute"
-      fname_i <- paste0(folder, "/", chart_name_i,".png")
+      fname_i <- paste0(folder, "/", chart_name_i,append,".png")
 
       charts_out[[count]] <-
         rchart::plot_reg_absolute(

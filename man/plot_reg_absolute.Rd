@@ -9,7 +9,8 @@ plot_reg_absolute(
   size = 1.5,
   theme = NULL,
   theme_default = ggplot2::theme_bw(),
-  scales = "free_y"
+  scales = "free_y",
+  size_text = 15
 )
 }
 \arguments{
@@ -21,7 +22,9 @@ plot_reg_absolute(
 
 \item{theme_default}{Default = ggplot2::theme_bw(). Default rchart themes.}
 
-\item{scales}{Default = "free". Choose between "free", "free_y", "free_x", "fixed"}
+\item{scales}{Default = "free". Choose between "free", "free_y", "free_x", "fixed",}
+
+\item{size_text}{Default = 15. Text size}
 }
 \description{
 generate summary plot
