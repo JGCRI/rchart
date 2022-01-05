@@ -52,21 +52,24 @@ add_missing <- function(data){
   if(!"x"%in%names(data)){
     if("year"%in%names(data)){
       data<-data%>%dplyr::mutate(x=year)}else{data<-data%>%dplyr::mutate(x="x")}}
+
   if(!any(grepl("\\<aggregate\\>",names(data),ignore.case = T))){
     if(is.null(aggregate)){data<-data%>%dplyr::mutate(aggregate="sum")}else{
       data<-data%>%dplyr::mutate(aggregate = as.character(aggregate),
                                  aggregate="sum")}
   }else{
-    data <- data %>% dplyr::rename(!!"aggregate" := (names(data)[grepl("\\<aggregate\\>",names(data),ignore.case = T)])[1])
+    data <- data %>% dplyr::rename(!!"aggregate" := (names(data)[grepl("aggregate",names(data),ignore.case = T)])[1])
     data<-data%>%dplyr::mutate(aggregate = as.character(aggregate),
                                aggregate=dplyr::case_when(is.na(aggregate)~"sum",
                                                           TRUE~aggregate))}
+
   if(!any(grepl("\\<class\\>",names(data),ignore.case = T))){
-    if(!any(grepl("\\<class\\>",names(data),ignore.case = T))){
-      data<-data%>%dplyr::mutate(class="class")}else{data<-data%>%dplyr::mutate(class=class)}}else{
-        data <- data %>% dplyr::rename(!!"class" := (names(data)[grepl("\\<class\\>",names(data),ignore.case = T)])[1])
+    if(!any(grepl("class",names(data),ignore.case = T))){
+      data<-data%>%dplyr::mutate(class="class")} else {
+        data <- data %>% dplyr::rename(!!"class" := (names(data)[grepl("class",names(data),ignore.case = T)])[1])
         data<-data%>%dplyr::mutate(class = as.character(class),
                                    class=dplyr::case_when(is.na(class)~"class",TRUE~class))}
+  }
 
   data <- data %>%
     dplyr::select(scenario,region,subRegion,param,class,x,aggregate,value) %>%

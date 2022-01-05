@@ -141,7 +141,7 @@ As demonstrated in the various examples below, `rchart` can produce various type
 * "class_diff_percent"
 * "region_absolute"
 
-Users can also choose a combination of one or more of these arguments such as in: `class_type = c(""param_diff","class_diff_percent")`
+Users can also choose a combination of one or more of these arguments such as in: `class_type = c("param_diff","class_diff_percent")`
 
 
 <!-------------------------->
@@ -223,8 +223,8 @@ data = data.frame(region = rep(c("Spain", "India","Spain", "India","Spain", "Ind
                               100, 304, 102, 107, 339, 233)))
 
 my_chart <- rchart::chart(data) # For just this chart rchart::chart(data, chart_type="param_absolute")
-my_chart$lines_Spain 
-my_chart$lines_India
+my_chart$chart_param_Spain 
+my_chart$chart_param_India
 ```
 
 

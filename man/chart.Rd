@@ -9,7 +9,7 @@ chart(
   col_agg = "class",
   chart_type = "all",
   aspect_ratio = 0.75,
-  size = 1.5,
+  size = 0.75,
   size_text = 15,
   theme = NULL,
   ncol = NULL,
