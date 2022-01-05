@@ -68,7 +68,8 @@ calculate_diff <- function(data = NULL,
     data_temp <- data_full %>%
       dplyr::filter(scenario %in% c(scenRef, scenDiff_i))  %>%
       dplyr::filter(!(is.na(class) & value==0))%>%
-      dplyr::mutate(class=dplyr::if_else(is.na(class),"NA",class))
+      dplyr::mutate(class = as.character(class),
+                    class=dplyr::if_else(is.na(class),"NA",class))
 
     data_temp <- data_temp %>%
       tidyr::spread(scenario, value)
@@ -132,7 +133,8 @@ calculate_diff <- function(data = NULL,
           dplyr::filter(scenario %in% scenario_i) %>%
           dplyr::filter(x %in% c(xRef, xDiff_i))  %>%
           dplyr::filter(!(is.na(class) & value==0)) %>%
-          dplyr::mutate(class = dplyr::if_else(is.na(class),"NA",class))
+          dplyr::mutate(class = as.character(class),
+                        class = dplyr::if_else(is.na(class),"NA",class))
 
         data_temp_x <- data_temp_x %>%
           tidyr::spread(x, value)

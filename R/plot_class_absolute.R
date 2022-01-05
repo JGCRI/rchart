@@ -21,7 +21,7 @@ plot_class_absolute <- function(data = NULL,
   # Initialize
   #...........................
 
-  NULL->x->value->scenario
+  NULL->x->value->scenario->param
 
   #...........................
   # Plot
