@@ -49,7 +49,7 @@ jobs:
 
       - name: Rename file
         run: |
-          mv cheatsheet.pdf cheatsheet1.pdf
+          git mv [-f] cheatsheet.pdf cheatsheet1.pdf
 
       - uses: EndBug/add-and-commit@v7
         with:
