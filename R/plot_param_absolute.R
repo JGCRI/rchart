@@ -7,6 +7,8 @@
 #' @param theme_default Default = ggplot2::theme_bw(). Default rchart themes.
 #' @param ncol Default = 3. Number of columns.
 #' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
+#' @param breaks_x Default = NULL. Number of breaks for x.
+#' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
 #' @importFrom magrittr %>%
 #' @export
 

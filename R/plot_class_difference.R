@@ -10,6 +10,8 @@
 #' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
 #' @param diff_type Default = "bar". Choose between "bar" or "line"
 #' @param size Default = 1.5. Line size
+#' @param breaks_x Default = NULL. Number of breaks for x.
+#' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
 #' @importFrom magrittr %>%
 #' @export
 

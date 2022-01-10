@@ -29,6 +29,8 @@
 #' @param width Default = NULL
 #' @param height Default = NULL
 #' @param append Default = ""
+#' @param breaks_x Default = NULL. Number of breaks for x.
+#' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
 #' @export
@@ -304,14 +306,6 @@ chart <- function(data = NULL,
             break_interval = break_interval
           )
 
-        # data = data_agg_diff_i
-        # scenRef = scenRef
-        # scenDiff = scenDiff_plot_i
-        # theme = theme
-        # theme_default = theme_default
-        # facet_label_diff = "Difference Absolute"
-        # size = size
-        # diff_text = diff_text_absolute
 
         # Set title if provided or turn off
         if(title != F){

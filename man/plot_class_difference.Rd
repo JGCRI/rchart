@@ -36,6 +36,10 @@ plot_class_difference(
 \item{diff_type}{Default = "bar". Choose between "bar" or "line"}
 
 \item{size}{Default = 1.5. Line size}
+
+\item{breaks_x}{Default = NULL. Number of breaks for x.}
+
+\item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
 }
 \description{
 generate chart plot for absolute difference and percent difference

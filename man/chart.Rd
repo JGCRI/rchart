@@ -88,6 +88,10 @@ chart(
 \item{height}{Default = NULL}
 
 \item{append}{Default = ""}
+
+\item{breaks_x}{Default = NULL. Number of breaks for x.}
+
+\item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
 }
 \description{
 Used to add missing data to input files and customize format

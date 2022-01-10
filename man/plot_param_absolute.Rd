@@ -27,6 +27,10 @@ plot_param_absolute(
 \item{ncol}{Default = 3. Number of columns.}
 
 \item{scales}{Default = "free". Choose between "free", "free_y", "free_x", "fixed"}
+
+\item{breaks_x}{Default = NULL. Number of breaks for x.}
+
+\item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
 }
 \description{
 generate summary plot

@@ -27,6 +27,10 @@ plot_reg_absolute(
 \item{scales}{Default = "free". Choose between "free", "free_y", "free_x", "fixed",}
 
 \item{size_text}{Default = 15. Text size}
+
+\item{breaks_x}{Default = NULL. Number of breaks for x.}
+
+\item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
 }
 \description{
 generate summary plot
