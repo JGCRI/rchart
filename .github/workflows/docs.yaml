@@ -49,7 +49,7 @@ jobs:
 
       - name: Rename file
         run: |
-          git mv cheatsheet.pdf csheet.pdf
+          git mv csheet.pdf cheatsheet.pdf
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
