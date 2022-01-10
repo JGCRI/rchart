@@ -15,7 +15,9 @@ plot_class_absolute <- function(data = NULL,
                                theme_default = ggplot2::theme_bw(),
                                ncol = 3,
                                scales = "free_y",
-                               size_text = 15) {
+                               size_text = 15,
+                               breaks_x = NULL,
+                               break_interval = NULL) {
 
   #...........................
   # Initialize
@@ -48,6 +50,11 @@ plot_class_absolute <- function(data = NULL,
     data_plot <- data %>%
       dplyr::filter(param==unique(data$param)[i])
 
+    # calculate break interval if breaks_x is given
+    if(!is.null(breaks_x)){
+      break_interval <- length(unique(data_plot$x)) %/% breaks_x
+    }
+
    palCharts <- palCharts[names(palCharts) %in% unique(data_plot$class)]
 
   # Plot
@@ -71,6 +78,12 @@ plot_class_absolute <- function(data = NULL,
                    strip.text.y = ggplot2::element_text(color="black",angle=270, vjust=1.5, size=size_text),
                    strip.background.y = ggplot2::element_blank(),
                    strip.placement = "outside");p1
+
+  if(!is.null(breaks_x)|!is.null(break_interval)){
+    p1 <- p1 +
+      ggplot2::scale_x_discrete(breaks = function(x){
+        x[c(TRUE, rep(FALSE, times = break_interval-1))]})
+  }
 
   if(!is.null(theme)){p1 <- p1 + theme}
 

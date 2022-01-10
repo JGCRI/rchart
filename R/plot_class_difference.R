@@ -21,7 +21,9 @@ plot_class_difference <- function(data = NULL,
                                   diff_text = NULL,
                                   scales = "free",
                                   diff_type = "bar",
-                                  size = 1.5) {
+                                  size = 1.5,
+                                  breaks_x = NULL,
+                                  break_interval = NULL) {
 
 
   # data = NULL
@@ -87,6 +89,11 @@ plot_class_difference <- function(data = NULL,
           dplyr::mutate(scenario = gsub(paste0("_",scenRef),"",scenario))
       }
 
+      # calculate break interval if breaks_x is given
+      if(!is.null(breaks_x)){
+        break_interval <- length(unique(data_ref$x)) %/% breaks_x
+      }
+
       # Plot data_ref ....................................
       p1 <-  ggplot2::ggplot(data_ref,
                              ggplot2::aes(x=x,y=value,
@@ -104,12 +111,23 @@ plot_class_difference <- function(data = NULL,
         ggplot2::theme(legend.position="none") +
         theme_default
 
+      if(!is.null(breaks_x)|!is.null(break_interval)){
+        p1 <- p1 +
+          ggplot2::scale_x_discrete(breaks = function(x){
+            x[c(TRUE, rep(FALSE, times = break_interval-1))]})
+      }
+
       if(!is.null(theme)){p1 <- p1 + theme}
 
       plist[[count]] <- p1
 
       # Plot empty ....................................
       plist[[count+1]] <- NULL
+
+      # calculate break interval if breaks_x is given
+      if(!is.null(breaks_x)){
+        break_interval <- length(unique(data_diff$x)) %/% breaks_x
+      }
 
       # Plot data_diff ....................................
       p2 <-  ggplot2::ggplot(data_diff,
@@ -132,6 +150,11 @@ plot_class_difference <- function(data = NULL,
         ggplot2::geom_line(ggplot2::aes(color=class),size=size) +
         ggplot2::scale_color_manual(breaks=names(palCharts),values=palCharts)}
 
+      if(!is.null(breaks_x)|!is.null(break_interval)){
+        p2 <- p2 +
+          ggplot2::scale_x_discrete(breaks = function(x){
+            x[c(TRUE, rep(FALSE, times = break_interval-1))]})
+      }
 
       if(!is.null(theme)){p2 <- p2 + theme}
       plist[[count + 2]] <- p2

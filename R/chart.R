@@ -58,7 +58,9 @@ chart <- function(data = NULL,
                   diff_text_absolute_x = "xdiffAbs",
                   width = NULL,
                   height = NULL,
-                  append = ""){
+                  append = "",
+                  breaks_x = NULL,
+                  break_interval = NULL){
 
   print("Starting chart...")
 
@@ -228,7 +230,9 @@ chart <- function(data = NULL,
             theme = theme,
             theme_default = theme_default,
             ncol = ncol,
-            scales = scales
+            scales = scales,
+            breaks_x = breaks_x,
+            break_interval = break_interval
           )
 
         # Set title if provided or turn off
@@ -295,7 +299,9 @@ chart <- function(data = NULL,
             theme_default = theme_default,
             facet_label_diff = "Difference Absolute",
             size = size,
-            diff_text = diff_text_absolute
+            diff_text = diff_text_absolute,
+            breaks_x = breaks_x,
+            break_interval = break_interval
           )
 
         # data = data_agg_diff_i
@@ -372,7 +378,9 @@ chart <- function(data = NULL,
             theme_default = theme_default,
             facet_label_diff = "Difference Percent",
             size = size,
-            diff_text = diff_text_percent
+            diff_text = diff_text_percent,
+            breaks_x = breaks_x,
+            break_interval = break_interval
           )
 
         # Set title if provided or turn off
@@ -442,7 +450,9 @@ chart <- function(data = NULL,
             theme_default = theme_default,
             ncol = ncol,
             scales = scales,
-            size_text = size_text
+            size_text = size_text,
+            breaks_x = breaks_x,
+            break_interval = break_interval
           )
 
         # data = data_full_i
@@ -510,7 +520,9 @@ chart <- function(data = NULL,
             scenDiff = scenDiff_plot_i,
             theme = theme,
             theme_default = theme_default,
-            diff_text = diff_text_absolute
+            diff_text = diff_text_absolute,
+            breaks_x = breaks_x,
+            break_interval = break_interval
           )
 
         # data = data_full_diff_i
@@ -587,7 +599,9 @@ chart <- function(data = NULL,
             theme_default = theme_default,
             diff_text = diff_text_percent,
             diff_type="line",
-            size=size
+            size=size,
+            breaks_x = breaks_x,
+            break_interval = break_interval
           )
 
         # data = data_full_diff_i
@@ -674,7 +688,9 @@ chart <- function(data = NULL,
           size = size,
           theme = theme,
           theme_default = theme_default,
-          scales = scales
+          scales = scales,
+          breaks_x = breaks_x,
+          break_interval = break_interval
         )
 
       # Set title if provided or turn off

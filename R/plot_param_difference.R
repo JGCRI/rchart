@@ -21,7 +21,9 @@ plot_param_difference <- function(data = NULL,
                                 theme_default = ggplot2::theme_bw(),
                                 facet_label_diff = "Difference",
                                 diff_text = NULL,
-                                scales = "free") {
+                                scales = "free",
+                                breaks_x = NULL,
+                                break_interval = NULL) {
 
 
   # data = NULL
@@ -93,6 +95,11 @@ plot_param_difference <- function(data = NULL,
       names(palCharts_diff) <- gsub(paste0("_",diff_text,"_",scenRef),"",names(palCharts_diff))
     }
 
+    # calculate break interval if breaks_x is given
+    if(!is.null(breaks_x)){
+      break_interval <- length(unique(data_ref$x)) %/% breaks_x
+    }
+
     # Plot data_ref ....................................
      p1 <-  ggplot2::ggplot(data_ref,
                             ggplot2::aes(x=x,y=value,
@@ -111,12 +118,23 @@ plot_param_difference <- function(data = NULL,
         ggplot2::guides(color=ggplot2::guide_legend(nrow=n_legend_rows,byrow=TRUE)) +
         theme_default
 
+     if(!is.null(breaks_x)|!is.null(break_interval)){
+       p1 <- p1 +
+         ggplot2::scale_x_discrete(breaks = function(x){
+           x[c(TRUE, rep(FALSE, times = break_interval-1))]})
+     }
+
      if(!is.null(theme)){p1 <- p1 + theme}
 
     plist[[count]] <- p1
 
     # Plot empty ....................................
     plist[[count+1]] <- NULL
+
+    # calculate break interval if breaks_x is given
+    if(!is.null(breaks_x)){
+      break_interval <- length(unique(data_diff$x)) %/% breaks_x
+    }
 
     # Plot data_diff ....................................
     p2 <-  ggplot2::ggplot(data_diff,
@@ -134,6 +152,12 @@ plot_param_difference <- function(data = NULL,
       ggplot2::theme(legend.position="bottom")+
       ggplot2::guides(color=ggplot2::guide_legend(nrow=n_legend_rows,byrow=TRUE)) +
       theme_default
+
+    if(!is.null(breaks_x)|!is.null(break_interval)){
+      p2 <- p2 +
+        ggplot2::scale_x_discrete(breaks = function(x){
+          x[c(TRUE, rep(FALSE, times = break_interval-1))]})
+    }
 
     if(!is.null(theme)){p2 <- p2 + theme}
     plist[[count + 2]] <- p2
