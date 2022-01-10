@@ -15,7 +15,9 @@ plot_param_absolute <- function(data = NULL,
                                theme = NULL,
                                theme_default = ggplot2::theme_bw(),
                                ncol = 3,
-                               scales = "free_y") {
+                               scales = "free_y",
+                               breaks_x = NULL,
+                               break_interval = NULL) {
 
   #...........................
   # Initialize
@@ -41,6 +43,10 @@ plot_param_absolute <- function(data = NULL,
 
   palCharts <- palCharts[names(palCharts) %in% unique(data$scenario)]
 
+  # calculate break interval if breaks_x is given
+  if(!is.null(breaks_x)){
+    break_interval <- length(unique(data$x)) %/% breaks_x
+  }
 
   # Plot
   p1 <- ggplot2::ggplot(data,
@@ -61,7 +67,14 @@ plot_param_absolute <- function(data = NULL,
         ) +
     ggplot2::theme(legend.position="bottom")
 
+  if(!is.null(breaks_x)|!is.null(break_interval)){
+    p1 <- p1 +
+      ggplot2::scale_x_discrete(breaks = function(x){
+        x[c(TRUE, rep(FALSE, times = break_interval-1))]})
+  }
+
   if(!is.null(theme)){p1 <- p1 + theme}
   invisible(p1)
+
 
 }
