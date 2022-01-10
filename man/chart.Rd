@@ -30,7 +30,9 @@ chart(
   diff_text_absolute_x = "xdiffAbs",
   width = NULL,
   height = NULL,
-  append = ""
+  append = "",
+  breaks_x = NULL,
+  break_interval = NULL
 )
 }
 \arguments{

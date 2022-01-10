@@ -13,7 +13,9 @@ plot_param_difference(
   theme_default = ggplot2::theme_bw(),
   facet_label_diff = "Difference",
   diff_text = NULL,
-  scales = "free"
+  scales = "free",
+  breaks_x = NULL,
+  break_interval = NULL
 )
 }
 \arguments{

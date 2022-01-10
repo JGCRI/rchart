@@ -10,7 +10,9 @@ plot_param_absolute(
   theme = NULL,
   theme_default = ggplot2::theme_bw(),
   ncol = 3,
-  scales = "free_y"
+  scales = "free_y",
+  breaks_x = NULL,
+  break_interval = NULL
 )
 }
 \arguments{

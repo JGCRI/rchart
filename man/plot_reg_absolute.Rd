@@ -10,7 +10,9 @@ plot_reg_absolute(
   theme = NULL,
   theme_default = ggplot2::theme_bw(),
   scales = "free_y",
-  size_text = 15
+  size_text = 15,
+  breaks_x = NULL,
+  break_interval = NULL
 )
 }
 \arguments{

@@ -13,7 +13,9 @@ plot_class_difference(
   diff_text = NULL,
   scales = "free",
   diff_type = "bar",
-  size = 1.5
+  size = 1.5,
+  breaks_x = NULL,
+  break_interval = NULL
 )
 }
 \arguments{

@@ -3,9 +3,11 @@ Title: Simple Customizable Charting
 Version: 1.0.0
 Authors@R: c(person("Zarrar", "Khan", email = "zarrar.khan@pnnl.gov", role = c("aut", "cre"),
 		   comment = c(ORCID ="0000-0002-8147-8553")),
+		   person("Taryn", "Waite", role = c("aut"), comment = c(ORCID="0000-0001-9286-2334")),
+		   person("Leeya", "Pressburger", role = c("aut"), comment = c(ORCID="0000-0002-6850-2504")),
 		   person("Mengqi", "Zhao", role = c("aut"), comment = c(ORCID="0000-0001-5385-2758")),
-		   person("Chris", "Vernon", role = c("aut"), comment = c(ORCID="0000-0002-3406-6214")),
-		   person("Thomas", "Wild", role = c("aut"), comment = c(ORCID="0000-0002-6045-7729")))
+		   person("Chris", "Vernon", role = c("aut"), comment = c(ORCID="0000-0002-3406-6214"))
+)
 Description: Comprehensive charting package to plot and compare data across scenarios, regions, sectors and time periods.
 URL: https://github.com/JGCRI/rchart
 BugReports: https://github.com/JGCRI/rchart/issues
