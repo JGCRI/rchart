@@ -49,9 +49,10 @@ jobs:
 
       - name: Rename file
         run: |
-          git mv cheatsheet.pdf cheatsheet1.pdf
+          git mv cheatsheet.pdf csheet.pdf
 
       - uses: EndBug/add-and-commit@v7
         with:
           add: '*.pdf --force'
           branch: gh-pages
+          branch_mode: create
