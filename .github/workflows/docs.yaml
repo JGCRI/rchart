@@ -56,3 +56,8 @@ jobs:
         with:
           branch: gh-pages
           push_options: '--force'
+
+      - name: Remove file
+        run: |
+          git checkout gh-pages
+          git rm .github/r-depends.rds
