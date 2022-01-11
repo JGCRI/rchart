@@ -51,9 +51,9 @@ jobs:
         run: |
           git mv csheet.pdf cheatsheet.pdf
 
-      - name: Remove file
+      - name: Track file
         run: |
-          git rm ./.github/r-depends.rds
+          git add .github/r-depends.rds
 
       - name: Auto commit
         uses: stefanzweifel/git-auto-commit-action@v4
