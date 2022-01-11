@@ -51,12 +51,13 @@ jobs:
         run: |
           git mv csheet.pdf cheatsheet.pdf
 
+      - name: Remove file
+        run: |
+          git rm .github/r-depends.rds
+
       - name: Auto commit
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: gh-pages
           push_options: '--force'
 
-      - name: Remove file
-        run: |
-          git rm .github/r-depends.rds
