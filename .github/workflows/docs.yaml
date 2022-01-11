@@ -51,7 +51,8 @@ jobs:
         run: |
           git mv csheet.pdf cheatsheet.pdf
 
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - name: Auto commit
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: gh-pages
           push_options: '--force'
