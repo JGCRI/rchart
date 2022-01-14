@@ -53,6 +53,7 @@ jobs:
 
       - name: Track file
         run: |
+          git stash
           git add .github/r-depends.rds
 
       - name: Auto commit
