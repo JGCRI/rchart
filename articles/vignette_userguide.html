@@ -137,9 +137,9 @@
 }
 
 </style>
-<!-- ------------------------><!-- ------------------------><div class="section level1">
-<h1 id="install">Install<a class="anchor" aria-label="anchor" href="#install"></a>
-</h1>
+<!-- ------------------------><!-- ------------------------><div class="section level2">
+<h2 id="install">Install<a class="anchor" aria-label="anchor" href="#install"></a>
+</h2>
 <!-- ------------------------>
 <!-- ------------------------>
 <p align="center">
@@ -166,9 +166,9 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 <!-------------------------->
 </div>
-<div class="section level1">
-<h1 id="inputs">Input Formats<a class="anchor" aria-label="anchor" href="#inputs"></a>
-</h1>
+<div class="section level2">
+<h2 id="inputs">Input Formats<a class="anchor" aria-label="anchor" href="#inputs"></a>
+</h2>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
@@ -179,9 +179,9 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 <!-------------------------->
 </div>
-<div class="section level1">
-<h1 id="outputs">Output Formats<a class="anchor" aria-label="anchor" href="#outputs"></a>
-</h1>
+<div class="section level2">
+<h2 id="outputs">Output Formats<a class="anchor" aria-label="anchor" href="#outputs"></a>
+</h2>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
@@ -190,9 +190,9 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 <!-------------------------->
 </div>
-<div class="section level1">
-<h1 id="save-file-folders">Save, file, folders<a class="anchor" aria-label="anchor" href="#save-file-folders"></a>
-</h1>
+<div class="section level2">
+<h2 id="save-file-folders">Save, file, folders<a class="anchor" aria-label="anchor" href="#save-file-folders"></a>
+</h2>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
@@ -222,9 +222,9 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 <!-------------------------->
 </div>
-<div class="section level1">
-<h1 id="chart-type">Chart Type<a class="anchor" aria-label="anchor" href="#chart-type"></a>
-</h1>
+<div class="section level2">
+<h2 id="chart-type">Chart Type<a class="anchor" aria-label="anchor" href="#chart-type"></a>
+</h2>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
@@ -245,17 +245,17 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 <!-------------------------->
 </div>
-<div class="section level1">
-<h1 id="plot-param-absolute">Plot Param Absolute<a class="anchor" aria-label="anchor" href="#plot-param-absolute"></a>
-</h1>
+<div class="section level2">
+<h2 id="plot-param-absolute">Plot Param Absolute<a class="anchor" aria-label="anchor" href="#plot-param-absolute"></a>
+</h2>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>Chart with <code>params</code> in each facet and multiple lines for each scenario. If <code>class</code> column provided this will be aggregated to the <code>param</code> depending on if the <code>aggregate</code> column is <code>sum</code> or <code>mean</code> (Default <code>sum</code> is used).</p>
-<div class="section level2">
-<h2 id="single-param">Single Param<a class="anchor" aria-label="anchor" href="#single-param"></a>
-</h2>
+<div class="section level3">
+<h3 id="single-param">Single Param<a class="anchor" aria-label="anchor" href="#single-param"></a>
+</h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rchart" class="external-link">rchart</a></span><span class="op">)</span>;
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,
@@ -273,9 +273,9 @@ brew install imagemagick@6</code></pre>
 <span class="va">my_chart</span><span class="op">$</span><span class="va">chart_param</span> <span class="co"># For just this chart rchart::chart(data, chart_type="param_absolute")</span></code></pre></div>
 <p><img src="vignette_userguide_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 </div>
-<div class="section level2">
-<h2 id="multiple-params">Multiple Params<a class="anchor" aria-label="anchor" href="#multiple-params"></a>
-</h2>
+<div class="section level3">
+<h3 id="multiple-params">Multiple Params<a class="anchor" aria-label="anchor" href="#multiple-params"></a>
+</h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rchart" class="external-link">rchart</a></span><span class="op">)</span>;
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,
@@ -301,9 +301,9 @@ brew install imagemagick@6</code></pre>
 <span class="va">my_chart</span><span class="op">$</span><span class="va">chart_param</span> <span class="co"># For just this chart rchart::chart(data, chart_type="param_absolute")</span></code></pre></div>
 <p><img src="vignette_userguide_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 </div>
-<div class="section level2">
-<h2 id="multiple-params-regions">Multiple Params &amp; Regions<a class="anchor" aria-label="anchor" href="#multiple-params-regions"></a>
-</h2>
+<div class="section level3">
+<h3 id="multiple-params-regions">Multiple Params &amp; Regions<a class="anchor" aria-label="anchor" href="#multiple-params-regions"></a>
+</h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rchart" class="external-link">rchart</a></span><span class="op">)</span>;
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>region <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Spain"</span>, <span class="st">"India"</span>,<span class="st">"Spain"</span>, <span class="st">"India"</span>,<span class="st">"Spain"</span>, <span class="st">"India"</span>,
@@ -338,17 +338,17 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 </div>
 </div>
-<div class="section level1">
-<h1 id="plot-param-difference">Plot Param Difference<a class="anchor" aria-label="anchor" href="#plot-param-difference"></a>
-</h1>
+<div class="section level2">
+<h2 id="plot-param-difference">Plot Param Difference<a class="anchor" aria-label="anchor" href="#plot-param-difference"></a>
+</h2>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>Chart with <code>params</code> in each facet and multiple lines for each scenario.</p>
-<div class="section level2">
-<h2 id="single-param-diff">Single Param Diff<a class="anchor" aria-label="anchor" href="#single-param-diff"></a>
-</h2>
+<div class="section level3">
+<h3 id="single-param-diff">Single Param Diff<a class="anchor" aria-label="anchor" href="#single-param-diff"></a>
+</h3>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rchart" class="external-link">rchart</a></span><span class="op">)</span>;
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,
@@ -369,9 +369,9 @@ brew install imagemagick@6</code></pre>
 <code class="sourceCode R"><span class="va">my_chart</span><span class="op">$</span><span class="va">chart_param_diff_percent</span> <span class="co"># For just this chart rchart::chart(data, chart_type="param_diff_percent")</span></code></pre></div>
 <p><img src="vignette_userguide_files/figure-html/unnamed-chunk-5-2.png" width="1344"></p>
 </div>
-<div class="section level2">
-<h2 id="multi-param-diff">Multi Param Diff<a class="anchor" aria-label="anchor" href="#multi-param-diff"></a>
-</h2>
+<div class="section level3">
+<h3 id="multi-param-diff">Multi Param Diff<a class="anchor" aria-label="anchor" href="#multi-param-diff"></a>
+</h3>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rchart" class="external-link">rchart</a></span><span class="op">)</span>;
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,
@@ -400,9 +400,9 @@ brew install imagemagick@6</code></pre>
 <code class="sourceCode R"><span class="va">my_chart</span><span class="op">$</span><span class="va">chart_param_diff_percent</span> <span class="co"># For just this chart rchart::chart(data, scenRef = "scen1", chart_type="param_diff_percent")</span></code></pre></div>
 <p><img src="vignette_userguide_files/figure-html/unnamed-chunk-6-2.png" width="1344"></p>
 </div>
-<div class="section level2">
-<h2 id="multi-param-region-diff">Multi Param &amp; Region Diff<a class="anchor" aria-label="anchor" href="#multi-param-region-diff"></a>
-</h2>
+<div class="section level3">
+<h3 id="multi-param-region-diff">Multi Param &amp; Region Diff<a class="anchor" aria-label="anchor" href="#multi-param-region-diff"></a>
+</h3>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rchart" class="external-link">rchart</a></span><span class="op">)</span>;
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>region <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Spain"</span>, <span class="st">"India"</span>,<span class="st">"Spain"</span>, <span class="st">"India"</span>,<span class="st">"Spain"</span>, <span class="st">"India"</span>,
@@ -445,17 +445,17 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 </div>
 </div>
-<div class="section level1">
-<h1 id="plot-class-absolute">Plot Class Absolute<a class="anchor" aria-label="anchor" href="#plot-class-absolute"></a>
-</h1>
+<div class="section level2">
+<h2 id="plot-class-absolute">Plot Class Absolute<a class="anchor" aria-label="anchor" href="#plot-class-absolute"></a>
+</h2>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>Chart with <code>params</code> in each facet and multiple lines for each scenario.</p>
-<div class="section level2">
-<h2 id="multi-class-single-param">Multi Class Single Param<a class="anchor" aria-label="anchor" href="#multi-class-single-param"></a>
-</h2>
+<div class="section level3">
+<h3 id="multi-class-single-param">Multi Class Single Param<a class="anchor" aria-label="anchor" href="#multi-class-single-param"></a>
+</h3>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rchart" class="external-link">rchart</a></span><span class="op">)</span>;
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,
@@ -481,9 +481,9 @@ brew install imagemagick@6</code></pre>
 <span class="va">my_chart</span><span class="op">$</span><span class="va">chart_class</span> <span class="co"># For just this chart rchart::chart(data, chart_type="class_absolute")</span></code></pre></div>
 <p><img src="vignette_userguide_files/figure-html/unnamed-chunk-8-1.png" width="2016"></p>
 </div>
-<div class="section level2">
-<h2 id="multi-class-multi-param">Multi Class Multi Param<a class="anchor" aria-label="anchor" href="#multi-class-multi-param"></a>
-</h2>
+<div class="section level3">
+<h3 id="multi-class-multi-param">Multi Class Multi Param<a class="anchor" aria-label="anchor" href="#multi-class-multi-param"></a>
+</h3>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rchart" class="external-link">rchart</a></span><span class="op">)</span>;
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"param_1"</span>, <span class="st">"param_2"</span>,<span class="st">"param_1"</span>, <span class="st">"param_2"</span>,<span class="st">"param_1"</span>, <span class="st">"param_2"</span>,
@@ -512,9 +512,9 @@ brew install imagemagick@6</code></pre>
 <span class="va">my_chart</span><span class="op">$</span><span class="va">chart_class</span>  <span class="co"># For just this chart rchart::chart(data, chart_type="class_absolute")</span></code></pre></div>
 <p><img src="vignette_userguide_files/figure-html/unnamed-chunk-9-1.png" width="2016"></p>
 </div>
-<div class="section level2">
-<h2 id="multi-class-multi-param-multi-region">Multi Class Multi Param Multi Region<a class="anchor" aria-label="anchor" href="#multi-class-multi-param-multi-region"></a>
-</h2>
+<div class="section level3">
+<h3 id="multi-class-multi-param-multi-region">Multi Class Multi Param Multi Region<a class="anchor" aria-label="anchor" href="#multi-class-multi-param-multi-region"></a>
+</h3>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rchart" class="external-link">rchart</a></span><span class="op">)</span>;
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>region <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Spain"</span>,<span class="fl">54</span><span class="op">)</span>,
@@ -551,17 +551,17 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 </div>
 </div>
-<div class="section level1">
-<h1 id="plot-class-difference">Plot Class Difference<a class="anchor" aria-label="anchor" href="#plot-class-difference"></a>
-</h1>
+<div class="section level2">
+<h2 id="plot-class-difference">Plot Class Difference<a class="anchor" aria-label="anchor" href="#plot-class-difference"></a>
+</h2>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>Chart with <code>params</code> in each facet and multiple lines for each scenario.</p>
-<div class="section level2">
-<h2 id="multi-class-single-param-diff">Multi Class Single Param Diff<a class="anchor" aria-label="anchor" href="#multi-class-single-param-diff"></a>
-</h2>
+<div class="section level3">
+<h3 id="multi-class-single-param-diff">Multi Class Single Param Diff<a class="anchor" aria-label="anchor" href="#multi-class-single-param-diff"></a>
+</h3>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rchart" class="external-link">rchart</a></span><span class="op">)</span>;
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,
@@ -590,9 +590,9 @@ brew install imagemagick@6</code></pre>
 <code class="sourceCode R"><span class="va">my_chart</span><span class="op">$</span><span class="va">chart_class_diff_percent</span></code></pre></div>
 <p><img src="vignette_userguide_files/figure-html/unnamed-chunk-11-2.png" width="2016"></p>
 </div>
-<div class="section level2">
-<h2 id="multi-class-multi-param-diff">Multi Class Multi Param Diff<a class="anchor" aria-label="anchor" href="#multi-class-multi-param-diff"></a>
-</h2>
+<div class="section level3">
+<h3 id="multi-class-multi-param-diff">Multi Class Multi Param Diff<a class="anchor" aria-label="anchor" href="#multi-class-multi-param-diff"></a>
+</h3>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rchart" class="external-link">rchart</a></span><span class="op">)</span>;
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"param_1"</span>, <span class="st">"param_2"</span>,<span class="st">"param_1"</span>, <span class="st">"param_2"</span>,<span class="st">"param_1"</span>, <span class="st">"param_2"</span>,
@@ -624,9 +624,9 @@ brew install imagemagick@6</code></pre>
 <code class="sourceCode R"><span class="va">my_chart</span><span class="op">$</span><span class="va">chart_class_diff_percent</span>  <span class="co"># For just this chart rchart::chart(data, scenRef = "scen1", chart_type="class_percent")</span></code></pre></div>
 <p><img src="vignette_userguide_files/figure-html/unnamed-chunk-12-2.png" width="2016"></p>
 </div>
-<div class="section level2">
-<h2 id="multi-class-multi-param-multi-region-1">Multi Class Multi Param Multi Region<a class="anchor" aria-label="anchor" href="#multi-class-multi-param-multi-region-1"></a>
-</h2>
+<div class="section level3">
+<h3 id="multi-class-multi-param-multi-region-1">Multi Class Multi Param Multi Region<a class="anchor" aria-label="anchor" href="#multi-class-multi-param-multi-region-1"></a>
+</h3>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rchart" class="external-link">rchart</a></span><span class="op">)</span>;
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>region <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Spain"</span>,<span class="fl">54</span><span class="op">)</span>,
@@ -671,9 +671,9 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 </div>
 </div>
-<div class="section level1">
-<h1 id="plot-region-compare">Plot Region Compare<a class="anchor" aria-label="anchor" href="#plot-region-compare"></a>
-</h1>
+<div class="section level2">
+<h2 id="plot-region-compare">Plot Region Compare<a class="anchor" aria-label="anchor" href="#plot-region-compare"></a>
+</h2>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
@@ -709,9 +709,9 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 <!-------------------------->
 </div>
-<div class="section level1">
-<h1 id="x--axis-breaks">X- Axis Breaks<a class="anchor" aria-label="anchor" href="#x--axis-breaks"></a>
-</h1>
+<div class="section level2">
+<h2 id="x--axis-breaks">X- Axis Breaks<a class="anchor" aria-label="anchor" href="#x--axis-breaks"></a>
+</h2>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
@@ -760,7 +760,7 @@ brew install imagemagick@6</code></pre>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
