@@ -29,7 +29,6 @@
 #' @param width Default = NULL
 #' @param height Default = NULL
 #' @param append Default = ""
-#' @param breaks_x Default = NULL. Number of breaks for x.
 #' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
@@ -61,7 +60,6 @@ chart <- function(data = NULL,
                   width = NULL,
                   height = NULL,
                   append = "",
-                  breaks_x = NULL,
                   break_interval = NULL){
 
   print("Starting chart...")
@@ -233,7 +231,6 @@ chart <- function(data = NULL,
             theme_default = theme_default,
             ncol = ncol,
             scales = scales,
-            breaks_x = breaks_x,
             break_interval = break_interval
           )
 
@@ -302,7 +299,6 @@ chart <- function(data = NULL,
             facet_label_diff = "Difference Absolute",
             size = size,
             diff_text = diff_text_absolute,
-            breaks_x = breaks_x,
             break_interval = break_interval
           )
 
@@ -373,7 +369,6 @@ chart <- function(data = NULL,
             facet_label_diff = "Difference Percent",
             size = size,
             diff_text = diff_text_percent,
-            breaks_x = breaks_x,
             break_interval = break_interval
           )
 
@@ -445,7 +440,6 @@ chart <- function(data = NULL,
             ncol = ncol,
             scales = scales,
             size_text = size_text,
-            breaks_x = breaks_x,
             break_interval = break_interval
           )
 
@@ -515,7 +509,6 @@ chart <- function(data = NULL,
             theme = theme,
             theme_default = theme_default,
             diff_text = diff_text_absolute,
-            breaks_x = breaks_x,
             break_interval = break_interval
           )
 
@@ -594,7 +587,6 @@ chart <- function(data = NULL,
             diff_text = diff_text_percent,
             diff_type="line",
             size=size,
-            breaks_x = breaks_x,
             break_interval = break_interval
           )
 
@@ -683,7 +675,6 @@ chart <- function(data = NULL,
           theme = theme,
           theme_default = theme_default,
           scales = scales,
-          breaks_x = breaks_x,
           break_interval = break_interval
         )
 
