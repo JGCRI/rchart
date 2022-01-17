@@ -564,7 +564,7 @@ my_chart$chart_region_absolute
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-The following examples show two ways to modify the spacing of x-axis breaks. The default displays all breaks, i.e. each x-axis value included in `data`. The `breaks_x` argument is used to specify the number of desired breaks, while the `break_interval` argument sets the interval between breaks, given as a multiple of the interval between data points in `data`. If both arguments are given, `breaks_x` overrides `break_interval`. 
+The following example shows how to modify the spacing of x-axis breaks. The default displays all breaks, i.e. each x-axis value included in `data`. The `break_interval` argument sets the interval between breaks, given as a multiple of the interval between data points in `data`. 
 
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=7, fig.height = 5}
 library(rchart)
@@ -578,12 +578,10 @@ data = data.frame(scenario = c(rep("scen1", times = 21),
                             seq(40,49,length.out = 10), seq(50,28, length.out = 11)))
 
 my_chart <- rchart::chart(data)
-my_chart_breaks_x <- rchart::chart(data, breaks_x = 10)
-my_chart_break_interval <- rchart::chart(data, break_interval = 5)
+my_chart_breaks <- rchart::chart(data, break_interval = 5)
 
 my_chart$chart_param + ggplot2::ggtitle("Default: All Breaks")
-my_chart_breaks_x$chart_param + ggplot2::ggtitle("breaks_x = 10")
-my_chart_break_interval$chart_param + ggplot2::ggtitle("break_interval = 5")
+my_chart_breaks$chart_param + ggplot2::ggtitle("break_interval = 5")
 ```
 
 

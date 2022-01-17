@@ -7,7 +7,6 @@
 #' @param ncol Default = 3. Number of columns.
 #' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
 #' @param size_text Default = 15. Text size
-#' @param breaks_x Default = NULL. Number of breaks for x.
 #' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
 #' @importFrom magrittr %>%
 #' @export
@@ -18,7 +17,6 @@ plot_class_absolute <- function(data = NULL,
                                ncol = 3,
                                scales = "free_y",
                                size_text = 15,
-                               breaks_x = NULL,
                                break_interval = NULL) {
 
   #...........................
@@ -52,11 +50,6 @@ plot_class_absolute <- function(data = NULL,
     data_plot <- data %>%
       dplyr::filter(param==unique(data$param)[i])
 
-    # calculate break interval if breaks_x is given
-    if(!is.null(breaks_x)){
-      break_interval <- length(unique(data_plot$x)) %/% breaks_x
-    }
-
    palCharts <- palCharts[names(palCharts) %in% unique(data_plot$class)]
 
   # Plot
@@ -81,7 +74,7 @@ plot_class_absolute <- function(data = NULL,
                    strip.background.y = ggplot2::element_blank(),
                    strip.placement = "outside");p1
 
-  if(!is.null(breaks_x)|!is.null(break_interval)){
+  if(!is.null(break_interval)){
     p1 <- p1 +
       ggplot2::scale_x_discrete(breaks = function(x){
         x[c(TRUE, rep(FALSE, times = break_interval-1))]})
