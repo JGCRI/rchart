@@ -60,4 +60,5 @@ jobs:
         with:
           branch: gh-pages
           push_options: '--force'
+          status_options: '--untracked-files=no'
 
