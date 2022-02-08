@@ -72,7 +72,10 @@ add_missing <- function(data){
   }
 
   data <- data %>%
-    dplyr::select(scenario,region,subRegion,param,class,x,aggregate,value) %>%
-    dplyr::mutate(x=as.character(x))
+    dplyr::select(scenario,region,subRegion,param,class,x,aggregate,value)
+  if(!is.numeric(data$x)){
+    # convert x to factor so values won't be re-ordered alphabetically
+    data$x <- factor(data$x, levels=unique(data$x))
+  }
   return(data)
 }

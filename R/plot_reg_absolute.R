@@ -65,10 +65,20 @@ plot_reg_absolute <- function(data = NULL,
                    strip.background.y = ggplot2::element_blank(),
                    strip.placement = "outside")
 
-  if(!is.null(break_interval)){
-    p1 <- p1 +
-      ggplot2::scale_x_discrete(breaks = function(x){
-        x[c(TRUE, rep(FALSE, times = break_interval-1))]})
+  # make sure x axis is integers if x data are numeric
+  if(is.numeric(data$x)){
+    p1 <- p1 + ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(
+      # don't add more breaks than there are x values
+      n = min(5, length(unique(data$x)))
+    ))
+  }
+  # add specified break interval if x data are non-numeric
+  else{
+    if(!is.null(break_interval)){
+      p1 <- p1 +
+        ggplot2::scale_x_discrete(breaks = function(x){
+          x[c(TRUE, rep(FALSE, times = break_interval-1))]})
+    }
   }
 
   if(!is.null(theme)){p1 <- p1 + theme}

@@ -106,10 +106,20 @@ plot_class_difference <- function(data = NULL,
         ggplot2::theme(legend.position="none") +
         theme_default
 
-      if(!is.null(break_interval)){
-        p1 <- p1 +
-          ggplot2::scale_x_discrete(breaks = function(x){
-            x[c(TRUE, rep(FALSE, times = break_interval-1))]})
+      # make sure x axis is integers if x data are numeric
+      if(is.numeric(data_ref$x)){
+        p1 <- p1 + ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(
+          # don't add more breaks than there are x values
+          n = min(5, length(unique(data_ref$x)))
+        ))
+      }
+      # add specified break interval if x data are non-numeric
+      else{
+        if(!is.null(break_interval)){
+          p1 <- p1 +
+            ggplot2::scale_x_discrete(breaks = function(x){
+              x[c(TRUE, rep(FALSE, times = break_interval-1))]})
+        }
       }
 
       if(!is.null(theme)){p1 <- p1 + theme}
@@ -140,10 +150,20 @@ plot_class_difference <- function(data = NULL,
         ggplot2::geom_line(ggplot2::aes(color=class),size=size) +
         ggplot2::scale_color_manual(breaks=names(palCharts),values=palCharts)}
 
-      if(!is.null(break_interval)){
-        p2 <- p2 +
-          ggplot2::scale_x_discrete(breaks = function(x){
-            x[c(TRUE, rep(FALSE, times = break_interval-1))]})
+      # make sure x axis is integers if x data are numeric
+      if(is.numeric(data_diff$x)){
+        p2 <- p2 + ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(
+          # don't add more breaks than there are x values
+          n = min(5, length(unique(data_diff$x)))
+        ))
+      }
+      # add specified break interval if x data are non-numeric
+      else{
+        if(!is.null(break_interval)){
+          p2 <- p2 +
+            ggplot2::scale_x_discrete(breaks = function(x){
+              x[c(TRUE, rep(FALSE, times = break_interval-1))]})
+        }
       }
 
       if(!is.null(theme)){p2 <- p2 + theme}
