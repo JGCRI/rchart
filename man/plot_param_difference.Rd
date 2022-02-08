@@ -14,7 +14,6 @@ plot_param_difference(
   facet_label_diff = "Difference",
   diff_text = NULL,
   scales = "free",
-  breaks_x = NULL,
   break_interval = NULL
 )
 }
@@ -36,8 +35,6 @@ plot_param_difference(
 \item{diff_text}{Default = NULL. Text to remove from diff scenario names.}
 
 \item{scales}{Default = "free". Choose between "free", "free_y", "free_x", "fixed"}
-
-\item{breaks_x}{Default = NULL. Number of breaks for x.}
 
 \item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
 }

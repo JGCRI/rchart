@@ -31,7 +31,6 @@ chart(
   width = NULL,
   height = NULL,
   append = "",
-  breaks_x = NULL,
   break_interval = NULL
 )
 }
@@ -88,8 +87,6 @@ chart(
 \item{height}{Default = NULL}
 
 \item{append}{Default = ""}
-
-\item{breaks_x}{Default = NULL. Number of breaks for x.}
 
 \item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
 }
