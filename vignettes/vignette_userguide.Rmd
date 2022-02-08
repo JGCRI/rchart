@@ -159,15 +159,13 @@ library(rchart);
 data = data.frame(scenario = c("scen1","scen1","scen1",
                                "scen2","scen2","scen2",
                                "scen3","scen3","scen3"),
-                  year = c("2010","2020","2030",
-                           "2010","2020","2030",
-                           "2010","2020","2030"),
+                  year = rep(c(2010, 2020, 2030), times = 3),
                   param = c(rep("param_1",9)),
                   value = c(32, 38, 54,
                             37, 53, 23,
                             40, 44, 12))
 
-my_chart <- rchart::chart(data) 
+my_chart <- rchart::chart(data, save = F) 
 my_chart$chart_param # For just this chart rchart::chart(data, chart_type="param_absolute")
 ```
 
@@ -177,9 +175,7 @@ library(rchart);
 data = data.frame(scenario = rep(c("scen1","scen1","scen1",
                                "scen2","scen2","scen2",
                                "scen3","scen3","scen3"),3),
-                  year = rep(c("2010","2020","2030",
-                           "2010","2020","2030",
-                           "2010","2020","2030"),3),
+                  year = rep(rep(c(2010, 2020, 2030),3),3),
                   param = c(rep("param_1",9),
                             rep("param_2",9),
                             rep("param_3",9)),
@@ -243,9 +239,7 @@ library(rchart);
 data = data.frame(scenario = c("scen1","scen1","scen1",
                                "scen2","scen2","scen2",
                                "scen3","scen3","scen3"),
-                  year = c("2010","2020","2030",
-                           "2010","2020","2030",
-                           "2010","2020","2030"),
+                  year = rep(c(2010,2020,2030),3),
                   param = c(rep("param_1",9)),
                   value = c(32, 38, 54,
                             37, 53, 23,
@@ -263,9 +257,7 @@ library(rchart);
 data = data.frame(scenario = rep(c("scen1","scen1","scen1",
                                "scen2","scen2","scen2",
                                "scen3","scen3","scen3"),3),
-                  year = rep(c("2010","2020","2030",
-                           "2010","2020","2030",
-                           "2010","2020","2030"),3),
+                  year = rep(rep(c(2010,2020,2030),3),3),
                   param = c(rep("param_1",9),
                             rep("param_2",9),
                             rep("param_3",9)),
@@ -294,9 +286,7 @@ data = data.frame(region = rep(c("Spain", "India","Spain", "India","Spain", "Ind
                   scenario = rep(c("scen1","scen1","scen1","scen1","scen1","scen1",
                                "scen2","scen2","scen2","scen2","scen2","scen2",
                                "scen3","scen3","scen3","scen3","scen3","scen3"),3),
-                  year = rep(c("2010","2010","2020","2020","2030","2030",
-                           "2010","2010","2020","2020","2030","2030",
-                           "2010","2010","2020","2020","2030","2030"),3),
+                  year = rep(rep(c(2010,2010,2020,2020,2030,2030),3),3),
                   param = c(rep("param_1",18),
                             rep("param_2",18),
                             rep("param_3",18)),
@@ -335,9 +325,7 @@ library(rchart);
 data = data.frame(scenario = rep(c("scen1","scen1","scen1",
                                "scen2","scen2","scen2",
                                "scen3","scen3","scen3"),3),
-                  year = rep(c("2010","2020","2030",
-                           "2010","2020","2030",
-                           "2010","2020","2030"),3),
+                  year = rep(rep(c(2010,2020,2030),3),3),
                   class = c(rep("class_1",9),
                             rep("class_2",9),
                             rep("class_3",9)),
@@ -364,9 +352,7 @@ data = data.frame(param = rep(c("param_1", "param_2","param_1", "param_2","param
                   scenario = rep(c("scen1","scen1","scen1","scen1","scen1","scen1",
                                "scen2","scen2","scen2","scen2","scen2","scen2",
                                "scen3","scen3","scen3","scen3","scen3","scen3"),3),
-                  year = rep(c("2010","2010","2020","2020","2030","2030",
-                           "2010","2010","2020","2020","2030","2030",
-                           "2010","2010","2020","2020","2030","2030"),3),
+                  year = rep(rep(c(2010,2010,2020,2020,2030,2030),3),3),
                   class = c(rep("class_1",18),
                             rep("class_2",18),
                             rep("class_3",18)),
@@ -395,9 +381,7 @@ data = data.frame(region = c(rep("Spain",54),
                   scenario = rep(rep(c("scen1","scen1","scen1","scen1","scen1","scen1",
                                "scen2","scen2","scen2","scen2","scen2","scen2",
                                "scen3","scen3","scen3","scen3","scen3","scen3"),3),2),
-                  year = rep(rep(c("2010","2010","2020","2020","2030","2030",
-                           "2010","2010","2020","2020","2030","2030",
-                           "2010","2010","2020","2020","2030","2030"),3),2),
+                  year = rep(rep(rep(c(2010,2010,2020,2020,2030,2030),3),3),2),
                   class = rep(c(rep("class_1",18),
                             rep("class_2",18),
                             rep("class_3",18)),2),
@@ -431,9 +415,7 @@ library(rchart);
 data = data.frame(scenario = rep(c("scen1","scen1","scen1",
                                "scen2","scen2","scen2",
                                "scen3","scen3","scen3"),3),
-                  year = rep(c("2010","2020","2030",
-                           "2010","2020","2030",
-                           "2010","2020","2030"),3),
+                  year = rep(rep(c(2010,2020,2030),3),3),
                   class = c(rep("class_1",9),
                             rep("class_2",9),
                             rep("class_3",9)),
@@ -461,9 +443,7 @@ data = data.frame(param = rep(c("param_1", "param_2","param_1", "param_2","param
                   scenario = rep(c("scen1","scen1","scen1","scen1","scen1","scen1",
                                "scen2","scen2","scen2","scen2","scen2","scen2",
                                "scen3","scen3","scen3","scen3","scen3","scen3"),3),
-                  year = rep(c("2010","2010","2020","2020","2030","2030",
-                           "2010","2010","2020","2020","2030","2030",
-                           "2010","2010","2020","2020","2030","2030"),3),
+                  year = rep(rep(c(2010,2010,2020,2020,2030,2030),3),3),
                   class = c(rep("class_1",18),
                             rep("class_2",18),
                             rep("class_3",18)),
@@ -493,9 +473,7 @@ data = data.frame(region = c(rep("Spain",54),
                   scenario = rep(rep(c("scen1","scen1","scen1","scen1","scen1","scen1",
                                "scen2","scen2","scen2","scen2","scen2","scen2",
                                "scen3","scen3","scen3","scen3","scen3","scen3"),3),2),
-                  year = rep(rep(c("2010","2010","2020","2020","2030","2030",
-                           "2010","2010","2020","2020","2030","2030",
-                           "2010","2010","2020","2020","2030","2030"),3),2),
+                  year = rep(rep(rep(c(2010,2010,2020,2020,2030,2030),3),3),2),
                   class = rep(c(rep("class_1",18),
                             rep("class_2",18),
                             rep("class_3",18)),2),
@@ -536,9 +514,7 @@ data = data.frame(region = rep(c("Spain", "India","Spain", "India","Spain", "Ind
                   scenario = rep(c("scen1","scen1","scen1","scen1","scen1","scen1",
                                "scen2","scen2","scen2","scen2","scen2","scen2",
                                "scen3","scen3","scen3","scen3","scen3","scen3"),3),
-                  year = rep(c("2010","2010","2020","2020","2030","2030",
-                           "2010","2010","2020","2020","2030","2030",
-                           "2010","2010","2020","2020","2030","2030"),3),
+                  year = rep(rep(c(2010,2010,2020,2020,2030,2030),3),3),
                   param = c(rep("param_1",18),
                             rep("param_2",18),
                             rep("param_3",18)),
@@ -559,29 +535,30 @@ my_chart$chart_region_absolute
 
 <!-------------------------->
 <!-------------------------->
-# X- Axis Breaks
+# Non-numeric X-Axis Data
 <!-------------------------->
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-The following example shows how to modify the spacing of x-axis breaks. The default displays all breaks, i.e. each x-axis value included in `data`. The `break_interval` argument sets the interval between breaks, given as a multiple of the interval between data points in `data`. 
+If non-numeric x-axis data are provided, the spacing of x-axis breaks can be modified as shown by the following examples. The default displays all breaks, i.e. each x-axis value included in `data`. The `break_interval` argument sets the interval between breaks. 
 
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=7, fig.height = 5}
 library(rchart)
-data = data.frame(scenario = c(rep("scen1", times = 21),
-                               rep("scen2", times = 21),
-                               rep("scen3", times = 21)),
-                  year = rep(seq(from = 2010, to = 2030, by = 1),3),
-                  param = c(rep("param_1",63)),
-                  value = c(seq(31,45,length.out = 15), seq(46,60, length.out = 6),
-                            seq(38,56,length.out = 10), seq(58,50, length.out = 11),
-                            seq(40,49,length.out = 10), seq(50,28, length.out = 11)))
+data = data.frame(scenario = c(rep("scen1", times = 12),
+                               rep("scen2", times = 12),
+                               rep("scen3", times = 12)),
+                  year = rep(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
+                               "Aug", "Sep", "Oct", "Nov", "Dec"),3),
+                  param = c(rep("param_1",36)),
+                  value = c(seq(31,45,length.out = 8), seq(47,60, length.out = 4),
+                            seq(38,56,length.out = 6), seq(59.6,50, length.out = 6),
+                            seq(40,49,length.out = 6), seq(50.8,28, length.out = 6)))
 
 my_chart <- rchart::chart(data)
-my_chart_breaks <- rchart::chart(data, break_interval = 5)
+my_chart_breaks <- rchart::chart(data, break_interval = 2)
 
 my_chart$chart_param + ggplot2::ggtitle("Default: All Breaks")
-my_chart_breaks$chart_param + ggplot2::ggtitle("break_interval = 5")
+my_chart_breaks$chart_param + ggplot2::ggtitle("break_interval = 2")
 ```
 
 

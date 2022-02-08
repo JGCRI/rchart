@@ -125,7 +125,7 @@ calculate_diff <- function(data = NULL,
 
     if(xRef %in% unique(data_out$x)){
 
-      if(is.null(xDiff) & !is.null(xRef)){xDiff = unique(data_out$x)[!unique(data_out$x) %in% xRef]}
+      if(is.null(xDiff) & !is.null(xRef)){xDiff = as.character(unique(data_out$x)[!unique(data_out$x) %in% xRef])}
 
       for (xDiff_i in xDiff) {
 
@@ -148,7 +148,7 @@ calculate_diff <- function(data = NULL,
             dplyr::select(-dplyr::one_of(c(xDiff_i, xRef)))
           data_temp_absolute_long_x <- data_temp_absolute_x %>%
             tidyr::gather(key = scenario, value = value, -c(names(data_temp_absolute_x)[!names(data_temp_absolute_x) %in% paste0(scenario_i, "_", diff_text_absolute_x, "_", xRef)])) %>%
-            dplyr::mutate(x=xDiff_i)
+            dplyr::mutate(x=as.numeric(xDiff_i))
           data_out <- dplyr::bind_rows(data_out, data_temp_absolute_long_x)
         }
 
@@ -159,7 +159,7 @@ calculate_diff <- function(data = NULL,
             dplyr::select(-dplyr::one_of(c(xDiff_i, xRef)))
           data_temp_percent_long_x <- data_temp_percent_x %>%
             tidyr::gather(key = scenario, value = value, -c(names(data_temp_percent_x)[!names(data_temp_percent_x) %in% paste0(scenario_i,"_", diff_text_percent_x,"_", xRef)]))%>%
-            dplyr::mutate(x=xDiff_i)
+            dplyr::mutate(x=as.numeric(xDiff_i))
           data_out <- dplyr::bind_rows(data_out, data_temp_percent_long_x)
         }
 
