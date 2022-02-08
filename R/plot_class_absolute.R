@@ -63,16 +63,30 @@ plot_class_absolute <- function(data = NULL,
     ggplot2::geom_bar(position="stack", stat="identity") +
     ggplot2::ylab(NULL) +
     ggplot2::xlab(NULL) +
-    ggplot2::facet_grid(
-      param ~ scenario,
-      scales = scales,
-      labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15)),
-      switch='y'
-    ) +
     ggplot2::theme(legend.position="right",
                    strip.text.y = ggplot2::element_text(color="black",angle=270, vjust=1.5, size=size_text),
                    strip.background.y = ggplot2::element_blank(),
                    strip.placement = "outside");p1
+
+  # if multiple parameters, facet wrap by param and scenario
+  # to add ylab for each parameter
+  if(length(unique(data$param)) > 1){
+    p1 <- p1 +
+      ggplot2::facet_grid(
+        param ~ scenario,
+        scales = scales,
+        labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15)),
+        switch='y'
+      )
+  }
+  # if one parameter, facet wrap by only scenario so ylab can be added later
+  else{
+    p1 <- p1 +
+      ggplot2::facet_grid(
+        ~ scenario,
+        scales = scales
+      )
+  }
 
   if(!is.null(break_interval)){
     p1 <- p1 +
@@ -88,8 +102,14 @@ plot_class_absolute <- function(data = NULL,
 
   }
 
-  plot_out <- cowplot::plot_grid(plotlist=plist, ncol=1)
-
-  invisible(plot_out)
+  # return just the single plot if only one parameter
+  if(length(unique(data$param)) == 1){
+    invisible(p1)
+  }
+  # otherwise, return grid of parameters (cannot be modified later)
+  else{
+    plot_out <- cowplot::plot_grid(plotlist=plist, ncol = 1)
+    invisible(plot_out)
+  }
 
 }

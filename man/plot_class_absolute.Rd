@@ -11,7 +11,6 @@ plot_class_absolute(
   ncol = 3,
   scales = "free_y",
   size_text = 15,
-  breaks_x = NULL,
   break_interval = NULL
 )
 }
@@ -27,8 +26,6 @@ plot_class_absolute(
 \item{scales}{Default = "free". Choose between "free", "free_y", "free_x", "fixed"}
 
 \item{size_text}{Default = 15. Text size}
-
-\item{breaks_x}{Default = NULL. Number of breaks for x.}
 
 \item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
 }

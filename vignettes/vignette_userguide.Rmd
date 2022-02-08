@@ -113,9 +113,9 @@ data = data.frame(scenario = c("scen1","scen1","scen1",
                             40, 44, 12))
 
 my_chart <- rchart::chart(data, 
-                          append = "_appendName", # Will apend names to each chart
+                          append = "_appendName", # Will append names to each chart
                           folder = "myfolder", # Will create a new folder if needed
-                          save = T, # This is True by default but can be turned off for rmakdown docs
+                          save = T, # This is True by default but can be turned off for rmarkdown docs
                           show = T # This is true by default but can be turned off to speed up processing and avoid charts displayed in console.
                           ) 
 

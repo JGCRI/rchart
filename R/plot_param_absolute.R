@@ -7,7 +7,6 @@
 #' @param theme_default Default = ggplot2::theme_bw(). Default rchart themes.
 #' @param ncol Default = 3. Number of columns.
 #' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
-#' @param breaks_x Default = NULL. Number of breaks for x.
 #' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
 #' @importFrom magrittr %>%
 #' @export
@@ -18,7 +17,6 @@ plot_param_absolute <- function(data = NULL,
                                theme_default = ggplot2::theme_bw(),
                                ncol = 3,
                                scales = "free_y",
-                               breaks_x = NULL,
                                break_interval = NULL) {
 
   #...........................
@@ -45,10 +43,6 @@ plot_param_absolute <- function(data = NULL,
 
   palCharts <- palCharts[names(palCharts) %in% unique(data$scenario)]
 
-  # calculate break interval if breaks_x is given
-  if(!is.null(breaks_x)){
-    break_interval <- length(unique(data$x)) %/% breaks_x
-  }
 
   # Plot
   p1 <- ggplot2::ggplot(data,
@@ -69,7 +63,7 @@ plot_param_absolute <- function(data = NULL,
         ) +
     ggplot2::theme(legend.position="bottom")
 
-  if(!is.null(breaks_x)|!is.null(break_interval)){
+  if(!is.null(break_interval)){
     p1 <- p1 +
       ggplot2::scale_x_discrete(breaks = function(x){
         x[c(TRUE, rep(FALSE, times = break_interval-1))]})

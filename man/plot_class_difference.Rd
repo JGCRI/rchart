@@ -14,7 +14,6 @@ plot_class_difference(
   scales = "free",
   diff_type = "bar",
   size = 1.5,
-  breaks_x = NULL,
   break_interval = NULL
 )
 }
@@ -36,8 +35,6 @@ plot_class_difference(
 \item{diff_type}{Default = "bar". Choose between "bar" or "line"}
 
 \item{size}{Default = 1.5. Line size}
-
-\item{breaks_x}{Default = NULL. Number of breaks for x.}
 
 \item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
 }

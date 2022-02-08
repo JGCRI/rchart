@@ -54,7 +54,7 @@ rchart::chart(data=rTable_i %>%
 ######################### testing breaks arguments ###########################
 
 test_classes <- read.csv("C:/Users/wait467/OneDrive - PNNL/Desktop/SEAsia_local/tests/rchart_class_test.csv")
-test_classes_chart <- rchart::chart(test_classes, scenRef = "Ref", break_interval = 2, save = F)
+test_classes_chart <- rchart::chart(test_classes, scenRef = "Ref", save = F)
 #test_classes_chart <- rchart::chart(test_classes, breaks = 3,save = F)
 
 test_classes_chart$chart_class_Thailand
@@ -66,7 +66,7 @@ test_classes_chart$chart_class_diff_absolute_Thailand
 
 
 test_params <- read.csv("C:/Users/wait467/OneDrive - PNNL/Desktop/SEAsia_local/tests/all_socioeconomics.csv")
-test_params_chart <- rchart::chart(test_params, break_interval = 20, save = F, aspect_ratio = 0.4)
+test_params_chart <- rchart::chart(test_params, save = F, aspect_ratio = 0.4)
 
 test_params_chart$chart_region_absolute +
   ggplot2::theme(legend.position = "right",
