@@ -8,6 +8,7 @@
 #' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed",
 #' @param size_text Default = 15. Text size
 #' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
+#' @param include_points Default = FALSE. Add data points to all line charts.
 #' @importFrom magrittr %>%
 #' @export
 
@@ -17,7 +18,8 @@ plot_reg_absolute <- function(data = NULL,
                                theme_default = ggplot2::theme_bw(),
                                scales = "free_y",
                                size_text = 15,
-                               break_interval = NULL) {
+                               break_interval = NULL,
+                               include_points = FALSE) {
 
   #...........................
   # Initialize
@@ -64,6 +66,12 @@ plot_reg_absolute <- function(data = NULL,
                    strip.text.y = ggplot2::element_text(color="black",angle=270, vjust=1.5, size=size_text),
                    strip.background.y = ggplot2::element_blank(),
                    strip.placement = "outside")
+
+  # add points
+  if(include_points){
+    p1 <- p1 +
+      ggplot2::geom_point(size = size*3)
+  }
 
   # make sure x axis is integers if x data are numeric
   if(is.numeric(data$x)){

@@ -14,7 +14,8 @@ plot_class_difference(
   scales = "free",
   diff_type = "bar",
   size = 1.5,
-  break_interval = NULL
+  break_interval = NULL,
+  include_points = FALSE
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ plot_class_difference(
 \item{size}{Default = 1.5. Line size}
 
 \item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
+
+\item{include_points}{Default = FALSE. Add data points to all line charts.}
 }
 \description{
 generate chart plot for absolute difference and percent difference

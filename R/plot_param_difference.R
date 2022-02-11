@@ -11,6 +11,7 @@
 #' @param diff_text Default = NULL. Text to remove from diff scenario names.
 #' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
 #' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
+#' @param include_points Default = FALSE. Add data points to all line charts.
 #' @importFrom magrittr %>%
 #' @export
 
@@ -23,7 +24,8 @@ plot_param_difference <- function(data = NULL,
                                 facet_label_diff = "Difference",
                                 diff_text = NULL,
                                 scales = "free",
-                                break_interval = NULL) {
+                                break_interval = NULL,
+                                include_points = FALSE) {
 
 
   # data = NULL
@@ -113,7 +115,13 @@ plot_param_difference <- function(data = NULL,
         ggplot2::guides(color=ggplot2::guide_legend(nrow=n_legend_rows,byrow=TRUE)) +
         theme_default
 
-     # make sure x axis is integers if x data are numeric
+     # add points
+     if(include_points){
+       p1 <- p1+
+         ggplot2::geom_point(size = size*3)
+     }
+
+      # make sure x axis is integers if x data are numeric
      if(is.numeric(data_ref$x)){
        p1 <- p1 + ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(
          # don't add more breaks than there are x values
@@ -152,6 +160,12 @@ plot_param_difference <- function(data = NULL,
       ggplot2::theme(legend.position="bottom")+
       ggplot2::guides(color=ggplot2::guide_legend(nrow=n_legend_rows,byrow=TRUE)) +
       theme_default
+
+    # add points
+    if(include_points){
+      p2 <- p2+
+        ggplot2::geom_point(size = size*3)
+    }
 
     # make sure x axis is integers if x data are numeric
     if(is.numeric(data_diff$x)){

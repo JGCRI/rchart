@@ -145,15 +145,13 @@ Users can also choose a combination of one or more of these arguments such as in
 
 
 <!-------------------------->
-<!-------------------------->
-# Plot Param Absolute
-<!-------------------------->
+## Plot Param Absolute
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
 Chart with `params` in each facet and multiple lines for each scenario. If `class` column provided this will be aggregated to the `param` depending on if the `aggregate` column is `sum` or `mean` (Default `sum` is used).
 
-## Single Param
+### Single Param
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=7, fig.height = 5}
 library(rchart);
 data = data.frame(scenario = c("scen1","scen1","scen1",
@@ -169,7 +167,7 @@ my_chart <- rchart::chart(data, save = F)
 my_chart$chart_param # For just this chart rchart::chart(data, chart_type="param_absolute")
 ```
 
-## Multiple Params
+### Multiple Params
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rchart);
 data = data.frame(scenario = rep(c("scen1","scen1","scen1",
@@ -189,11 +187,11 @@ data = data.frame(scenario = rep(c("scen1","scen1","scen1",
                               367, 483, 593,
                               100, 304, 102)))
 
-my_chart <- rchart::chart(data) 
+my_chart <- rchart::chart(data, save = F) 
 my_chart$chart_param # For just this chart rchart::chart(data, chart_type="param_absolute")
 ```
 
-## Multiple Params & Regions
+### Multiple Params & Regions
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 5}
 library(rchart);
 data = data.frame(region = rep(c("Spain", "India","Spain", "India","Spain", "India",
@@ -218,22 +216,20 @@ data = data.frame(region = rep(c("Spain", "India","Spain", "India","Spain", "Ind
                               367, 483, 593, 692, 795, 907,
                               100, 304, 102, 107, 339, 233)))
 
-my_chart <- rchart::chart(data) # For just this chart rchart::chart(data, chart_type="param_absolute")
+my_chart <- rchart::chart(data, save = F) # For just this chart rchart::chart(data, chart_type="param_absolute")
 my_chart$chart_param_Spain 
 my_chart$chart_param_India
 ```
 
 
 <!-------------------------->
-<!-------------------------->
-# Plot Param Difference
-<!-------------------------->
+## Plot Param Difference
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
 Chart with `params` in each facet and multiple lines for each scenario.
 
-## Single Param Diff
+### Single Param Diff
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=14, fig.height = 5}
 library(rchart);
 data = data.frame(scenario = c("scen1","scen1","scen1",
@@ -245,13 +241,13 @@ data = data.frame(scenario = c("scen1","scen1","scen1",
                             37, 53, 23,
                             40, 44, 12))
 
-my_chart <- rchart::chart(data, scenRef="scen1") # So that all plots are not shown
+my_chart <- rchart::chart(data, save = F, scenRef="scen1") # So that all plots are not shown
 my_chart$chart_param_diff_absolute # For just this chart rchart::chart(data, chart_type="param_diff_absolute")
 my_chart$chart_param_diff_percent # For just this chart rchart::chart(data, chart_type="param_diff_percent")
 
 ```
 
-## Multi Param Diff
+### Multi Param Diff
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=14, fig.height=15}
 library(rchart);
 data = data.frame(scenario = rep(c("scen1","scen1","scen1",
@@ -271,13 +267,13 @@ data = data.frame(scenario = rep(c("scen1","scen1","scen1",
                               367, 483, 593,
                               100, 304, 102)))
 
-my_chart <- rchart::chart(data, scenRef="scen1") # So that all plots are not shown
+my_chart <- rchart::chart(data, save = F, scenRef="scen1") # So that all plots are not shown
 my_chart$chart_param_diff_absolute # For just this chart rchart::chart(data, scenRef = "scen1", chart_type="param_diff_absolute")
 my_chart$chart_param_diff_percent # For just this chart rchart::chart(data, scenRef = "scen1", chart_type="param_diff_percent")
 
 ```
 
-## Multi Param & Region Diff
+### Multi Param & Region Diff
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=14, fig.height=15}
 library(rchart);
 data = data.frame(region = rep(c("Spain", "India","Spain", "India","Spain", "India",
@@ -300,7 +296,7 @@ data = data.frame(region = rep(c("Spain", "India","Spain", "India","Spain", "Ind
                               367, 483, 593, 692, 795, 907,
                               100, 304, 102, 107, 339, 233)))
 
-my_chart <- rchart::chart(data, scenRef="scen1") # So that all plots are not shown
+my_chart <- rchart::chart(data,save = F, scenRef="scen1") # So that all plots are not shown
 # For just these charts rchart::chart(data, scenRef = "scen1", chart_type="param_diff_absolute")
 # For just these charts rchart::chart(data, scenRef = "scen1", chart_type="param_diff_percent")
 my_chart$chart_param_diff_absolute_Spain 
@@ -311,15 +307,13 @@ my_chart$chart_param_diff_percent_India
 ```
 
 <!-------------------------->
-<!-------------------------->
-# Plot Class Absolute
-<!-------------------------->
+## Plot Class Absolute
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
 Chart with `params` in each facet and multiple lines for each scenario.
 
-## Multi Class Single Param
+### Multi Class Single Param
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 5}
 library(rchart);
 data = data.frame(scenario = rep(c("scen1","scen1","scen1",
@@ -343,7 +337,7 @@ my_chart <- rchart::chart(data)
 my_chart$chart_class # For just this chart rchart::chart(data, chart_type="class_absolute")
 ```
 
-## Multi Class Multi Param
+### Multi Class Multi Param
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 10}
 library(rchart);
 data = data.frame(param = rep(c("param_1", "param_2","param_1", "param_2","param_1", "param_2",
@@ -370,7 +364,7 @@ my_chart <- rchart::chart(data)
 my_chart$chart_class  # For just this chart rchart::chart(data, chart_type="class_absolute")
 ```
 
-## Multi Class Multi Param Multi Region
+### Multi Class Multi Param Multi Region
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 10}
 library(rchart);
 data = data.frame(region = c(rep("Spain",54),
@@ -401,15 +395,13 @@ my_chart$chart_class_India
 ```
 
 <!-------------------------->
-<!-------------------------->
-# Plot Class Difference
-<!-------------------------->
+## Plot Class Difference
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
 Chart with `params` in each facet and multiple lines for each scenario.
 
-## Multi Class Single Param Diff
+### Multi Class Single Param Diff
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 5}
 library(rchart);
 data = data.frame(scenario = rep(c("scen1","scen1","scen1",
@@ -429,12 +421,12 @@ data = data.frame(scenario = rep(c("scen1","scen1","scen1",
                               367, 483, 593,
                               100, 304, 102)))
 
-my_chart <- rchart::chart(data, scenRef = "scen1")
+my_chart <- rchart::chart(data, save = F, scenRef = "scen1", include_points = T)
 my_chart$chart_class_diff_absolute
 my_chart$chart_class_diff_percent
 ```
 
-## Multi Class Multi Param Diff
+### Multi Class Multi Param Diff
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 10}
 library(rchart);
 data = data.frame(param = rep(c("param_1", "param_2","param_1", "param_2","param_1", "param_2",
@@ -457,12 +449,12 @@ data = data.frame(param = rep(c("param_1", "param_2","param_1", "param_2","param
                               367, 1483, 593, 1692, 795, 1907,
                               100, 1304, 102, 1107, 339, 1233)))
 
-my_chart <- rchart::chart(data, scenRef = "scen1")
+my_chart <- rchart::chart(data, save = F, scenRef = "scen1")
 my_chart$chart_class_diff_absolute  # For just this chart rchart::chart(data, scenRef = "scen1", chart_type="class_absolute")
 my_chart$chart_class_diff_percent  # For just this chart rchart::chart(data, scenRef = "scen1", chart_type="class_percent")
 ```
 
-## Multi Class Multi Param Multi Region
+### Multi Class Multi Param Multi Region
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 10}
 library(rchart);
 data = data.frame(region = c(rep("Spain",54),
@@ -487,7 +479,7 @@ data = data.frame(region = c(rep("Spain",54),
                               367, 1483, 593, 1692, 795, 1907,
                               100, 1304, 102, 1107, 339, 1233)),2))
 
-my_chart <- rchart::chart(data, scenRef = "scen1")
+my_chart <- rchart::chart(data, save = F, scenRef = "scen1")
 # For just this chart rchart::chart(data, scenRef = "scen1", chart_type="class_absolute")
 # For just this chart rchart::chart(data, scenRef = "scen1", chart_type="class_percent")
 my_chart$chart_class_diff_absolute_Spain
@@ -498,9 +490,7 @@ my_chart$chart_class_diff_percent_India
 
 
 <!-------------------------->
-<!-------------------------->
-# Plot Region Compare
-<!-------------------------->
+## Plot Region Compare
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
@@ -528,16 +518,46 @@ data = data.frame(region = rep(c("Spain", "India","Spain", "India","Spain", "Ind
                               367, 483, 593, 692, 795, 907,
                               100, 304, 102, 107, 339, 233)))
 
-my_chart <- rchart::chart(data) # For just this chart rchart::chart(data, chart_type="region_absolute")
+my_chart <- rchart::chart(data, save = F) # For just this chart rchart::chart(data, chart_type="region_absolute")
 my_chart$chart_region_absolute
 ```
 
 
 <!-------------------------->
 <!-------------------------->
-# Non-numeric X-Axis Data
+# Other Plotting Options
 <!-------------------------->
 <!-------------------------->
+
+<!-------------------------->
+## Add points to line charts
+<!-------------------------->
+
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+Points can be added to line charts with the `include_points` argument. The default, `include_points = F` displays only lines for relevant chart types (`chart_param`, `chart_param_diff_absolute`, `chart_param_diff_percent`, `chart_class_diff_percent`, and `plot_region_absolute`), while setting `include_points = T` results in plots with both lines and points for these chart types.
+
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=7, fig.height = 5}
+library(rchart);
+data = data.frame(scenario = c("scen1","scen1","scen1",
+                               "scen2","scen2","scen2",
+                               "scen3","scen3","scen3"),
+                  year = rep(c(2010, 2020, 2030), times = 3),
+                  param = c(rep("param_1",9)),
+                  value = c(32, 38, 54,
+                            37, 53, 23,
+                            40, 44, 12))
+
+my_chart <- rchart::chart(data, save = F, include_points = T) 
+my_chart$chart_param 
+```
+
+
+<!-------------------------->
+## Non-numeric X-Axis data
+<!-------------------------->
+
+
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
 If non-numeric x-axis data are provided, the spacing of x-axis breaks can be modified as shown by the following examples. The default displays all breaks, i.e. each x-axis value included in `data`. The `break_interval` argument sets the interval between breaks. 

@@ -11,7 +11,8 @@ plot_reg_absolute(
   theme_default = ggplot2::theme_bw(),
   scales = "free_y",
   size_text = 15,
-  break_interval = NULL
+  break_interval = NULL,
+  include_points = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ plot_reg_absolute(
 \item{size_text}{Default = 15. Text size}
 
 \item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
+
+\item{include_points}{Default = FALSE. Add data points to all line charts.}
 }
 \description{
 generate summary plot
