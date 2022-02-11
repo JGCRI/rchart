@@ -31,7 +31,8 @@ chart(
   width = NULL,
   height = NULL,
   append = "",
-  break_interval = NULL
+  break_interval = NULL,
+  include_points = FALSE
 )
 }
 \arguments{
@@ -89,6 +90,8 @@ chart(
 \item{append}{Default = ""}
 
 \item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
+
+\item{include_points}{Default = FALSE. Add data points to all line charts.}
 }
 \description{
 Used to add missing data to input files and customize format

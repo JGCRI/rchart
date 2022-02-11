@@ -11,6 +11,7 @@
 #' @param diff_type Default = "bar". Choose between "bar" or "line"
 #' @param size Default = 1.5. Line size
 #' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
+#' @param include_points Default = FALSE. Add data points to all line charts.
 #' @importFrom magrittr %>%
 #' @export
 
@@ -23,7 +24,8 @@ plot_class_difference <- function(data = NULL,
                                   scales = "free",
                                   diff_type = "bar",
                                   size = 1.5,
-                                  break_interval = NULL) {
+                                  break_interval = NULL,
+                                  include_points = FALSE) {
 
 
   # data = NULL
@@ -148,7 +150,14 @@ plot_class_difference <- function(data = NULL,
 
       if(diff_type=="line"){p2 <- p2 +
         ggplot2::geom_line(ggplot2::aes(color=class),size=size) +
-        ggplot2::scale_color_manual(breaks=names(palCharts),values=palCharts)}
+        ggplot2::scale_color_manual(breaks=names(palCharts),values=palCharts)
+
+        # add points
+        if(include_points){
+          p2 <- p2+
+            ggplot2::geom_point(ggplot2::aes(color = class), size = size*3)
+        }
+      }
 
       # make sure x axis is integers if x data are numeric
       if(is.numeric(data_diff$x)){

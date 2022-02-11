@@ -8,6 +8,7 @@
 #' @param ncol Default = 3. Number of columns.
 #' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
 #' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
+#' @param include_points Default = FALSE. Add data points to all line charts.
 #' @importFrom magrittr %>%
 #' @export
 
@@ -17,7 +18,8 @@ plot_param_absolute <- function(data = NULL,
                                theme_default = ggplot2::theme_bw(),
                                ncol = 3,
                                scales = "free_y",
-                               break_interval = NULL) {
+                               break_interval = NULL,
+                               include_points = FALSE) {
 
   #...........................
   # Initialize
@@ -62,6 +64,12 @@ plot_param_absolute <- function(data = NULL,
           labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15))
         ) +
     ggplot2::theme(legend.position="bottom")
+
+  # add points
+  if(include_points){
+    p1 <- p1+
+      ggplot2::geom_point(size = size*3)
+  }
 
   # make sure x axis is integers if x data are numeric
   if(is.numeric(data$x)){

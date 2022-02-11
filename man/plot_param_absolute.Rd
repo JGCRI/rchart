@@ -11,7 +11,8 @@ plot_param_absolute(
   theme_default = ggplot2::theme_bw(),
   ncol = 3,
   scales = "free_y",
-  break_interval = NULL
+  break_interval = NULL,
+  include_points = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ plot_param_absolute(
 \item{scales}{Default = "free". Choose between "free", "free_y", "free_x", "fixed"}
 
 \item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
+
+\item{include_points}{Default = FALSE. Add data points to all line charts.}
 }
 \description{
 generate summary plot

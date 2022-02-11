@@ -30,6 +30,7 @@
 #' @param height Default = NULL
 #' @param append Default = ""
 #' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
+#' @param include_points Default = FALSE. Add data points to all line charts.
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
 #' @export
@@ -60,7 +61,8 @@ chart <- function(data = NULL,
                   width = NULL,
                   height = NULL,
                   append = "",
-                  break_interval = NULL){
+                  break_interval = NULL,
+                  include_points = FALSE){
 
   print("Starting chart...")
 
@@ -231,7 +233,8 @@ chart <- function(data = NULL,
             theme_default = theme_default,
             ncol = ncol,
             scales = scales,
-            break_interval = break_interval
+            break_interval = break_interval,
+            include_points = include_points
           )
 
         # Set title if provided or turn off
@@ -299,7 +302,8 @@ chart <- function(data = NULL,
             facet_label_diff = "Difference Absolute",
             size = size,
             diff_text = diff_text_absolute,
-            break_interval = break_interval
+            break_interval = break_interval,
+            include_points = include_points
           )
 
 
@@ -369,7 +373,8 @@ chart <- function(data = NULL,
             facet_label_diff = "Difference Percent",
             size = size,
             diff_text = diff_text_percent,
-            break_interval = break_interval
+            break_interval = break_interval,
+            include_points = include_points
           )
 
         # Set title if provided or turn off
@@ -509,7 +514,8 @@ chart <- function(data = NULL,
             theme = theme,
             theme_default = theme_default,
             diff_text = diff_text_absolute,
-            break_interval = break_interval
+            break_interval = break_interval,
+            include_points = include_points
           )
 
         # data = data_full_diff_i
@@ -587,7 +593,8 @@ chart <- function(data = NULL,
             diff_text = diff_text_percent,
             diff_type="line",
             size=size,
-            break_interval = break_interval
+            break_interval = break_interval,
+            include_points = include_points
           )
 
         # data = data_full_diff_i
@@ -675,7 +682,8 @@ chart <- function(data = NULL,
           theme = theme,
           theme_default = theme_default,
           scales = scales,
-          break_interval = break_interval
+          break_interval = break_interval,
+          include_points = include_points
         )
 
       # Set title if provided or turn off
