@@ -88,7 +88,7 @@ The main input is the `data` argument in the `chart()` function. This will be an
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-The output of the `chart()` function is a named list with all charts and animations created in the function. The elements of the list can be called individually. Since the output charts are `ggplot` elements all the features of the chart can easily be modified using the taditional `ggplot2` theme options. Examples are provided in the [Themes](#themes) section. 
+The output of the `chart()` function is a named list with all charts and animations created in the function. The elements of the list can be called individually. Since the output charts are `ggplot` elements all the features of the chart can easily be modified using the traditional `ggplot2` theme options. Examples are provided in the [Themes](#themes) section. 
 
 <!-------------------------->
 <!-------------------------->
@@ -314,6 +314,7 @@ my_chart$chart_param_diff_percent_India
 Chart with `params` in each facet and multiple lines for each scenario.
 
 ### Multi Class Single Param
+
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 5}
 library(rchart);
 data = data.frame(scenario = rep(c("scen1","scen1","scen1",
@@ -323,6 +324,7 @@ data = data.frame(scenario = rep(c("scen1","scen1","scen1",
                   class = c(rep("class_1",9),
                             rep("class_2",9),
                             rep("class_3",9)),
+                  param = rep("param_1", 27),
                   value = c(c(32, 38, 54,
                               37, 53, 23,
                               40, 44, 12),
@@ -333,7 +335,7 @@ data = data.frame(scenario = rep(c("scen1","scen1","scen1",
                               367, 483, 593,
                               100, 304, 102)))
 
-my_chart <- rchart::chart(data)
+my_chart <- rchart::chart(data, save = F)
 my_chart$chart_class # For just this chart rchart::chart(data, chart_type="class_absolute")
 ```
 
