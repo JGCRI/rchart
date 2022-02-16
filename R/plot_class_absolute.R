@@ -68,9 +68,8 @@ plot_class_absolute <- function(data = NULL,
                    strip.background.y = ggplot2::element_blank(),
                    strip.placement = "outside");p1
 
-  # if multiple parameters, facet wrap by param and scenario
-  # to add ylab for each parameter
-  if(length(unique(data$param)) > 1){
+  # if multiple parameters and scenarios, facet wrap by param and scenario
+  if(length(unique(data$param)) > 1 & length(unique(data$scenario)) > 1){
     p1 <- p1 +
       ggplot2::facet_grid(
         param ~ scenario,
@@ -79,14 +78,33 @@ plot_class_absolute <- function(data = NULL,
         switch='y'
       )
   }
-  # if one parameter, facet wrap by only scenario so ylab can be added later
-  else{
+
+  # if one parameter and multiple scenarios, facet wrap by only scenario
+  # and add parameter as ylab
+  else if(length(unique(data$scenario)) > 1){
     p1 <- p1 +
       ggplot2::facet_grid(
         ~ scenario,
         scales = scales
+      ) +
+      ggplot2::ylab((unique(data$param))[1])
+  }
+
+  # if one scenario and multiple parameters, facet wrap only by parameter
+  else if(length(unique(data$param)) > 1){
+    p1 <- p1 +
+      ggplot2::facet_grid(
+        ~ param,
+        scales = scales
       )
   }
+
+  # if one parameter and one scenario, just add parameter as ylab
+  else{
+    p1 <- p1 +
+      ggplot2::ylab((unique(data$param))[1])
+  }
+
 
   # make sure x axis is integers if x data are numeric
   if(is.numeric(data$x)){

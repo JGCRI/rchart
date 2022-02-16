@@ -56,16 +56,47 @@ plot_reg_absolute <- function(data = NULL,
     ggplot2::geom_line(size=size) +
     ggplot2::ylab(NULL) +
     ggplot2::xlab(NULL) +
-    ggplot2::facet_grid(
-          param ~ scenario,
-          scales = scales,
-          labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15)),
-          switch='y'
-        ) +
     ggplot2::theme(legend.position="bottom",
                    strip.text.y = ggplot2::element_text(color="black",angle=270, vjust=1.5, size=size_text),
                    strip.background.y = ggplot2::element_blank(),
                    strip.placement = "outside")
+
+  # if multiple parameters and scenarios, facet wrap by param and scenario
+  if(length(unique(data$param)) > 1 & length(unique(data$scenario)) > 1){
+    p1 <- p1 +
+      ggplot2::facet_grid(
+        param ~ scenario,
+        scales = scales,
+        labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15)),
+        switch='y'
+      )
+  }
+
+  # if one parameter and multiple scenarios, facet wrap by only scenario
+  # and add parameter as ylab
+  else if(length(unique(data$scenario)) > 1){
+    p1 <- p1 +
+      ggplot2::facet_grid(
+        ~ scenario,
+        scales = scales
+      ) +
+      ggplot2::ylab((unique(data$param))[1])
+  }
+
+  # if one scenario and multiple parameters, facet wrap only by parameter
+  else if(length(unique(data$param)) > 1){
+    p1 <- p1 +
+      ggplot2::facet_grid(
+        ~ param,
+        scales = scales
+      )
+  }
+
+  # if one parameter and one scenario, just add parameter as ylab
+  else{
+    p1 <- p1 +
+      ggplot2::ylab((unique(data$param))[1])
+  }
 
   # add points
   if(include_points){

@@ -57,13 +57,22 @@ plot_param_absolute <- function(data = NULL,
     ggplot2::geom_line(size=size) +
     ggplot2::ylab(NULL) +
     ggplot2::xlab(NULL) +
-    ggplot2::facet_wrap(
-          . ~ param,
-          scales = scales,
-          ncol = ncol,
-          labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15))
-        ) +
     ggplot2::theme(legend.position="bottom")
+
+  # facet wrap by param if more than one parameter
+  if(length(unique(data$param)) > 1) {
+    p1 <- p1 +
+      ggplot2::facet_wrap(
+        . ~ param,
+        scales = scales,
+        ncol = ncol,
+        labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15))
+      )
+  }
+  else{
+    p1 <- p1 +
+      ggplot2::ylab((unique(data$param))[1])
+  }
 
   # add points
   if(include_points){
