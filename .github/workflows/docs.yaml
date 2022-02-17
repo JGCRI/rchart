@@ -50,7 +50,7 @@ jobs:
       - name: Track file
         run: |
           git add .github/r-depends.rds
-          git commit -m "test"
+          git commit -m "track file"
 
       - name: Rename file
         run: |
