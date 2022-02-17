@@ -51,10 +51,6 @@ jobs:
         run: |
           git mv csheet.pdf cheatsheet.pdf
 
-      - name: Track file
-        run: |
-          git stash -u
-
       - name: Auto commit
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
