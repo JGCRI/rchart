@@ -53,7 +53,7 @@ jobs:
 
       - name: Track file
         run: |
-          git stash -p -u
+          git stash -u
 
       - name: Auto commit
         uses: stefanzweifel/git-auto-commit-action@v4
