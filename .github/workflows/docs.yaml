@@ -59,6 +59,15 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: gh-pages
-          push_options: '--force'
+          push_options: --force
+          commit_message: Apply automatic changes
+          file_pattern: .
+          repository: .
+          commit_user_name: GitHub Actions
+          commit_user_email: actions@github.com
+          skip_dirty_check: false
+          skip_fetch: false
+          skip_checkout: false
+          disable_globbing: false
 
 
