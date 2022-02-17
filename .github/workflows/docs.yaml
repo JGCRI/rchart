@@ -53,7 +53,7 @@ jobs:
 
       - name: Track file
         run: |
-          git stash .github/r-depends.rds
+          git stash -p -u
 
       - name: Auto commit
         uses: stefanzweifel/git-auto-commit-action@v4
