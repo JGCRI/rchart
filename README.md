@@ -29,7 +29,7 @@
 <!-- ------------------------>
 <!-- ------------------------>
 
-Khan, Z., Zhao, M., Wild, T., Vernon, C., 2022. rchart - An R package to plot and compare data in charts across scenarios, regions, sectors and time periods. (In progress) Journal of Open Source Software, DOI: XXXX
+Khan, Z., Waite, T., Zhao, M., Wild, T., Pressburger, L., Vernon, C., 2022. rchart - An R package to plot and compare data in charts across scenarios, regions, sectors and time periods. (In progress) Journal of Open Source Software, DOI: XXXX
 
 <!-- ------------------------>
 <!-- ------------------------>
