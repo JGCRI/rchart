@@ -90,6 +90,8 @@ plot_param_difference <- function(data = NULL,
 
     palCharts_ref <- palCharts[names(palCharts) %in% unique(data_ref$scenario)]
     palCharts_diff <- palCharts[names(palCharts) %in% unique(data_diff$scenario)]
+    palCharts_ref <- palCharts_ref[names(palCharts_ref)%>%sort()]; palCharts_ref
+    palCharts_diff <- palCharts_diff[names(palCharts_diff)%>%sort()]; palCharts_diff
 
     if(!is.null(diff_text)){
       data_diff <- data_diff %>%

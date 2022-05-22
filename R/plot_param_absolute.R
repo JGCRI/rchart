@@ -44,6 +44,7 @@ plot_param_absolute <- function(data = NULL,
   }
 
   palCharts <- palCharts[names(palCharts) %in% unique(data$scenario)]
+  palCharts <- palCharts[names(palCharts)%>%sort()]; palCharts
 
 
   # Plot

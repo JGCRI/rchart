@@ -65,7 +65,8 @@ plot_class_difference <- function(data = NULL,
 
       # Check Color Palettes ....................................
       palAdd <- rep(jgcricolors::jgcricol()$pal_16,1000)
-      missNames <- unique(data$class)
+      missNames <- unique(data$class)[!unique(data$class) %in% names(jgcricolors::jgcricol()$pal_all)]
+
 
       if (length(missNames) > 0) {
         palAdd <- palAdd[1:length(missNames)]
@@ -85,6 +86,7 @@ plot_class_difference <- function(data = NULL,
         droplevels()
 
       palCharts <- palCharts[names(palCharts) %in% c(unique(data_ref$class),unique(data_diff$class))]
+      palCharts <- palCharts[names(palCharts)%>%sort()]; palCharts
 
       if(!is.null(diff_text)){
         data_diff <- data_diff %>%

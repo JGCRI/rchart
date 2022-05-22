@@ -33,7 +33,8 @@ plot_reg_absolute <- function(data = NULL,
 
   # Check Color Palettes ....................................
   palAdd <- rep(jgcricolors::jgcricol()$pal_basic,1000)
-  missNames <- unique(data$class)
+  missNames <- unique(data$class)[!unique(data$class) %in% names(jgcricolors::jgcricol()$pal_all)]
+
 
   if (length(missNames) > 0) {
     palAdd <- palAdd[1:length(missNames)]
@@ -44,6 +45,7 @@ plot_reg_absolute <- function(data = NULL,
   }
 
   palCharts <- palCharts[names(palCharts) %in% unique(data$class)]
+  palCharts <- palCharts[names(palCharts)%>%sort()]; palCharts
 
   # Plot
   p1 <- ggplot2::ggplot(data,
@@ -70,30 +72,24 @@ plot_reg_absolute <- function(data = NULL,
         labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15)),
         switch='y'
       )
-  }
-
-  # if one parameter and multiple scenarios, facet wrap by only scenario
-  # and add parameter as ylab
-  else if(length(unique(data$scenario)) > 1){
+  } else if(length(unique(data$scenario)) > 1){
+    # if one parameter and multiple scenarios, facet wrap by only scenario
+    # and add parameter as ylab
     p1 <- p1 +
-      ggplot2::facet_grid(
+      ggplot2::facet_wrap(
         ~ scenario,
         scales = scales
       ) +
       ggplot2::ylab((unique(data$param))[1])
-  }
-
-  # if one scenario and multiple parameters, facet wrap only by parameter
-  else if(length(unique(data$param)) > 1){
+  } else if(length(unique(data$param)) > 1){
+    # if one scenario and multiple parameters, facet wrap only by parameter
     p1 <- p1 +
-      ggplot2::facet_grid(
+      ggplot2::facet_wrap(
         ~ param,
         scales = scales
       )
-  }
-
-  # if one parameter and one scenario, just add parameter as ylab
-  else{
+  } else{
+    # if one parameter and one scenario, just add parameter as ylab
     p1 <- p1 +
       ggplot2::ylab((unique(data$param))[1])
   }

@@ -66,7 +66,7 @@ chart <- function(data = NULL,
 
   print("Starting chart...")
 
-  # Check
+  ## Check
   # col_agg = "class"
   # chart_type = "all"
   # aspect_ratio = 0.75
@@ -92,6 +92,8 @@ chart <- function(data = NULL,
   # width = NULL
   # height = NULL
   # append= ""
+  # break_interval = NULL
+  # include_points = FALSE
 
   #...........................
   # Initialize
@@ -128,6 +130,8 @@ chart <- function(data = NULL,
   #.................................
 
   data_full <- rchart::add_missing(data)
+  data_full <- data_full %>%
+    dplyr::mutate(class = dplyr::if_else(grepl("^class1$|^class$",class),param,class))
   data_agg <- rchart::aggregate_data(data = data_full, col_agg = col_agg)
   if(!is.null(scenRef)){
   data_full_diff <- rchart::calculate_diff(data = data_full,
@@ -174,11 +178,15 @@ chart <- function(data = NULL,
   # Prepare region subRegion append
   #.................................
 
-  regions <- data_full$region %>% unique()
-  subRegions <- data_full$subRegion %>% unique()
+  mapping_region_subRegion <- data_full %>%
+    dplyr::select(region,subRegion) %>%
+    unique() %>%
+    dplyr::mutate(region_subRegion_check = region==subRegion); mapping_region_subRegion
 
-  for(region_i in regions){
-    for(subRegion_i in subRegions){
+  for(row_i in 1:nrow(mapping_region_subRegion)){
+
+    region_i <- mapping_region_subRegion[row_i,]$region; region_i
+    subRegion_i <- mapping_region_subRegion[row_i,]$subRegion; subRegion_i
 
       # Prepare data for region_subRegion loops
       data_full_i <- data_full
@@ -187,14 +195,14 @@ chart <- function(data = NULL,
       data_agg_diff_i <- data_agg_diff
 
       # Filter for region if more than 1 region
-      if(length(regions)==1){region_i = ""} else {
+      if(length(unique(data_full$region))==1){region_i = ""} else {
         if(nrow(data_full_i)>0){ data_full_i<- data_full %>% dplyr::filter(region == region_i)}
         if(nrow(data_agg_i)>0){ data_agg_i <- data_agg %>% dplyr::filter(region == region_i)}
         if(nrow(data_full_diff_i)>0){ data_full_diff_i <- data_full_diff %>% dplyr::filter(region == region_i)}
         if(nrow(data_agg_diff_i)>0){ data_agg_diff_i <- data_agg_diff %>% dplyr::filter(region == region_i)}
       }
       # Filter for subRegions if more than 1 subRegion
-      if(length(subRegions)==1){subRegion_i=""} else {
+      if(length(unique(data_full$subRegion))==1){subRegion_i=""} else {
         if(nrow(data_full_i)>0){ data_full_i<- data_full %>% dplyr::filter(subRegion == subRegion_i)}
         if(nrow(data_agg_i)>0){ data_agg_i <- data_agg %>% dplyr::filter(subRegion == subRegion_i)}
         if(nrow(data_full_diff_i)>0){ data_full_diff_i <- data_full_diff %>% dplyr::filter(subRegion == subRegion_i)}
@@ -206,6 +214,8 @@ chart <- function(data = NULL,
       } else if (region_i == "" & subRegion_i != ""){
       region_subRegion = paste0(subRegion_i)
       }  else if (region_i != "" & subRegion_i == ""){
+        region_subRegion = paste0(region_i)
+      } else if (region_i != "" & subRegion_i != "" & region_i == subRegion_i){
         region_subRegion = paste0(region_i)
       } else {
         region_subRegion = paste0(region_i,"_",subRegion_i)
@@ -648,7 +658,6 @@ chart <- function(data = NULL,
 
 
     } # Close for(subRegion_i in subRegions){
-  } # Close for(region_i in regions){
 
   #.................................
   # Compare Region_subRegions
@@ -659,7 +668,9 @@ chart <- function(data = NULL,
     # Assign region_subRegion to class category
     if((length(unique(data_agg$region))>1) & (length(unique(data_agg$subRegion))>1)){
       data_agg_reg <- data_agg %>%
-        dplyr::mutate(class = paste0(region,"_",subRegion))
+        dplyr::mutate(region_subRegion_check = region!=subRegion,
+                      class = dplyr::if_else(region_subRegion_check,paste0(region,"_",subRegion),region)) %>%
+        dplyr::select(-region_subRegion_check)
     }
     if(!(length(unique(data_agg$region))>1) & (length(unique(data_agg$subRegion))>1)){
       data_agg_reg <- data_agg %>%
