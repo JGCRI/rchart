@@ -131,7 +131,8 @@ chart <- function(data = NULL,
 
   data_full <- rchart::add_missing(data)
   data_full <- data_full %>%
-    dplyr::mutate(class = dplyr::if_else(grepl("^class1$|^class$",class),param,class))
+    dplyr::mutate(class = as.character(class),
+                  class = dplyr::if_else(grepl("^class1$|^class$",class),param,class))
   data_agg <- rchart::aggregate_data(data = data_full, col_agg = col_agg)
   if(!is.null(scenRef)){
   data_full_diff <- rchart::calculate_diff(data = data_full,
