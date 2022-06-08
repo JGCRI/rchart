@@ -107,7 +107,7 @@ chart <- function(data = NULL,
   if(save){
     if(!dir.exists(folder)){
       dir.create(folder)
-      folder <- dirname(normalizePath(folder))
+      folder <- normalizePath(folder)
       }
   }
 

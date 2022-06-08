@@ -10,7 +10,8 @@ rchart::chart(data=rTable_i %>%
                                            "agProdByCrop","landAlloc")),
               scenRef = "Ref_RCP8p5_NORESM_5trail_delta_applied2015",
               append = "_all_summary",
-              chart_type = "param_absolute")
+              chart_type = "param_absolute",
+              folder = "charts_output")
 
 data=rTable_i %>%
   dplyr::filter(param %in% c("pop","gdp","elecFinalBySecTWh","elecByTechTWh",
@@ -96,5 +97,5 @@ data_plot <- data_extracted$dataAggClass1 %>%
 
 # Plot data with rchart
 charts <- rchart::chart(data_plot,
-                        save = T, show = T, scales = "free")
+                        save = T, show = T, scales = "free", folder="test_charts")
 
