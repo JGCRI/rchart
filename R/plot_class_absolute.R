@@ -134,7 +134,7 @@ plot_class_absolute <- function(data = NULL,
     invisible(p1)
   } else{
     # otherwise, return grid of parameters (cannot be modified later)
-    plot_out <- cowplot::plot_grid(plotlist=plist, ncol = 1)
+    plot_out <- cowplot::plot_grid(plotlist=plist, ncol = 1, align = "hv")
     invisible(plot_out)
   }
 

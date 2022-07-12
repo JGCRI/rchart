@@ -183,7 +183,7 @@ plot_class_difference <- function(data = NULL,
 
     }
 
-    plot_out <- cowplot::plot_grid(plotlist=plist, ncol=3, rel_widths = c(1, -0.25,length(scenDiff)))
+    plot_out <- cowplot::plot_grid(plotlist=plist, ncol=3, rel_widths = c(1, -0.75,length(scenDiff)), align = "hv", axis = "tblr")
 
   } else {
 

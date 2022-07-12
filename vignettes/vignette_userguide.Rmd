@@ -404,7 +404,7 @@ my_chart$chart_class_India
 Chart with `params` in each facet and multiple lines for each scenario.
 
 ### Multi Class Single Param Diff
-```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 5}
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=26, fig.height = 5}
 library(rchart);
 data = data.frame(scenario = rep(c("scen1","scen1","scen1",
                                "scen2","scen2","scen2",
@@ -429,7 +429,7 @@ my_chart$chart_class_diff_percent
 ```
 
 ### Multi Class Multi Param Diff
-```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 10}
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=27, fig.height = 10}
 library(rchart);
 data = data.frame(param = rep(c("param_1", "param_2","param_1", "param_2","param_1", "param_2",
                                 "param_1", "param_2","param_1", "param_2","param_1", "param_2",
@@ -457,7 +457,7 @@ my_chart$chart_class_diff_percent  # For just this chart rchart::chart(data, sce
 ```
 
 ### Multi Class Multi Param Multi Region
-```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 10}
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=27, fig.height = 10}
 library(rchart);
 data = data.frame(region = c(rep("Spain",54),
                              rep("India",54)),
