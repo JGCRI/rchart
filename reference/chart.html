@@ -87,97 +87,152 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">chart</span><span class="op">(</span>
-  data <span class="op">=</span> <span class="cn">NULL</span>,
-  col_agg <span class="op">=</span> <span class="st">"class"</span>,
-  chart_type <span class="op">=</span> <span class="st">"all"</span>,
-  aspect_ratio <span class="op">=</span> <span class="fl">0.75</span>,
-  size <span class="op">=</span> <span class="fl">0.75</span>,
-  size_text <span class="op">=</span> <span class="fl">15</span>,
-  theme <span class="op">=</span> <span class="cn">NULL</span>,
-  ncol <span class="op">=</span> <span class="cn">NULL</span>,
-  scales <span class="op">=</span> <span class="st">"free_y"</span>,
-  save <span class="op">=</span> <span class="cn">TRUE</span>,
-  show <span class="op">=</span> <span class="cn">FALSE</span>,
-  title <span class="op">=</span> <span class="cn">TRUE</span>,
-  folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>,
-  scenRef <span class="op">=</span> <span class="cn">NULL</span>,
-  scenDiff <span class="op">=</span> <span class="cn">NULL</span>,
-  xRef <span class="op">=</span> <span class="cn">NULL</span>,
-  xDiff <span class="op">=</span> <span class="cn">NULL</span>,
-  diff_type <span class="op">=</span> <span class="st">"both"</span>,
-  diff_type_x <span class="op">=</span> <span class="st">"both"</span>,
-  diff_text_percent <span class="op">=</span> <span class="st">"diffPrcnt"</span>,
-  diff_text_absolute <span class="op">=</span> <span class="st">"diffAbs"</span>,
-  diff_text_percent_x <span class="op">=</span> <span class="st">"xdiffPrcnt"</span>,
-  diff_text_absolute_x <span class="op">=</span> <span class="st">"xdiffAbs"</span>,
-  width <span class="op">=</span> <span class="cn">NULL</span>,
-  height <span class="op">=</span> <span class="cn">NULL</span>,
-  append <span class="op">=</span> <span class="st">""</span>,
-  break_interval <span class="op">=</span> <span class="cn">NULL</span>,
-  include_points <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">chart</span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  col_agg <span class="op">=</span> <span class="st">"class"</span>,</span>
+<span>  chart_type <span class="op">=</span> <span class="st">"all"</span>,</span>
+<span>  aspect_ratio <span class="op">=</span> <span class="fl">0.75</span>,</span>
+<span>  size <span class="op">=</span> <span class="fl">0.75</span>,</span>
+<span>  size_text <span class="op">=</span> <span class="fl">15</span>,</span>
+<span>  theme <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ncol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  scales <span class="op">=</span> <span class="st">"free_y"</span>,</span>
+<span>  save <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  title <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  scenRef <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  scenDiff <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  xRef <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  xDiff <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  diff_type <span class="op">=</span> <span class="st">"both"</span>,</span>
+<span>  diff_type_x <span class="op">=</span> <span class="st">"both"</span>,</span>
+<span>  diff_text_percent <span class="op">=</span> <span class="st">"diffPrcnt"</span>,</span>
+<span>  diff_text_absolute <span class="op">=</span> <span class="st">"diffAbs"</span>,</span>
+<span>  diff_text_percent_x <span class="op">=</span> <span class="st">"xdiffPrcnt"</span>,</span>
+<span>  diff_text_absolute_x <span class="op">=</span> <span class="st">"xdiffAbs"</span>,</span>
+<span>  width <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  height <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  append <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  break_interval <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  include_points <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>Default = NULL. Dataframe to test and convert.</p></dd>
+
+
 <dt>col_agg</dt>
 <dd><p>Default = "class". Column to remove and then aggregate by.</p></dd>
+
+
 <dt>chart_type</dt>
 <dd><p>Default = "all". Choices one or more of "all", "param_absolute", "class_absolute",
 "param_diff_absolute", "class_diff_absolute", "param_diff_percent", "class_diff_percent", "region_absolute"</p></dd>
+
+
 <dt>aspect_ratio</dt>
 <dd><p>Default = 0.75. aspect ratio</p></dd>
+
+
 <dt>size</dt>
 <dd><p>Default = 1.5. line size</p></dd>
+
+
 <dt>size_text</dt>
 <dd><p>Default = 15. Text size</p></dd>
+
+
 <dt>theme</dt>
 <dd><p>Default = NULL.</p></dd>
+
+
 <dt>ncol</dt>
 <dd><p>Default = 3. Number of columns.</p></dd>
+
+
 <dt>scales</dt>
 <dd><p>Default = "free". Choose between "free", "free_y", "free_x", "fixed"</p></dd>
+
+
 <dt>save</dt>
 <dd><p>Default = TRUE. Save plots.</p></dd>
+
+
 <dt>show</dt>
 <dd><p>Default = FALSE. Whether to show figure outputs in console.</p></dd>
+
+
 <dt>title</dt>
 <dd><p>Default = TRUE. Used for region or subRegions or to add title to all plots.</p></dd>
+
+
 <dt>folder</dt>
 <dd><p>Default = getwd().</p></dd>
+
+
 <dt>scenRef</dt>
 <dd><p>Default = NULL. Reference Scenario</p></dd>
+
+
 <dt>scenDiff</dt>
 <dd><p>Default = NULL. Difference Scenarios</p></dd>
+
+
 <dt>xRef</dt>
 <dd><p>Default = NULL. Reference x</p></dd>
+
+
 <dt>xDiff</dt>
 <dd><p>Default = NULL. Difference x</p></dd>
+
+
 <dt>diff_type</dt>
 <dd><p>Default = "both". One of "absolute", "percent", "both".</p></dd>
+
+
 <dt>diff_type_x</dt>
 <dd><p>Default = "both". One of "absolute", "percent", "both".</p></dd>
+
+
 <dt>diff_text_percent</dt>
 <dd><p>Default = "_diffPrcnt"</p></dd>
+
+
 <dt>diff_text_absolute</dt>
 <dd><p>Default = "_diffAbs"</p></dd>
+
+
 <dt>diff_text_percent_x</dt>
 <dd><p>Default = "_xdiffPrcnt"</p></dd>
+
+
 <dt>diff_text_absolute_x</dt>
 <dd><p>Default = "_xdiffAbs"</p></dd>
+
+
 <dt>width</dt>
 <dd><p>Default = NULL</p></dd>
+
+
 <dt>height</dt>
 <dd><p>Default = NULL</p></dd>
+
+
 <dt>append</dt>
 <dd><p>Default = ""</p></dd>
+
+
 <dt>break_interval</dt>
 <dd><p>Default = NULL. Intervals between x breaks starting from first x point.</p></dd>
+
+
 <dt>include_points</dt>
 <dd><p>Default = FALSE. Add data points to all line charts.</p></dd>
+
 </dl></div>
 
   </div>
@@ -192,7 +247,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>
