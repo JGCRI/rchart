@@ -11,7 +11,9 @@ plot_class_absolute(
   ncol = 3,
   scales = "free_y",
   size_text = 15,
-  break_interval = NULL
+  break_interval = NULL,
+  col_dim = "scenario",
+  row_dim = "param"
 )
 }
 \arguments{
@@ -28,6 +30,10 @@ plot_class_absolute(
 \item{size_text}{Default = 15. Text size}
 
 \item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
+
+\item{col_dim}{Default = "scenario". Choose between "scenario" or "region". Column facet variable.}
+
+\item{row_dim}{Default = "param". Column facet variable.}
 }
 \description{
 generate summary plot
