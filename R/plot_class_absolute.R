@@ -8,6 +8,8 @@
 #' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
 #' @param size_text Default = 15. Text size
 #' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
+#' @param col_dim Default = "scenario". Choose between "scenario" or "region". Column facet variable.
+#' @param row_dim Default = "param". Column facet variable.
 #' @importFrom magrittr %>%
 #' @export
 
@@ -17,7 +19,9 @@ plot_class_absolute <- function(data = NULL,
                                ncol = 3,
                                scales = "free_y",
                                size_text = 15,
-                               break_interval = NULL) {
+                               break_interval = NULL,
+                               col_dim = "scenario",
+                               row_dim = "param") {
 
 
 
@@ -31,11 +35,10 @@ plot_class_absolute <- function(data = NULL,
   # Plot
   #...........................
 
-
   plist <- list()
   count = 1
 
-  for(i in 1:length(unique(data$param))){
+  for(i in 1:length(unique(data[[row_dim]]))){
 
     # Check Color Palettes ....................................
     palAdd <- rep(jgcricolors::jgcricol()$pal_16,1000)
@@ -50,7 +53,7 @@ plot_class_absolute <- function(data = NULL,
     }
 
     data_plot <- data %>%
-      dplyr::filter(param==unique(data$param)[i])
+      dplyr::filter(get(row_dim)==unique(data[[row_dim]])[i])
 
    palCharts <- palCharts[names(palCharts) %in% unique(data_plot$class)]
    palCharts <- palCharts[names(palCharts)%>%sort()]; palCharts
@@ -73,35 +76,35 @@ plot_class_absolute <- function(data = NULL,
 
   #if(length(unique(data_plot$class))==1){p1 <- p1 + guides(fill="none");p1}
 
-  # if multiple parameters and scenarios, facet wrap by param and scenario
-  if(length(unique(data$param)) > 1 & length(unique(data$scenario)) > 1){
+  # if multiple parameters and scenarios/regions, facet wrap by param and scenario/region
+  if(length(unique(data[[col_dim]])) > 1 & length(unique(data[[row_dim]])) > 1){
     p1 <- p1 +
       ggplot2::facet_grid(
-        param ~ scenario,
+        get(row_dim) ~ get(col_dim),
         scales = scales,
-        labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15)),
+        labeller = ggplot2::labeller(row_dim = ggplot2::label_wrap_gen(15)),
         switch='y'
       )
   } else if(length(unique(data$scenario)) > 1){
-    # if one parameter and multiple scenarios, facet wrap by only scenario
-    # and add parameter as ylab
+    # if one row_dim and multiple col_dims, facet wrap by only col_dim
+    # and add row_dim as ylab
     p1 <- p1 +
       ggplot2::facet_grid(
-        ~ scenario,
+        ~ get(col_dim),
         scales = scales
       ) +
-      ggplot2::ylab((unique(data$param))[1])
-  } else if(length(unique(data$param)) > 1){
-    # if one scenario and multiple parameters, facet wrap only by parameter
+      ggplot2::ylab((unique(data[[row_dim]]))[1])
+  } else if(length(unique(data[[row_dim]])) > 1){
+    # if one col dim and multiple row dims, facet wrap only by row dim
     p1 <- p1 +
       ggplot2::facet_grid(
-        ~ param,
+        ~ get(row_dim),
         scales = scales
       )
   } else{
-    # if one parameter and one scenario, just add parameter as ylab
+    # if one row_dim and one col_dim, just add row_dim as ylab
     p1 <- p1 +
-      ggplot2::ylab((unique(data$param))[1])
+      ggplot2::ylab((unique(data[[row_dim]]))[1])
   }
 
 
@@ -130,11 +133,11 @@ plot_class_absolute <- function(data = NULL,
   }
 
   # return just the single plot if only one parameter
-  if(length(unique(data$param)) == 1){
+  if(length(unique(data[[row_dim]])) == 1){
     invisible(p1)
   } else{
     # otherwise, return grid of parameters (cannot be modified later)
-    plot_out <- cowplot::plot_grid(plotlist=plist, ncol = 1, align = "hv")
+    plot_out <- cowplot::plot_grid(plotlist=plist, ncol = 1, align = "hv", axis = "lr")
     invisible(plot_out)
   }
 

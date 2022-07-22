@@ -99,7 +99,7 @@ chart <- function(data = NULL,
   # Initialize
   #...........................
 
-  NULL -> region -> subRegion
+  NULL -> region -> subRegion -> region_subRegion_check -> param -> scenario
 
   charts_out <- list()
   count <- 1
@@ -661,8 +661,82 @@ chart <- function(data = NULL,
     } # Close for(subRegion_i in subRegions){
 
   #.................................
-  # Compare Region_subRegions
+  # Multi- Region plots
   #.................................
+
+  # region-param class plots
+
+  if((length(unique(data_agg$region))>1) | (length(unique(data_agg$subRegion))>1)){
+    # save a separate plot for each scenario
+    for(scen_i in 1:length(unique(data_full$scenario))){
+      scen_name_i <- unique(data_full$scenario)[scen_i]
+      data_full_i <- data_full %>% dplyr::filter(scenario == scen_name_i)
+      if (nrow(data_full_i) > 0 & any(grepl("all|class_absolute",chart_type,ignore.case = T))) {
+        chart_name_i <- "chart_class"
+        if(length(unique(data_full$scenario)) == 1){
+          fname_i <- paste0(folder, "/", chart_name_i, "byRegion", append,".png")
+          chart_name_i <- paste0(chart_name_i, "_byRegion")
+        } else {
+          fname_i <- paste0(folder, "/", chart_name_i, "_", scen_name_i,append,".png")
+          chart_name_i <- paste0(chart_name_i, "_", scen_name_i)
+        }
+
+        charts_out[[count]] <-
+          rchart::plot_class_absolute(
+            data = data_full_i,
+            theme = theme,
+            theme_default = theme_default,
+            ncol = ncol,
+            scales = scales,
+            size_text = size_text,
+            break_interval = break_interval,
+            col_dim = "region"
+          )
+
+        # data = data_full_i
+        # theme = theme
+        # theme_default = theme_default
+        # ncol = ncol
+        # scales = scales
+
+        # Set title if provided or turn off
+        if(title != F){
+          if(is.character(title)){
+            charts_out[[count]] <- charts_out[[count]] +
+              ggplot2::ggtitle(paste0(title," ",scen_name_i))}else{
+                charts_out[[count]] <- charts_out[[count]] +
+                  ggplot2::ggtitle(scen_name_i)
+              }
+        }
+
+        names(charts_out)[count] <- chart_name_i
+
+        if(show){ print(charts_out[[count]])}
+
+        if (save) {
+
+          width_i = 7*length(unique(data_full_i$scenario))
+          height_i = 5*length(unique(data_full_i$param))
+
+          if(!is.null(width)){width_i = width}
+          if(!is.null(height)){height_i = height}
+
+          ggplot2::ggsave(
+            filename = fname_i,
+            plot = charts_out[[count]],
+            width = width_i,
+            height = height_i,
+            units = "in"
+          )
+          print(paste0("Figure saved as: ", fname_i))
+        }
+
+        count = count + 1
+    }
+    }
+  }
+
+  # param-scenario region agg plots
 
   if((length(unique(data_agg$region))>1) | (length(unique(data_agg$subRegion))>1)){
 

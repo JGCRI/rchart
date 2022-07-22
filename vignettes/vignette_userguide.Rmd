@@ -394,6 +394,10 @@ data = data.frame(region = c(rep("Spain",54),
 my_chart <- rchart::chart(data) # For just this chart rchart::chart(data, chart_type="class_absolute")
 my_chart$chart_class_Spain 
 my_chart$chart_class_India
+
+my_chart$chart_class_scen1
+my_chart$chart_class_scen2
+my_chart$chart_class_scen3
 ```
 
 <!-------------------------->
