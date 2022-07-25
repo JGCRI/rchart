@@ -85,7 +85,7 @@ plot_class_absolute <- function(data = NULL,
         labeller = ggplot2::labeller(row_dim = ggplot2::label_wrap_gen(15)),
         switch='y'
       )
-  } else if(length(unique(data$scenario)) > 1){
+  } else if(length(unique(data[[col_dim]])) > 1){
     # if one row_dim and multiple col_dims, facet wrap by only col_dim
     # and add row_dim as ylab
     p1 <- p1 +
