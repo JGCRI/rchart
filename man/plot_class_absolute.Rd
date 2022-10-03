@@ -11,9 +11,12 @@ plot_class_absolute(
   ncol = 3,
   scales = "free_y",
   size_text = 15,
+  size = 1.5,
   break_interval = NULL,
   col_dim = "scenario",
-  row_dim = "param"
+  row_dim = "param",
+  summary_line = F,
+  data_agg = NULL
 )
 }
 \arguments{
@@ -29,11 +32,17 @@ plot_class_absolute(
 
 \item{size_text}{Default = 15. Text size}
 
+\item{size}{Default = 1.5. Line size for summary lines}
+
 \item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
 
 \item{col_dim}{Default = "scenario". Choose between "scenario" or "region". Column facet variable.}
 
 \item{row_dim}{Default = "param". Column facet variable.}
+
+\item{summary_line}{Default = FALSE. Add parameter summary line to all bar charts.}
+
+\item{data_agg}{Default = NULL. Aggregated param data for the summary line.}
 }
 \description{
 generate summary plot

@@ -10,6 +10,9 @@
 #' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
 #' @param col_dim Default = "scenario". Choose between "scenario" or "region". Column facet variable.
 #' @param row_dim Default = "param". Column facet variable.
+#' @param summary_line Default = FALSE. Add parameter summary line to all bar charts.
+#' @param data_agg Default = NULL. Aggregated param data for the summary line.
+#' @param size Default = 1.5. Line size for summary lines
 #' @importFrom magrittr %>%
 #' @export
 
@@ -19,9 +22,12 @@ plot_class_absolute <- function(data = NULL,
                                ncol = 3,
                                scales = "free_y",
                                size_text = 15,
+                               size = 1.5,
                                break_interval = NULL,
                                col_dim = "scenario",
-                               row_dim = "param") {
+                               row_dim = "param",
+                               summary_line = F,
+                               data_agg = NULL) {
 
 
 
@@ -53,6 +59,8 @@ plot_class_absolute <- function(data = NULL,
     }
 
     data_plot <- data %>%
+      dplyr::filter(get(row_dim)==unique(data[[row_dim]])[i])
+    data_agg_plot = data_agg %>%
       dplyr::filter(get(row_dim)==unique(data[[row_dim]])[i])
 
    palCharts <- palCharts[names(palCharts) %in% unique(data_plot$class)]
@@ -122,6 +130,15 @@ plot_class_absolute <- function(data = NULL,
         ggplot2::scale_x_discrete(breaks = function(x){
           x[c(TRUE, rep(FALSE, times = break_interval-1))]})
     }
+  }
+
+  # add line for param total if desired
+  if(summary_line){
+    p1 <- p1 +
+      ggplot2::geom_line(data = data_agg_plot,
+                         ggplot2::aes(x = x, y = value,
+                                      fill = NULL, group = NULL),
+                         size = size)
   }
 
   if(!is.null(theme)){p1 <- p1 + theme}

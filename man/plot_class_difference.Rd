@@ -15,7 +15,10 @@ plot_class_difference(
   diff_type = "bar",
   size = 1.5,
   break_interval = NULL,
-  include_points = FALSE
+  include_points = FALSE,
+  summary_line = FALSE,
+  data_agg_ref = NULL,
+  data_agg_diff = NULL
 )
 }
 \arguments{
@@ -40,6 +43,12 @@ plot_class_difference(
 \item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
 
 \item{include_points}{Default = FALSE. Add data points to all line charts.}
+
+\item{summary_line}{Default = FALSE. Add parameter summary line to all bar charts.}
+
+\item{data_agg_ref}{Default = NULL. Aggregated param data for the summary line on the scenRef bar chart.}
+
+\item{data_agg_diff}{Default = NULL. Aggregated param diff data for the summary lines on the scenDiff bar charts.}
 }
 \description{
 generate chart plot for absolute difference and percent difference
