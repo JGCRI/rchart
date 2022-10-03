@@ -427,7 +427,7 @@ data = data.frame(scenario = rep(c("scen1","scen1","scen1",
                               367, 483, 593,
                               100, 304, 102)))
 
-my_chart <- rchart::chart(data, save = F, scenRef = "scen1", include_points = T)
+my_chart <- rchart::chart(data, save = F, scenRef = "scen1")
 my_chart$chart_class_diff_absolute
 my_chart$chart_class_diff_percent
 ```
@@ -534,6 +534,63 @@ my_chart$chart_region_absolute
 # Other Plotting Options
 <!-------------------------->
 <!-------------------------->
+
+<!-------------------------->
+## Add summary line to bar charts
+<!-------------------------->
+
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+The `summary_line` argument can be used to overlay a parameter summary line over bar charts. This is especially useful for barcharts that include both positive and negative values. Setting `summary_line = T` will add summary lines to all bar charts generated, including diff charts. 
+
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 5}
+library(rchart);
+data = data.frame(scenario = rep(c("scen1","scen1","scen1",
+                               "scen2","scen2","scen2",
+                               "scen3","scen3","scen3"),3),
+                  year = rep(rep(c(2010,2020,2030),3),3),
+                  class = c(rep("class_1",9),
+                            rep("class_2",9),
+                            rep("class_3",9)),
+                  param = rep("param_1", 27),
+                  value = c(c(32, 38, 54,
+                              37, 53, 23,
+                              40, 44, 12),
+                            c(-10, -21, -24,
+                              -67, -83, -93, 
+                              -10, -34, -02),
+                            c(50, 121, 124,
+                              367, 483, 593,
+                              100, 304, 102)))
+
+my_chart <- rchart::chart(data, save = F, summary_line = T)
+my_chart$chart_class # For just this chart rchart::chart(data, chart_type="class_absolute")
+```
+
+
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=26, fig.height = 5}
+library(rchart);
+data = data.frame(scenario = rep(c("scen1","scen1","scen1",
+                               "scen2","scen2","scen2",
+                               "scen3","scen3","scen3"),3),
+                  year = rep(rep(c(2010,2020,2030),3),3),
+                  class = c(rep("class_1",9),
+                            rep("class_2",9),
+                            rep("class_3",9)),
+                  value = c(c(32, 38, 54,
+                              37, 53, 23,
+                              40, 44, 12),
+                            c(-10, -21, -24,
+                              -67, -83, -93, 
+                              -10, -34, -02),
+                            c(50, 121, 124,
+                              367, 483, 593,
+                              100, 304, 102)))
+
+my_chart <- rchart::chart(data, save = F, scenRef = "scen1", summary_line = T)
+my_chart$chart_class_diff_absolute
+my_chart$chart_class_diff_percent
+```
 
 <!-------------------------->
 ## Add points to line charts

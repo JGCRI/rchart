@@ -12,6 +12,9 @@
 #' @param size Default = 1.5. Line size
 #' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
 #' @param include_points Default = FALSE. Add data points to all line charts.
+#' @param summary_line Default = FALSE. Add parameter summary line to all bar charts.
+#' @param data_agg_ref Default = NULL. Aggregated param data for the summary line on the scenRef bar chart.
+#' @param data_agg_diff Default = NULL. Aggregated param diff data for the summary lines on the scenDiff bar charts.
 #' @importFrom magrittr %>%
 #' @export
 
@@ -25,7 +28,10 @@ plot_class_difference <- function(data = NULL,
                                   diff_type = "bar",
                                   size = 1.5,
                                   break_interval = NULL,
-                                  include_points = FALSE) {
+                                  include_points = FALSE,
+                                  summary_line = FALSE,
+                                  data_agg_ref = NULL,
+                                  data_agg_diff = NULL) {
 
 
   # data = NULL
@@ -81,8 +87,16 @@ plot_class_difference <- function(data = NULL,
         dplyr::filter(param==unique(data$param)[i], scenario == scenRef)%>%
         droplevels()
 
+      data_agg_ref_chart <- data_agg_ref %>%
+        dplyr::filter(param==unique(data$param)[i])%>%
+        droplevels()
+
       data_diff <- data %>%
         dplyr::filter(param==unique(data$param)[i], scenario %in% scenDiff) %>%
+        droplevels()
+
+      data_agg_diff_chart <- data_agg_diff %>%
+        dplyr::filter(param==unique(data$param)[i])%>%
         droplevels()
 
       palCharts <- palCharts[names(palCharts) %in% c(unique(data_ref$class),unique(data_diff$class))]
@@ -126,6 +140,16 @@ plot_class_difference <- function(data = NULL,
         }
       }
 
+      # add summary line if desired
+      if(summary_line){
+        p1 <- p1 +
+          ggplot2::geom_line(data = dplyr::filter(
+            data_agg_ref_chart, scenario == scenRef),
+                             ggplot2::aes(x = x, y = value,
+                                          fill = NULL, group = NULL),
+                             size = size)
+      }
+
       if(!is.null(theme)){p1 <- p1 + theme}
 
       plist[[count]] <- p1
@@ -148,7 +172,17 @@ plot_class_difference <- function(data = NULL,
 
       if(diff_type=="bar"){p2 <- p2 +
         ggplot2::geom_bar(ggplot2::aes(fill=class),position="stack", stat="identity") +
-        ggplot2::scale_fill_manual(breaks=names(palCharts),values=palCharts)}
+        ggplot2::scale_fill_manual(breaks=names(palCharts),values=palCharts)
+        # add summary line if desired
+        if(summary_line){
+          p2 <- p2 +
+            ggplot2::geom_line(data = dplyr::mutate(dplyr::filter(
+              data_agg_diff_chart, grepl("diffAbs", scenario)),
+              scenario = gsub("diffAbs.*", "diffAbs", scenario)),
+                               ggplot2::aes(x = x, y = value,
+                                            fill = NULL, group = NULL),
+                               size = size)
+      }}
 
       if(diff_type=="line"){p2 <- p2 +
         ggplot2::geom_line(ggplot2::aes(color=class),size=size) +
@@ -177,6 +211,7 @@ plot_class_difference <- function(data = NULL,
         }
       }
 
+
       if(!is.null(theme)){p2 <- p2 + theme}
       plist[[count + 2]] <- p2
       count =  count +3
@@ -184,6 +219,8 @@ plot_class_difference <- function(data = NULL,
     }
 
     plot_out <- cowplot::plot_grid(plotlist=plist, ncol=3, rel_widths = c(1, -0.75,length(scenDiff)), align = "hv", axis = "tblr")
+
+
 
   } else {
 

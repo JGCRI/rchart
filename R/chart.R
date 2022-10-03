@@ -31,6 +31,7 @@
 #' @param append Default = ""
 #' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
 #' @param include_points Default = FALSE. Add data points to all line charts.
+#' @param summary_line Default = FALSE. Add parameter summary line to all bar charts.
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
 #' @export
@@ -62,7 +63,8 @@ chart <- function(data = NULL,
                   height = NULL,
                   append = "",
                   break_interval = NULL,
-                  include_points = FALSE){
+                  include_points = FALSE,
+                  summary_line = FALSE){
 
   print("Starting chart...")
 
@@ -456,7 +458,9 @@ chart <- function(data = NULL,
             ncol = ncol,
             scales = scales,
             size_text = size_text,
-            break_interval = break_interval
+            break_interval = break_interval,
+            summary_line = summary_line,
+            data_agg = data_agg_i
           )
 
         # data = data_full_i
@@ -526,7 +530,10 @@ chart <- function(data = NULL,
             theme_default = theme_default,
             diff_text = diff_text_absolute,
             break_interval = break_interval,
-            include_points = include_points
+            include_points = include_points,
+            summary_line = summary_line,
+            data_agg_ref = data_agg_i,
+            data_agg_diff = data_agg_diff_i
           )
 
         # data = data_full_diff_i
@@ -603,9 +610,11 @@ chart <- function(data = NULL,
             theme_default = theme_default,
             diff_text = diff_text_percent,
             diff_type="line",
-            size=size,
             break_interval = break_interval,
-            include_points = include_points
+            include_points = include_points,
+            summary_line = summary_line,
+            data_agg_ref = data_agg_i,
+            data_agg_diff = data_agg_diff_i
           )
 
         # data = data_full_diff_i
@@ -690,7 +699,9 @@ chart <- function(data = NULL,
             scales = scales,
             size_text = size_text,
             break_interval = break_interval,
-            col_dim = "region"
+            col_dim = "region",
+            summary_line = summary_line,
+            data_agg = data_agg_i
           )
 
         # data = data_full_i

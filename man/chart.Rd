@@ -32,7 +32,8 @@ chart(
   height = NULL,
   append = "",
   break_interval = NULL,
-  include_points = FALSE
+  include_points = FALSE,
+  summary_line = FALSE
 )
 }
 \arguments{
@@ -92,6 +93,8 @@ chart(
 \item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
 
 \item{include_points}{Default = FALSE. Add data points to all line charts.}
+
+\item{summary_line}{Default = FALSE. Add parameter summary line to all bar charts.}
 }
 \description{
 Used to add missing data to input files and customize format
