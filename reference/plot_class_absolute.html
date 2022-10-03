@@ -94,9 +94,12 @@
 <span>  ncol <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  scales <span class="op">=</span> <span class="st">"free_y"</span>,</span>
 <span>  size_text <span class="op">=</span> <span class="fl">15</span>,</span>
+<span>  size <span class="op">=</span> <span class="fl">1.5</span>,</span>
 <span>  break_interval <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  col_dim <span class="op">=</span> <span class="st">"scenario"</span>,</span>
-<span>  row_dim <span class="op">=</span> <span class="st">"param"</span></span>
+<span>  row_dim <span class="op">=</span> <span class="st">"param"</span>,</span>
+<span>  summary_line <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  data_agg <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -126,6 +129,10 @@
 <dd><p>Default = 15. Text size</p></dd>
 
 
+<dt>size</dt>
+<dd><p>Default = 1.5. Line size for summary lines</p></dd>
+
+
 <dt>break_interval</dt>
 <dd><p>Default = NULL. Intervals between x breaks starting from first x point.</p></dd>
 
@@ -136,6 +143,14 @@
 
 <dt>row_dim</dt>
 <dd><p>Default = "param". Column facet variable.</p></dd>
+
+
+<dt>summary_line</dt>
+<dd><p>Default = FALSE. Add parameter summary line to all bar charts.</p></dd>
+
+
+<dt>data_agg</dt>
+<dd><p>Default = NULL. Aggregated param data for the summary line.</p></dd>
 
 </dl></div>
 
