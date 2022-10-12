@@ -33,7 +33,8 @@ chart(
   append = "",
   break_interval = NULL,
   include_points = FALSE,
-  summary_line = FALSE
+  summary_line = FALSE,
+  waterfall_x = NULL
 )
 }
 \arguments{
@@ -95,6 +96,8 @@ chart(
 \item{include_points}{Default = FALSE. Add data points to all line charts.}
 
 \item{summary_line}{Default = FALSE. Add parameter summary line to all bar charts.}
+
+\item{waterfall_x}{Default = NULL. Year (or x value) for which to make waterfall plot. If NULL, latest year will be used}
 }
 \description{
 Used to add missing data to input files and customize format

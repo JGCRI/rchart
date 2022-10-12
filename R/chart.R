@@ -32,6 +32,7 @@
 #' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
 #' @param include_points Default = FALSE. Add data points to all line charts.
 #' @param summary_line Default = FALSE. Add parameter summary line to all bar charts.
+#' @param waterfall_x Default = NULL. Year (or x value) for which to make waterfall plot. If NULL, latest year will be used
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
 #' @export
@@ -64,11 +65,12 @@ chart <- function(data = NULL,
                   append = "",
                   break_interval = NULL,
                   include_points = FALSE,
-                  summary_line = FALSE){
+                  summary_line = FALSE,
+                  waterfall_x = NULL){
 
   print("Starting chart...")
 
-  ## Check
+  # # Check
   # col_agg = "class"
   # chart_type = "all"
   # aspect_ratio = 0.75
@@ -98,7 +100,7 @@ chart <- function(data = NULL,
   # include_points = FALSE
 
   #...........................
-  # Initialize
+  # Initialize -----------------------------------------------------------------
   #...........................
 
   NULL -> region -> subRegion -> region_subRegion_check -> param -> scenario
@@ -128,7 +130,7 @@ chart <- function(data = NULL,
   )
 
   #.................................
-  # Prepare Data
+  # Prepare Data ---------------------------------------------------------------
   #.................................
 
   data_full <- rchart::add_missing(data)
@@ -178,13 +180,17 @@ chart <- function(data = NULL,
   n_scenario = length(unique(data_full$scenario))
 
   #.................................
-  # Prepare region subRegion append
+  # Prepare region subRegion append --------------------------------------------
   #.................................
 
   mapping_region_subRegion <- data_full %>%
     dplyr::select(region,subRegion) %>%
     unique() %>%
     dplyr::mutate(region_subRegion_check = region==subRegion); mapping_region_subRegion
+
+  #.................................
+  # Single-Region Charts -------------------------------------------------------
+  #.................................
 
   for(row_i in 1:nrow(mapping_region_subRegion)){
 
@@ -225,9 +231,13 @@ chart <- function(data = NULL,
       }
 
 
+
+
   #.................................
-  # Params (Aggregated Classes) Line Plot Scenarios Absolute
+  ## Params (Aggregated Classes) Line Plots ====================================
   #.................................
+
+  ### Scenarios Absolute #######################################################
 
       if (nrow(data_agg_i) > 0 & any(grepl("all|param_absolute",chart_type,ignore.case = T))) {
         chart_name_i <- "chart_param"
@@ -289,9 +299,7 @@ chart <- function(data = NULL,
         count = count + 1
       }
 
-  #.................................
-  # Params (Aggregated Classes) Line Plot Scenarios Difference Absolute
-  #.................................
+  ### Scenarios Difference Absolute ############################################
 
       if (nrow(data_agg_diff_i) > 0 & any(grepl("all|param_diff_absolute",chart_type,ignore.case = T))) {
 
@@ -360,9 +368,7 @@ chart <- function(data = NULL,
         count = count + 1
       }
 
-  #.................................
-  # Params (Aggregated Classes) Line Plot Scenarios Difference Percent
-  #.................................
+  ### Scenarios Difference Percent ##############################################
 
       if (nrow(data_agg_diff_i) > 0 & any(grepl("all|param_diff_percent",chart_type,ignore.case = T))) {
 
@@ -432,15 +438,13 @@ chart <- function(data = NULL,
 
 
   #.................................
-  # By Classes Expanded if Class is > 1
+  ## Params and Classes Bar Charts =============================================
   #.................................
+  # if more than one class
+
+  ### Scenarios Absolute #######################################################
 
   if(length(unique(data_full_i$class))>1){
-
-  #.................................
-  # Params and Classes Bar Plot Scenarios Absolute
-  #.................................
-
       if (nrow(data_full_i) > 0 & any(grepl("all|class_absolute",chart_type,ignore.case = T))) {
         chart_name_i <- "chart_class"
         if(region_subRegion==""){
@@ -504,9 +508,7 @@ chart <- function(data = NULL,
         count = count + 1
       }
 
-  #.................................
-  # Params and Classes Bar Plot Scenarios Difference Absolute
-  #.................................
+  ### Scenarios Difference Absolute ############################################
 
 
       if (nrow(data_full_diff_i) > 0 & any(grepl("all|class_diff_absolute",chart_type,ignore.case = T))) {
@@ -583,11 +585,7 @@ chart <- function(data = NULL,
         count = count + 1
       }
 
-  #.................................
-  # Params and Classes Bar Plot Scenarios Difference Percent
-  #.................................
-
-
+  ### Scenarios Difference Percent #############################################
 
       if (nrow(data_full_diff_i) > 0 & any(grepl("all|class_diff_percent",chart_type,ignore.case = T))) {
 
@@ -664,16 +662,95 @@ chart <- function(data = NULL,
         count = count + 1
       }
 
+    ### Waterfall chart ########################################################
+    if (nrow(data_full_diff_i) > 0 & any(grepl("all|class_waterfall",chart_type,ignore.case = T))){
+      # get all the scenDiff names
+      scenDiff = unique(data_full$scenario)[!unique(data_full$scenario) %in% scenRef]
+
+      # make one chart for each scenDiff
+
+
+      chart_name_i <- "chart_class_waterfall"
+      if(region_subRegion==""){
+        fname_i <- paste0(folder, "/", chart_name_i, "_", append,".png")
+      } else {
+        fname_i <- paste0(folder, "/", chart_name_i, "_", region_subRegion,append,".png")
+        chart_name_i <- paste0(chart_name_i, "_", region_subRegion)
+      }
+
+      # set the year (or x value) for the waterfall plot
+      if(!is.null(waterfall_x)){
+        wf_x <- waterfall_x
+      } else{
+        wf_x <- max(data_full_diff_i$x)
+      }
+
+      charts_out[[count]] <-
+        rchart::plot_class_waterfall(
+          data_diff = data_full_diff_i,
+          data_agg = data_agg_diff_i,
+          scenRef = scenRef,
+          scenDiff = scenDiff,
+          theme = theme,
+          theme_default = theme_default,
+          diff_text = diff_text_absolute,
+          break_interval = break_interval,
+          include_points = include_points,
+          summary_line = summary_line,
+          wf_x = wf_x
+        )
+
+      # Set title if provided or turn off
+      if(title != F){
+        if(is.character(title)){
+          title_label <- cowplot::ggdraw() +
+            cowplot::draw_label(paste0(title," ",region_subRegion), fontface='bold', vjust=0, hjust=-0.25,x=0, y=0)
+          charts_out[[count]] <- cowplot::plot_grid(title_label, charts_out[[count]], ncol=1, rel_heights=c(0.5,5*n_param))
+        }else{
+          title_label <- cowplot::ggdraw() +
+            cowplot::draw_label(paste0(region_subRegion), fontface='bold', vjust=0, hjust=-0.25,x=0, y=0)
+          charts_out[[count]] <- cowplot::plot_grid(title_label, charts_out[[count]], ncol=1, rel_heights=c(0.5,5*n_param))
+
+        }
+      }
+
+      names(charts_out)[count] <- chart_name_i
+
+      if(show){ print(charts_out[[count]])}
+
+      if (save) {
+
+        width_i = 7*n_scenario
+        height_i = 5*n_param
+
+        if(!is.null(width)){width_i = width}
+        if(!is.null(height)){height_i = height}
+
+        ggplot2::ggsave(
+          filename = fname_i,
+          plot = charts_out[[count]],
+          width = width_i,
+          height = height_i,
+          units = "in"
+        )
+
+        print(paste0("Figure saved as: ", fname_i))
+      }
+
+      count = count + 1
+      }
+
+
     } # if > 1 class
 
 
-    } # Close for(subRegion_i in subRegions){
+    } # Close for(subRegion_i in subRegions)
 
   #.................................
-  # Multi- Region plots
+  ## Multi- Region plots =======================================================
   #.................................
 
-  # region-param class plots
+  ### region-param class plots #################################################
 
   if((length(unique(data_agg$region))>1) | (length(unique(data_agg$subRegion))>1)){
     # save a separate plot for each scenario
@@ -747,7 +824,7 @@ chart <- function(data = NULL,
     }
   }
 
-  # param-scenario region agg plots
+  ### param-scenario region agg plots ##########################################
 
   if((length(unique(data_agg$region))>1) | (length(unique(data_agg$subRegion))>1)){
 
