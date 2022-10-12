@@ -192,7 +192,7 @@ my_chart$chart_param # For just this chart rchart::chart(data, chart_type="param
 ```
 
 ### Multiple Params & Regions
-```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 5}
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rchart);
 data = data.frame(region = rep(c("Spain", "India","Spain", "India","Spain", "India",
                                 "Spain", "India","Spain", "India","Spain", "India",
@@ -315,7 +315,7 @@ Chart with `params` in each facet and multiple lines for each scenario.
 
 ### Multi Class Single Param
 
-```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 5}
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=10, fig.height = 2.5, out.width="100%"}
 library(rchart);
 data = data.frame(scenario = rep(c("scen1","scen1","scen1",
                                "scen2","scen2","scen2",
@@ -340,7 +340,7 @@ my_chart$chart_class # For just this chart rchart::chart(data, chart_type="class
 ```
 
 ### Multi Class Multi Param
-```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 10}
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=10, fig.height = 5, out.width="100%"}
 library(rchart);
 data = data.frame(param = rep(c("param_1", "param_2","param_1", "param_2","param_1", "param_2",
                                 "param_1", "param_2","param_1", "param_2","param_1", "param_2",
@@ -367,7 +367,7 @@ my_chart$chart_class  # For just this chart rchart::chart(data, chart_type="clas
 ```
 
 ### Multi Class Multi Param Multi Region
-```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=21, fig.height = 10}
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=10, fig.height = 5, out.width="100%"}
 library(rchart);
 data = data.frame(region = c(rep("Spain",54),
                              rep("India",54)),
@@ -408,7 +408,7 @@ my_chart$chart_class_scen3
 Chart with `params` in each facet and multiple lines for each scenario.
 
 ### Multi Class Single Param Diff
-```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=26, fig.height = 5}
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=26, fig.height = 5, out.width="100%"}
 library(rchart);
 data = data.frame(scenario = rep(c("scen1","scen1","scen1",
                                "scen2","scen2","scen2",
@@ -433,7 +433,7 @@ my_chart$chart_class_diff_percent
 ```
 
 ### Multi Class Multi Param Diff
-```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=27, fig.height = 10}
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=27, fig.height = 10, out.width="100%"}
 library(rchart);
 data = data.frame(param = rep(c("param_1", "param_2","param_1", "param_2","param_1", "param_2",
                                 "param_1", "param_2","param_1", "param_2","param_1", "param_2",
@@ -461,7 +461,7 @@ my_chart$chart_class_diff_percent  # For just this chart rchart::chart(data, sce
 ```
 
 ### Multi Class Multi Param Multi Region
-```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=27, fig.height = 10}
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=27, fig.height = 10, out.width="100%"}
 library(rchart);
 data = data.frame(region = c(rep("Spain",54),
                              rep("India",54)),
@@ -494,6 +494,43 @@ my_chart$chart_class_diff_percent_Spain
 my_chart$chart_class_diff_percent_India
 ```
 
+<!-------------------------->
+## Plot Class Waterfall
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+This chart type creates a waterfall plot for a single year (or x value) comparing a reference scenario to difference scenario(s). The leftmost bar in the plot represents the parameter total for the reference scenario, the rightmost bar represents the parameter total for the difference scenario, and the middle rectangles represent the differences between the scenarios for each class. The default year is the latest one in the data (or largest x value), but a different year can be selected using the `waterfall_x` argument.
+
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=8, fig.height = 5.5, out.width="100%"}
+library(rchart);
+data = data.frame(region = c(rep("Spain",54),
+                             rep("India",54)),
+                  param = rep(rep(c("param_1", "param_2","param_1", "param_2","param_1", "param_2",
+                                "param_1", "param_2","param_1", "param_2","param_1", "param_2",
+                                "param_1", "param_2","param_1", "param_2","param_1", "param_2"),3),2),
+                  scenario = rep(rep(c("scen1","scen1","scen1","scen1","scen1","scen1",
+                               "scen2","scen2","scen2","scen2","scen2","scen2",
+                               "scen3","scen3","scen3","scen3","scen3","scen3"),3),2),
+                  year = rep(rep(rep(c(2010,2010,2020,2020,2030,2030),3),3),2),
+                  class = rep(c(rep("class_1",18),
+                            rep("class_2",18),
+                            rep("class_3",18)),2),
+                  value = rep(c(c(32, 138, 54, 163, 24, 123,
+                              37, 153, 23, 112, 45, 147,
+                              40, 144, 12, 130, 99, 1103),
+                            c(10, 121, 24, 113, 14, 113,
+                              67, 183, 93, 192, 95, 1107,
+                              10, 134, 02, 110, 39, 133),
+                            c(50, 1121, 124, 1113, 214, 1313,
+                              367, 1483, 593, 1692, 795, 1907,
+                              100, 1304, 102, 1107, 339, 1233)),2))
+
+my_chart <- rchart::chart(data, save = F, scenRef = "scen1") # For just this chart rchart::chart(data, chart_type="class_waterfall")
+my_chart$chart_class_waterfall_Spain
+
+my_chart2 <- rchart::chart(data, save = F, scenRef = "scen1", waterfall_x = 2020)
+my_chart2$chart_class_waterfall_India
+```
 
 <!-------------------------->
 ## Plot Region Compare
