@@ -107,13 +107,18 @@
 <span>  horizontal_lines <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  lty <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  fill_colors <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  totals_fill_color <span class="op">=</span> <span class="st">"gray90"</span></span>
+<span>  totals_fill_color <span class="op">=</span> <span class="st">"gray90"</span>,</span>
+<span>  palette <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>data_diff</dt>
+<dd><p>Default = NULL.</p></dd>
+
+
+<dt>data_agg</dt>
 <dd><p>Default = NULL.</p></dd>
 
 
@@ -169,6 +174,10 @@
 <dd><p>Default = 0.7. Width of the rectangles in the waterfall plot.</p></dd>
 
 
+<dt>aspect_ratio</dt>
+<dd><p>Default = 0.6. Aspect ratio of the plot. Default is lower (more horizontal) than other rchart default</p></dd>
+
+
 <dt>horizontal_lines</dt>
 <dd><p>Default = TRUE. Whether to include horizontal lines between rectangles</p></dd>
 
@@ -181,16 +190,12 @@
 <dd><p>Default = NULL. Vector of colors for rectangles. If not specified, uses jgcricolors corresponding to classes</p></dd>
 
 
-<dt>aspec_ratio</dt>
-<dd><p>Default = 0.6. Aspect ratio of the plot. Default is lower (more horizontal) than other rchart default</p></dd>
+<dt>totals_fill_color</dt>
+<dd><p>Default = "gray90". Color of the param total bars for the ref and diff scenarios</p></dd>
 
 
-<dt>data_agg_ref</dt>
-<dd><p>Default = NULL. Aggregated param data for the summary line on the scenRef bar chart.</p></dd>
-
-
-<dt>data_agg_diff</dt>
-<dd><p>Default = NULL. Aggregated param diff data for the summary lines on the scenDiff bar charts.</p></dd>
+<dt>palette</dt>
+<dd><p>Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios; class colors will be used if provided)</p></dd>
 
 </dl></div>
 
