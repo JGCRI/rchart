@@ -573,6 +573,58 @@ my_chart$chart_region_absolute
 <!-------------------------->
 
 <!-------------------------->
+## Custom color palettes
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+Custom color palettes can be applied to line, bar, and waterfall charts using the `palette` argument, which is given as a named vector. Any color or fill aesthetics (scenario, region, class) can be included in the custom palette and the relevant colors will be applied to each plot.
+
+```{r, results = 'hide', eval = TRUE, echo = TRUE, warning = FALSE, error = FALSE, message = FALSE}
+library(rchart);
+data = data.frame(region = c(rep("Spain",27),
+                             rep("India",27)),
+                  param = rep("param_1", 54),
+                  scenario = rep(rep(c("scen1","scen1","scen1",
+                               "scen2","scen2","scen2",
+                               "scen3","scen3","scen3"),3),2),
+                  year = rep(rep(rep(c(2010,2020,2030),3),3),2),
+                  class = rep(c(rep("class_1",9),
+                            rep("class_2",9),
+                            rep("class_3",9)),2),
+                  value = c(c(32, 54, 24, 37, 23, 45,40, 12, 99),
+                            c(10, 24, 14, 67, 93, 95, 10, 02, 39),
+                            c(50, 124, 214, 367, 593, 795, 100, 102, 339),
+                            c(16, 60, 24, 27, 40, 15, 20, 30, 80),
+                            c(5, 12, 14, 70, 100, 75, 20, 10, 30),
+                            c(45, 120, 200, 400, 450, 400, 100, 135, 375)))
+
+pal <- c("class_1" = "orange", "class_2" = "skyblue", "class_3" = "forestgreen",
+         "scen1" = "coral", "scen2" = "darkblue", "scen3" = "grey",
+         "Spain" = "darkgoldenrod2", "India" = "lightslateblue")
+
+my_chart <- rchart::chart(data, save = F, scenRef = "scen1", palette = pal)
+my_chart$chart_param_Spain
+
+```
+
+
+```{r, results = 'hide', eval = TRUE, echo = TRUE, warning = FALSE, error = FALSE, message = FALSE, fig.width=10, fig.height = 2.5}
+my_chart$chart_class_India
+```
+
+```{r, results = 'hide', eval = TRUE, echo = TRUE, warning = FALSE, error = FALSE, message = FALSE, fig.width=26, fig.height = 5}
+my_chart$chart_class_diff_percent_India
+```
+
+```{r, results = 'hide', eval = TRUE, echo = TRUE, warning = FALSE, error = FALSE, message = FALSE, fig.width=8, fig.height = 2.75}
+my_chart$chart_class_waterfall_India
+```
+
+```{r, results = 'hide', eval = TRUE, echo = TRUE, warning = FALSE, error = FALSE, message = FALSE, fig.width=10, fig.height = 2.5}
+my_chart$chart_region_absolute
+```
+
+<!-------------------------->
 ## Add summary line to bar charts
 <!-------------------------->
 

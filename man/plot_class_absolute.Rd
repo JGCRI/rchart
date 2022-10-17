@@ -16,7 +16,8 @@ plot_class_absolute(
   col_dim = "scenario",
   row_dim = "param",
   summary_line = F,
-  data_agg = NULL
+  data_agg = NULL,
+  palette = NULL
 )
 }
 \arguments{
@@ -43,6 +44,8 @@ plot_class_absolute(
 \item{summary_line}{Default = FALSE. Add parameter summary line to all bar charts.}
 
 \item{data_agg}{Default = NULL. Aggregated param data for the summary line.}
+
+\item{palette}{Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios; class colors will be used if provided)}
 }
 \description{
 generate summary plot

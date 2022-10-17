@@ -24,11 +24,14 @@ plot_class_waterfall(
   horizontal_lines = TRUE,
   lty = 2,
   fill_colors = NULL,
-  totals_fill_color = "gray90"
+  totals_fill_color = "gray90",
+  palette = NULL
 )
 }
 \arguments{
 \item{data_diff}{Default = NULL.}
+
+\item{data_agg}{Default = NULL.}
 
 \item{scenRef}{Default = NULL.}
 
@@ -56,17 +59,17 @@ plot_class_waterfall(
 
 \item{rect_width}{Default = 0.7. Width of the rectangles in the waterfall plot.}
 
+\item{aspect_ratio}{Default = 0.6. Aspect ratio of the plot. Default is lower (more horizontal) than other rchart default}
+
 \item{horizontal_lines}{Default = TRUE. Whether to include horizontal lines between rectangles}
 
 \item{lty}{Default = 2. Line type for the horizontal lines between rectangles}
 
 \item{fill_colors}{Default = NULL. Vector of colors for rectangles. If not specified, uses jgcricolors corresponding to classes}
 
-\item{aspec_ratio}{Default = 0.6. Aspect ratio of the plot. Default is lower (more horizontal) than other rchart default}
+\item{totals_fill_color}{Default = "gray90". Color of the param total bars for the ref and diff scenarios}
 
-\item{data_agg_ref}{Default = NULL. Aggregated param data for the summary line on the scenRef bar chart.}
-
-\item{data_agg_diff}{Default = NULL. Aggregated param diff data for the summary lines on the scenDiff bar charts.}
+\item{palette}{Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios; class colors will be used if provided)}
 }
 \description{
 generate chart plot for absolute difference and percent difference

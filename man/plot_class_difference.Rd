@@ -18,7 +18,8 @@ plot_class_difference(
   include_points = FALSE,
   summary_line = FALSE,
   data_agg_ref = NULL,
-  data_agg_diff = NULL
+  data_agg_diff = NULL,
+  palette = NULL
 )
 }
 \arguments{
@@ -49,6 +50,8 @@ plot_class_difference(
 \item{data_agg_ref}{Default = NULL. Aggregated param data for the summary line on the scenRef bar chart.}
 
 \item{data_agg_diff}{Default = NULL. Aggregated param diff data for the summary lines on the scenDiff bar charts.}
+
+\item{palette}{Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios; class colors will be used if provided)}
 }
 \description{
 generate chart plot for absolute difference and percent difference

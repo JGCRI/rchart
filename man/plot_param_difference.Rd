@@ -15,7 +15,8 @@ plot_param_difference(
   diff_text = NULL,
   scales = "free",
   break_interval = NULL,
-  include_points = FALSE
+  include_points = FALSE,
+  palette = NULL
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ plot_param_difference(
 \item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
 
 \item{include_points}{Default = FALSE. Add data points to all line charts.}
+
+\item{palette}{Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios; scenario colors will be used if provided)}
 }
 \description{
 generate chart plot for absolute difference and percent difference

@@ -9,17 +9,19 @@
 #' @param size_text Default = 15. Text size
 #' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
 #' @param include_points Default = FALSE. Add data points to all line charts.
+#' @param palette Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios; region colors will be used if provided)
 #' @importFrom magrittr %>%
 #' @export
 
 plot_reg_absolute <- function(data = NULL,
-                               size = 1.5,
-                               theme = NULL,
-                               theme_default = ggplot2::theme_bw(),
-                               scales = "free_y",
-                               size_text = 15,
-                               break_interval = NULL,
-                               include_points = FALSE) {
+                              size = 1.5,
+                              theme = NULL,
+                              theme_default = ggplot2::theme_bw(),
+                              scales = "free_y",
+                              size_text = 15,
+                              break_interval = NULL,
+                              include_points = FALSE,
+                              palette = NULL) {
 
   #...........................
   # Initialize
@@ -32,16 +34,24 @@ plot_reg_absolute <- function(data = NULL,
   #...........................
 
   # Check Color Palettes ....................................
+  palCustom <- palette
+  # remove custom palette names from jgcricolors
+  jgcricolors_subset <- jgcricolors::jgcricol()$pal_all[!names(jgcricolors::jgcricol()$pal_all) %in% names(palCustom)]
+  # get classes not in the custom palette
+  missNamesCustom <- unique(data$class)[!unique(data$class) %in% names(palCustom)]
+  # get classes not in the custom palette or in jgcricolors
+  missNames <- missNamesCustom[!missNamesCustom %in% names(jgcricolors::jgcricol()$pal_all)]
+  # get extra colors to use for nonspecified classes
   palAdd <- rep(jgcricolors::jgcricol()$pal_basic,1000)
-  missNames <- unique(data$class)[!unique(data$class) %in% names(jgcricolors::jgcricol()$pal_all)]
 
 
   if (length(missNames) > 0) {
+    # assign extra colors to nonspecified classes
     palAdd <- palAdd[1:length(missNames)]
     names(palAdd) <- missNames
-    palCharts <- c(jgcricolors::jgcricol()$pal_all, palAdd)
+    palCharts <- c(palCustom, jgcricolors_subset, palAdd)
   } else{
-    palCharts <- jgcricolors::jgcricol()$pal_all
+    palCharts <- c(palCustom, jgcricolors_subset)
   }
 
   palCharts <- palCharts[names(palCharts) %in% unique(data$class)]
