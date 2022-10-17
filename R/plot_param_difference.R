@@ -82,12 +82,11 @@ plot_param_difference <- function(data = NULL,
     # remove custom palette names from jgcricolors
     jgcricolors_subset <- jgcricolors::jgcricol()$pal_all[!names(jgcricolors::jgcricol()$pal_all) %in% names(palCustom)]
     # get classes not in the custom palette
-    missNamesCustom <- unique(data$scenario)[!unique(data$scenario) %in% names(palCustom)]
+    missNamesCustom <- c(scenRef, scenDiff)[!c(scenRef, scenDiff) %in% names(palCustom)]
     # get classes not in the custom palette or in jgcricolors
     missNames <- missNamesCustom[!missNamesCustom %in% names(jgcricolors::jgcricol()$pal_all)]
     # get extra colors to use for nonspecified classes
-    palAdd <- rep(jgcricolors::jgcricol()$pal_16,1000)
-
+    palAdd <- rep(jgcricolors::jgcricol()$pal_basic,1000)
 
     if (length(missNames) > 0) {
       # assign extra colors to nonspecified classes
@@ -107,6 +106,7 @@ plot_param_difference <- function(data = NULL,
     data_diff <- data %>%
       dplyr::filter(param==unique(data$param)[i], scenario %in% scenDiff) %>%
       droplevels()
+
 
     palCharts_ref <- palCharts[names(palCharts) %in% unique(data_ref$scenario)]
     palCharts_diff <- palCharts[names(palCharts) %in% unique(data_diff$scenario)]

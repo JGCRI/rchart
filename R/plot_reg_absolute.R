@@ -42,7 +42,7 @@ plot_reg_absolute <- function(data = NULL,
   # get classes not in the custom palette or in jgcricolors
   missNames <- missNamesCustom[!missNamesCustom %in% names(jgcricolors::jgcricol()$pal_all)]
   # get extra colors to use for nonspecified classes
-  palAdd <- rep(jgcricolors::jgcricol()$pal_16,1000)
+  palAdd <- rep(jgcricolors::jgcricol()$pal_basic,1000)
 
 
   if (length(missNames) > 0) {
