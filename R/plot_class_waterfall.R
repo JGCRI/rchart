@@ -2,6 +2,7 @@
 #'
 #' generate chart plot for absolute difference and percent difference
 #' @param data_diff Default = NULL.
+#' @param data_agg Default = NULL.
 #' @param scenRef Default = NULL.
 #' @param scenDiff Default = NULL.
 #' @param theme Default = NULL
@@ -15,12 +16,12 @@
 #' @param summary_line Default = FALSE. Add parameter summary line to all bar charts.
 #' @param wf_x Default = NULL. Year (or x value) for which to make the waterfall plot.
 #' @param rect_width Default = 0.7. Width of the rectangles in the waterfall plot.
-#' @param aspec_ratio Default = 0.6. Aspect ratio of the plot. Default is lower (more horizontal) than other rchart default
+#' @param aspect_ratio Default = 0.6. Aspect ratio of the plot. Default is lower (more horizontal) than other rchart default
 #' @param horizontal_lines Default = TRUE. Whether to include horizontal lines between rectangles
 #' @param lty Default = 2. Line type for the horizontal lines between rectangles
 #' @param fill_colors Default = NULL. Vector of colors for rectangles. If not specified, uses jgcricolors corresponding to classes
-#' @param data_agg_ref Default = NULL. Aggregated param data for the summary line on the scenRef bar chart.
-#' @param data_agg_diff Default = NULL. Aggregated param diff data for the summary lines on the scenDiff bar charts.
+#' @param totals_fill_color Default = "gray90". Color of the param total bars for the ref and diff scenarios
+#' @param palette Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios; class colors will be used if provided)
 #' @importFrom magrittr %>%
 #' @export
 
@@ -43,7 +44,8 @@ plot_class_waterfall <- function(data_diff = NULL,
                                   horizontal_lines = TRUE,
                                   lty = 2,
                                   fill_colors = NULL,
-                                  totals_fill_color = "gray90"){
+                                  totals_fill_color = "gray90",
+                                  palette = NULL){
 
   #...........................
   # Initialize
@@ -55,24 +57,6 @@ plot_class_waterfall <- function(data_diff = NULL,
   data_diff_subset <- data_diff %>%
     dplyr::filter(x == wf_x)
 
-  # Check Color Palettes ....................................
-  palAdd <- rep(jgcricolors::jgcricol()$pal_16,1000)
-  missNames <- unique(data_diff_subset$class)[!unique(data_diff_subset$class) %in% names(jgcricolors::jgcricol()$pal_all)]
-
-
-  if (length(missNames) > 0) {
-    palAdd <- palAdd[1:length(missNames)]
-    names(palAdd) <- missNames
-    palCharts <- c(jgcricolors::jgcricol()$pal_all, palAdd)
-  } else{
-    palCharts <- jgcricolors::jgcricol()$pal_all
-  }
-
-  # add colors for ref and diff scenario totals
-  palTotal <- rep(totals_fill_color, length(scenDiff) + 1)
-  names(palTotal) <- c(scenRef, scenDiff)
-
-  palCharts <- c(palCharts, palTotal)
 
   #...........................
   # Plot
@@ -83,6 +67,35 @@ plot_class_waterfall <- function(data_diff = NULL,
   count <- 1
 
   for(i in 1:length(unique(data_diff$param))){
+
+    # Check Color Palettes ....................................
+    palCustom <- palette
+    # remove scenarios from custom palette
+    palCustom <- palette[!names(palette) %in% c(scenRef, scenDiff)]
+    # remove custom palette names from jgcricolors
+    jgcricolors_subset <- jgcricolors::jgcricol()$pal_all[!names(jgcricolors::jgcricol()$pal_all) %in% names(palCustom)]
+    # get classes not in the custom palette
+    missNamesCustom <- unique(data_diff_subset$class)[!unique(data_diff_subset$class) %in% names(palCustom)]
+    # get classes not in the custom palette or in jgcricolors
+    missNames <- missNamesCustom[!missNamesCustom %in% names(jgcricolors::jgcricol()$pal_all)]
+    # get extra colors to use for nonspecified classes
+    palAdd <- rep(jgcricolors::jgcricol()$pal_16,1000)
+
+
+    if (length(missNames) > 0) {
+      # assign extra colors to nonspecified classes
+      palAdd <- palAdd[1:length(missNames)]
+      names(palAdd) <- missNames
+      palCharts <- c(palCustom, jgcricolors_subset, palAdd)
+    } else{
+      palCharts <- c(palCustom, jgcricolors_subset)
+    }
+
+    # add colors for ref and diff scenario totals
+    palTotal <- rep(totals_fill_color, length(scenDiff) + 1)
+    names(palTotal) <- c(scenRef, scenDiff)
+    palCharts <- c(palCharts, palTotal)
+
     for(j in 1:length(scenDiff)){
       # subset data to the current parameter
       data_diff_plot <- data_diff_subset %>%

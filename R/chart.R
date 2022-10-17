@@ -33,6 +33,7 @@
 #' @param include_points Default = FALSE. Add data points to all line charts.
 #' @param summary_line Default = FALSE. Add parameter summary line to all bar charts.
 #' @param waterfall_x Default = NULL. Year (or x value) for which to make waterfall plot. If NULL, latest year will be used
+#' @param palette Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios)
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
 #' @export
@@ -66,7 +67,8 @@ chart <- function(data = NULL,
                   break_interval = NULL,
                   include_points = FALSE,
                   summary_line = FALSE,
-                  waterfall_x = NULL){
+                  waterfall_x = NULL,
+                  palette = NULL){
 
   print("Starting chart...")
 
@@ -257,7 +259,8 @@ chart <- function(data = NULL,
             ncol = ncol,
             scales = scales,
             break_interval = break_interval,
-            include_points = include_points
+            include_points = include_points,
+            palette = palette
           )
 
         # Set title if provided or turn off
@@ -324,7 +327,8 @@ chart <- function(data = NULL,
             size = size,
             diff_text = diff_text_absolute,
             break_interval = break_interval,
-            include_points = include_points
+            include_points = include_points,
+            palette = palette
           )
 
 
@@ -393,7 +397,8 @@ chart <- function(data = NULL,
             size = size,
             diff_text = diff_text_percent,
             break_interval = break_interval,
-            include_points = include_points
+            include_points = include_points,
+            palette = palette
           )
 
         # Set title if provided or turn off
@@ -464,7 +469,8 @@ chart <- function(data = NULL,
             size_text = size_text,
             break_interval = break_interval,
             summary_line = summary_line,
-            data_agg = data_agg_i
+            data_agg = data_agg_i,
+            palette = palette
           )
 
         # data = data_full_i
@@ -523,6 +529,7 @@ chart <- function(data = NULL,
           chart_name_i <- paste0(chart_name_i, "_", region_subRegion)
         }
 
+
         charts_out[[count]] <-
           rchart::plot_class_difference(
             data = data_full_diff_i,
@@ -535,7 +542,8 @@ chart <- function(data = NULL,
             include_points = include_points,
             summary_line = summary_line,
             data_agg_ref = data_agg_i,
-            data_agg_diff = data_agg_diff_i
+            data_agg_diff = data_agg_diff_i,
+            palette = palette
           )
 
         # data = data_full_diff_i
@@ -612,7 +620,8 @@ chart <- function(data = NULL,
             include_points = include_points,
             summary_line = summary_line,
             data_agg_ref = data_agg_i,
-            data_agg_diff = data_agg_diff_i
+            data_agg_diff = data_agg_diff_i,
+            palette = palette
           )
 
         # data = data_full_diff_i
@@ -697,7 +706,8 @@ chart <- function(data = NULL,
           break_interval = break_interval,
           include_points = include_points,
           summary_line = summary_line,
-          wf_x = wf_x
+          wf_x = wf_x,
+          palette = palette
         )
 
       # Set title if provided or turn off
@@ -778,7 +788,8 @@ chart <- function(data = NULL,
             break_interval = break_interval,
             col_dim = "region",
             summary_line = summary_line,
-            data_agg = data_agg_i
+            data_agg = data_agg_i,
+            palette = palette
           )
 
         # data = data_full_i
@@ -857,7 +868,8 @@ chart <- function(data = NULL,
           theme_default = theme_default,
           scales = scales,
           break_interval = break_interval,
-          include_points = include_points
+          include_points = include_points,
+          palette = palette
         )
 
       # Set title if provided or turn off

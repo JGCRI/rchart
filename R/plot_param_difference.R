@@ -12,6 +12,7 @@
 #' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
 #' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
 #' @param include_points Default = FALSE. Add data points to all line charts.
+#' @param palette Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios; scenario colors will be used if provided)
 #' @importFrom magrittr %>%
 #' @export
 
@@ -25,7 +26,8 @@ plot_param_difference <- function(data = NULL,
                                 diff_text = NULL,
                                 scales = "free",
                                 break_interval = NULL,
-                                include_points = FALSE) {
+                                include_points = FALSE,
+                                palette = NULL) {
 
 
   # data = NULL
@@ -50,6 +52,7 @@ plot_param_difference <- function(data = NULL,
   plist <- list()
   count = 1
 
+
   if(!scenRef %in% unique(data$scenario)){scenRef = NULL}
   if(is.null(scenDiff)){
   if(is.null(scenDiff) & !is.null(scenRef)){
@@ -68,16 +71,33 @@ plot_param_difference <- function(data = NULL,
   for(i in 1:length(unique(data$param))){
 
     # Check Color Palettes ....................................
-    palAdd <- rep(jgcricolors::jgcricol()$pal_basic,1000)
-    missNames <- c(scenRef,scenDiff)
+    palCustom <- palette
+    # rename custom palette names to match diff scenarios
+    if(!is.null(diff_text) & !is.null(palCustom)){
+      names(palCustom) <- dplyr::case_when(
+        names(palCustom) != scenRef ~ paste0(names(palCustom), "_",diff_text,"_",scenRef),
+        T ~ names(palCustom)
+      )
+    }
+    # remove custom palette names from jgcricolors
+    jgcricolors_subset <- jgcricolors::jgcricol()$pal_all[!names(jgcricolors::jgcricol()$pal_all) %in% names(palCustom)]
+    # get classes not in the custom palette
+    missNamesCustom <- unique(data$scenario)[!unique(data$scenario) %in% names(palCustom)]
+    # get classes not in the custom palette or in jgcricolors
+    missNames <- missNamesCustom[!missNamesCustom %in% names(jgcricolors::jgcricol()$pal_all)]
+    # get extra colors to use for nonspecified classes
+    palAdd <- rep(jgcricolors::jgcricol()$pal_16,1000)
+
 
     if (length(missNames) > 0) {
+      # assign extra colors to nonspecified classes
       palAdd <- palAdd[1:length(missNames)]
       names(palAdd) <- missNames
-      palCharts <- c(jgcricolors::jgcricol()$pal_all, palAdd)
+      palCharts <- c(palCustom, jgcricolors_subset, palAdd)
     } else{
-      palCharts <- jgcricolors::jgcricol()$pal_all
+      palCharts <- c(palCustom, jgcricolors_subset)
     }
+
 
     # Prep Data Ref and Diff ....................................
     data_ref <- data %>%

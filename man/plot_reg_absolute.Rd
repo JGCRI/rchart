@@ -12,7 +12,8 @@ plot_reg_absolute(
   scales = "free_y",
   size_text = 15,
   break_interval = NULL,
-  include_points = FALSE
+  include_points = FALSE,
+  palette = NULL
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ plot_reg_absolute(
 \item{break_interval}{Default = NULL. Intervals between x breaks starting from first x point.}
 
 \item{include_points}{Default = FALSE. Add data points to all line charts.}
+
+\item{palette}{Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios; region colors will be used if provided)}
 }
 \description{
 generate summary plot

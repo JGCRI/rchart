@@ -13,6 +13,7 @@
 #' @param summary_line Default = FALSE. Add parameter summary line to all bar charts.
 #' @param data_agg Default = NULL. Aggregated param data for the summary line.
 #' @param size Default = 1.5. Line size for summary lines
+#' @param palette Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios; class colors will be used if provided)
 #' @importFrom magrittr %>%
 #' @export
 
@@ -27,7 +28,8 @@ plot_class_absolute <- function(data = NULL,
                                col_dim = "scenario",
                                row_dim = "param",
                                summary_line = F,
-                               data_agg = NULL) {
+                               data_agg = NULL,
+                               palette = NULL) {
 
 
 
@@ -47,16 +49,26 @@ plot_class_absolute <- function(data = NULL,
   for(i in 1:length(unique(data[[row_dim]]))){
 
     # Check Color Palettes ....................................
+    palCustom <- palette
+    # remove custom palette names from jgcricolors
+    jgcricolors_subset <- jgcricolors::jgcricol()$pal_all[!names(jgcricolors::jgcricol()$pal_all) %in% names(palCustom)]
+    # get classes not in the custom palette
+    missNamesCustom <- unique(data$class)[!unique(data$class) %in% names(palCustom)]
+    # get classes not in the custom palette or in jgcricolors
+    missNames <- missNamesCustom[!missNamesCustom %in% names(jgcricolors::jgcricol()$pal_all)]
+    # get extra colors to use for nonspecified classes
     palAdd <- rep(jgcricolors::jgcricol()$pal_16,1000)
-    missNames <- unique(data$class)[!unique(data$class) %in% names(jgcricolors::jgcricol()$pal_all)]
+
 
     if (length(missNames) > 0) {
+      # assign extra colors to nonspecified classes
       palAdd <- palAdd[1:length(missNames)]
       names(palAdd) <- missNames
-      palCharts <- c(jgcricolors::jgcricol()$pal_all, palAdd)
+      palCharts <- c(palCustom, jgcricolors_subset, palAdd)
     } else{
-      palCharts <- jgcricolors::jgcricol()$pal_all
+      palCharts <- c(palCustom, jgcricolors_subset)
     }
+
 
     data_plot <- data %>%
       dplyr::filter(get(row_dim)==unique(data[[row_dim]])[i])

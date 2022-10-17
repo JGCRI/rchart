@@ -34,7 +34,8 @@ chart(
   break_interval = NULL,
   include_points = FALSE,
   summary_line = FALSE,
-  waterfall_x = NULL
+  waterfall_x = NULL,
+  palette = NULL
 )
 }
 \arguments{
@@ -98,6 +99,8 @@ chart(
 \item{summary_line}{Default = FALSE. Add parameter summary line to all bar charts.}
 
 \item{waterfall_x}{Default = NULL. Year (or x value) for which to make waterfall plot. If NULL, latest year will be used}
+
+\item{palette}{Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios)}
 }
 \description{
 Used to add missing data to input files and customize format
