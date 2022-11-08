@@ -706,6 +706,34 @@ my_chart$chart_param
 
 
 <!-------------------------->
+## Interactions: lty and color
+<!-------------------------->
+
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+Users can choose columns to show interactions by line type and color (`interaction_col_lty` and `interaction_col_color`). 
+
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=7, fig.height = 5}
+library(rchart);
+data = data.frame(scenario = c("scen1a","scen1a","scen1a",
+                               "scen1b","scen1b","scen1b",
+                               "scen2a","scen2a","scen2a",
+                               "scen2b","scen2b","scen2b"),
+                  year = rep(c(2010, 2020, 2030), times = 4),
+                  param = c(rep("param_1",12)),
+                  value = c(32, 38, 54,
+                            37, 53, 23,
+                            40, 44, 12,
+                            30, 23, 11),
+                  type_num = c(rep(1,6),rep(2,6)),
+                  type_letter = c(rep("a",3),rep("b",3),rep("a",3),rep("b",3)))
+
+my_chart <- rchart::chart(data, save = F, interaction_col_lty = "type_num", interaction_col_color="type_letter") 
+my_chart$chart_param 
+```
+
+
+<!-------------------------->
 ## Non-numeric X-Axis data
 <!-------------------------->
 

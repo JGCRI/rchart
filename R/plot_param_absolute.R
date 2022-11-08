@@ -9,6 +9,8 @@
 #' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
 #' @param break_interval Default = NULL. Intervals between x breaks starting from first x point.
 #' @param include_points Default = FALSE. Add data points to all line charts.
+#' @param interaction_col_lty Default = NULL. Column to use for interaction plot linetype.
+#' @param interaction_col_color Default = NULL. Column to use for interaction plot color.
 #' @param palette Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios; scenario colors will be used if provided)
 #' @importFrom magrittr %>%
 #' @export
@@ -21,7 +23,9 @@ plot_param_absolute <- function(data = NULL,
                                scales = "free_y",
                                break_interval = NULL,
                                include_points = FALSE,
-                               palette = NULL) {
+                               palette = NULL,
+                               interaction_col_lty = NULL,
+                               interaction_col_color = NULL) {
 
   #...........................
   # Initialize
@@ -57,7 +61,42 @@ plot_param_absolute <- function(data = NULL,
   palCharts <- palCharts[names(palCharts) %in% unique(data$scenario)]
   palCharts <- palCharts[names(palCharts)%>%sort()]; palCharts
 
+  # Interactions
+  if(!is.null(interaction_col_lty) & !is.null(interaction_col_color) & length((data$scenario)%>%unique())>1){
+    if(any(interaction_col_lty %in% names(data)) & any(interaction_col_color %in% names(data))){
 
+      data$interaction <- interaction(data[[interaction_col_lty]],data[[interaction_col_color]])
+
+      # Plot
+      p1 <- ggplot2::ggplot(data,
+                            ggplot2::aes_string(x="x",y="value",
+                                               group="interaction",
+                                               color=interaction_col_color,
+                                               lty=interaction_col_lty)) +
+        ggplot2::theme_bw() +
+        theme_default +
+        ggplot2::scale_color_manual(values=palCharts%>%as.vector()) +
+        ggplot2::geom_line(size=size) +
+        ggplot2::ylab(NULL) +
+        ggplot2::xlab(NULL) +
+        ggplot2::theme(legend.position="bottom")
+
+    } else {
+      print(paste0("Column names for interaction_col_lty or interaction_col_color provided do not exist in data. Skipping interaction"))
+      p1 <- ggplot2::ggplot(data,
+                            ggplot2::aes(x=x,y=value,
+                                         group=scenario,
+                                         color=scenario)) +
+        ggplot2::theme_bw() +
+        theme_default +
+        ggplot2::scale_color_manual(breaks=names(palCharts),values=palCharts) +
+        ggplot2::geom_line(size=size) +
+        ggplot2::ylab(NULL) +
+        ggplot2::xlab(NULL) +
+        ggplot2::theme(legend.position="bottom")
+
+      }
+  } else {
   # Plot
   p1 <- ggplot2::ggplot(data,
                         ggplot2::aes(x=x,y=value,
@@ -70,6 +109,7 @@ plot_param_absolute <- function(data = NULL,
     ggplot2::ylab(NULL) +
     ggplot2::xlab(NULL) +
     ggplot2::theme(legend.position="bottom")
+  }
 
   # facet wrap by param if more than one parameter
   if(length(unique(data$param)) > 1) {
@@ -107,6 +147,7 @@ plot_param_absolute <- function(data = NULL,
           x[c(TRUE, rep(FALSE, times = break_interval-1))]})
     }
   }
+
 
   if(!is.null(theme)){p1 <- p1 + theme}
   invisible(p1)

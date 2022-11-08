@@ -33,6 +33,8 @@
 #' @param include_points Default = FALSE. Add data points to all line charts.
 #' @param summary_line Default = FALSE. Add parameter summary line to all bar charts.
 #' @param waterfall_x Default = NULL. Year (or x value) for which to make waterfall plot. If NULL, latest year will be used
+#' @param interaction_col_lty Default = NULL. Column to use for interaction plot linetype.
+#' @param interaction_col_color Default = NULL. Column to use for interaction plot color.
 #' @param palette Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios)
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
@@ -68,7 +70,9 @@ chart <- function(data = NULL,
                   include_points = FALSE,
                   summary_line = FALSE,
                   waterfall_x = NULL,
-                  palette = NULL){
+                  palette = NULL,
+                  interaction_col_lty = NULL,
+                  interaction_col_color = NULL){
 
   print("Starting chart...")
 
@@ -135,7 +139,9 @@ chart <- function(data = NULL,
   # Prepare Data ---------------------------------------------------------------
   #.................................
 
-  data_full <- rchart::add_missing(data)
+  data_full <- rchart::add_missing(data,
+                                   interaction_col_lty = interaction_col_lty,
+                                   interaction_col_color = interaction_col_color)
   data_full <- data_full %>%
     dplyr::mutate(class = as.character(class),
                   class = dplyr::if_else(grepl("^class1$|^class$",class),param,class))
@@ -260,7 +266,9 @@ chart <- function(data = NULL,
             scales = scales,
             break_interval = break_interval,
             include_points = include_points,
-            palette = palette
+            palette = palette,
+            interaction_col_lty = interaction_col_lty,
+            interaction_col_color = interaction_col_color
           )
 
         # Set title if provided or turn off

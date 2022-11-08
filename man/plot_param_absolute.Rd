@@ -13,7 +13,9 @@ plot_param_absolute(
   scales = "free_y",
   break_interval = NULL,
   include_points = FALSE,
-  palette = NULL
+  palette = NULL,
+  interaction_col_lty = NULL,
+  interaction_col_color = NULL
 )
 }
 \arguments{
@@ -34,6 +36,10 @@ plot_param_absolute(
 \item{include_points}{Default = FALSE. Add data points to all line charts.}
 
 \item{palette}{Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios; scenario colors will be used if provided)}
+
+\item{interaction_col_lty}{Default = NULL. Column to use for interaction plot linetype.}
+
+\item{interaction_col_color}{Default = NULL. Column to use for interaction plot color.}
 }
 \description{
 generate summary plot

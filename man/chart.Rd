@@ -35,7 +35,9 @@ chart(
   include_points = FALSE,
   summary_line = FALSE,
   waterfall_x = NULL,
-  palette = NULL
+  palette = NULL,
+  interaction_col_lty = NULL,
+  interaction_col_color = NULL
 )
 }
 \arguments{
@@ -101,6 +103,10 @@ chart(
 \item{waterfall_x}{Default = NULL. Year (or x value) for which to make waterfall plot. If NULL, latest year will be used}
 
 \item{palette}{Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios)}
+
+\item{interaction_col_lty}{Default = NULL. Column to use for interaction plot linetype.}
+
+\item{interaction_col_color}{Default = NULL. Column to use for interaction plot color.}
 }
 \description{
 Used to add missing data to input files and customize format
