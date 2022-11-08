@@ -109,17 +109,19 @@ plot_class_absolute <- function(data = NULL,
     # if one row_dim and multiple col_dims, facet wrap by only col_dim
     # and add row_dim as ylab
     p1 <- p1 +
-      ggplot2::facet_grid(
+      ggplot2::facet_wrap(
         ~ get(col_dim),
-        scales = scales
+        scales = scales,
+        ncol = ncol
       ) +
       ggplot2::ylab((unique(data[[row_dim]]))[1])
   } else if(length(unique(data[[row_dim]])) > 1){
     # if one col dim and multiple row dims, facet wrap only by row dim
     p1 <- p1 +
-      ggplot2::facet_grid(
+      ggplot2::facet_wrap(
         ~ get(row_dim),
-        scales = scales
+        scales = scales,
+        ncol = ncol
       )
   } else{
     # if one row_dim and one col_dim, just add row_dim as ylab

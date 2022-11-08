@@ -6,6 +6,7 @@
 #' @param scenDiff Default = NULL.
 #' @param theme Default = NULL
 #' @param theme_default Default = ggplot2::theme_bw(). Default rchart themes.
+#' @param ncol Default = NULL. Numbers of columns in the wrapped plots.
 #' @param diff_text Default = NULL. Text to remove from diff scenario names.
 #' @param scales Default = "free". Choose between "free", "free_y", "free_x", "fixed"
 #' @param diff_type Default = "bar". Choose between "bar" or "line"
@@ -24,6 +25,7 @@ plot_class_difference <- function(data = NULL,
                                   scenDiff = NULL,
                                   theme = NULL,
                                   theme_default = ggplot2::theme_bw(),
+                                  ncol = NULL,
                                   diff_text = NULL,
                                   scales = "free",
                                   diff_type = "bar",
@@ -47,7 +49,7 @@ plot_class_difference <- function(data = NULL,
   # Initialize
   #...........................
 
-  NULL -> value -> param -> x -> scenario
+  NULL -> value -> param -> x -> scenario -> width_diff
 
   #...........................
   # Plots
@@ -170,6 +172,7 @@ plot_class_difference <- function(data = NULL,
       plist[[count+1]] <- NULL
 
       # Plot data_diff ....................................
+
       p2 <-  ggplot2::ggplot(data_diff,
                              ggplot2::aes(x=x,y=value,
                                           group=class)) +
@@ -177,10 +180,18 @@ plot_class_difference <- function(data = NULL,
         ggplot2::xlab(NULL) +
         ggplot2::ylab(NULL) +
         ggplot2::scale_y_continuous(position = "left") +
-        ggplot2::facet_grid(param~scenario, scales=scales,switch="y",
-                            labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15))) +
         ggplot2::theme(legend.position="right") +
         theme_default
+
+      if(is.null(ncol)){
+        p2 <- p2 +
+          ggplot2::facet_grid(param~scenario, scales=scales,
+                              labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15)))
+      } else {
+        p2 <- p2 +
+          ggplot2::facet_wrap(vars(scenario), scales=scales, ncol = ncol,
+                              labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15)))
+      }
 
       if(diff_type=="bar"){p2 <- p2 +
         ggplot2::geom_bar(ggplot2::aes(fill=class),position="stack", stat="identity") +
@@ -230,7 +241,14 @@ plot_class_difference <- function(data = NULL,
 
     }
 
-    plot_out <- cowplot::plot_grid(plotlist=plist, ncol=3, rel_widths = c(1, -0.75,length(scenDiff)), align = "hv", axis = "tblr")
+    if(is.null(ncol)){
+      width_diff <- length(scenDiff)
+    } else {
+      width_diff <- ncol
+    }
+
+    plot_out <- cowplot::plot_grid(plotlist=plist, ncol=3, rel_widths = c(1, -0.1, width_diff),
+                                   align = "hv", axis = "tblr")
 
 
 
