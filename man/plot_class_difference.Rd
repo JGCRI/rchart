@@ -10,6 +10,7 @@ plot_class_difference(
   scenDiff = NULL,
   theme = NULL,
   theme_default = ggplot2::theme_bw(),
+  ncol = NULL,
   diff_text = NULL,
   scales = "free",
   diff_type = "bar",
@@ -32,6 +33,8 @@ plot_class_difference(
 \item{theme}{Default = NULL}
 
 \item{theme_default}{Default = ggplot2::theme_bw(). Default rchart themes.}
+
+\item{ncol}{Default = NULL. Numbers of columns in the wrapped plots.}
 
 \item{diff_text}{Default = NULL. Text to remove from diff scenario names.}
 
