@@ -337,7 +337,8 @@ chart <- function(data = NULL,
             diff_text = diff_text_absolute,
             break_interval = break_interval,
             include_points = include_points,
-            palette = palette
+            palette = palette,
+            scales = scales
           )
 
 
@@ -407,7 +408,8 @@ chart <- function(data = NULL,
             diff_text = diff_text_percent,
             break_interval = break_interval,
             include_points = include_points,
-            palette = palette
+            palette = palette,
+            scales = scales
           )
 
         # Set title if provided or turn off
@@ -553,7 +555,8 @@ chart <- function(data = NULL,
             summary_line = summary_line,
             data_agg_ref = data_agg_i,
             data_agg_diff = data_agg_diff_i,
-            palette = palette
+            palette = palette,
+            scales = scales
           )
 
         # data = data_full_diff_i
@@ -632,7 +635,8 @@ chart <- function(data = NULL,
             summary_line = summary_line,
             data_agg_ref = data_agg_i,
             data_agg_diff = data_agg_diff_i,
-            palette = palette
+            palette = palette,
+            scales = scales
           )
 
         # data = data_full_diff_i
@@ -718,7 +722,8 @@ chart <- function(data = NULL,
           include_points = include_points,
           summary_line = summary_line,
           wf_x = wf_x,
-          palette = palette
+          palette = palette,
+          scales = scales
         )
 
       # Set title if provided or turn off
