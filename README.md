@@ -3,7 +3,6 @@
 [![test_coverage](https://github.com/JGCRI/rchart/actions/workflows/test_coverage.yml/badge.svg?branch=main)](https://github.com/JGCRI/rchart/actions/workflows/test_coverage.yml)
 [![codecov](https://codecov.io/gh/JGCRI/rchart/branch/main/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rchart) 
 [![docs](https://github.com/JGCRI/rchart/actions/workflows/docs.yaml/badge.svg?branch=main)](https://github.com/JGCRI/rchart/actions/workflows/docs.yaml)
-[![Github All Releases](https://img.shields.io/github/downloads/JGCRI/rchart/total.svg)]()
 <!-- badges: end -->
 
 
