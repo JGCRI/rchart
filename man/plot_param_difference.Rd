@@ -9,6 +9,7 @@ plot_param_difference(
   scenRef = NULL,
   scenDiff = NULL,
   size = 1.5,
+  ncol = 3,
   theme = NULL,
   theme_default = ggplot2::theme_bw(),
   facet_label_diff = "Difference",
@@ -27,6 +28,8 @@ plot_param_difference(
 \item{scenDiff}{Default = NULL.}
 
 \item{size}{Default = 1.5. Line size}
+
+\item{ncol}{Default = 3. Number of columns.}
 
 \item{theme}{Default = NULL}
 

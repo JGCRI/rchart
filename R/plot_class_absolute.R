@@ -107,7 +107,7 @@ plot_class_absolute <- function(data = NULL,
         # switch='y',
         ncol = ncol
       )+
-      ggplot2::ylab((unique(data[[row_dim]]))[1])
+      ggplot2::ylab((unique(data[[row_dim]]))[i])
   } else if(length(unique(data[[col_dim]])) > 1){
     # if one row_dim and multiple col_dims, facet wrap by only col_dim
     # and add row_dim as ylab
@@ -117,7 +117,7 @@ plot_class_absolute <- function(data = NULL,
         scales = scales,
         ncol = ncol
       ) +
-      ggplot2::ylab((unique(data[[row_dim]]))[1])
+      ggplot2::ylab((unique(data[[row_dim]]))[i])
   } else if(length(unique(data[[row_dim]])) > 1){
     # if one col dim and multiple row dims, facet wrap only by row dim
     p1 <- p1 +
@@ -129,7 +129,7 @@ plot_class_absolute <- function(data = NULL,
   } else{
     # if one row_dim and one col_dim, just add row_dim as ylab
     p1 <- p1 +
-      ggplot2::ylab((unique(data[[row_dim]]))[1])
+      ggplot2::ylab((unique(data[[row_dim]]))[i])
   }
 
 
