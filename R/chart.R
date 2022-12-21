@@ -34,6 +34,7 @@
 #' @param summary_line Default = FALSE. Add parameter summary line to all bar charts.
 #' @param waterfall_x Default = NULL. Year (or x value) for which to make waterfall plot. If NULL, latest year will be used
 #' @param palette Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios)
+#' @param ylim Default = NULL. Y-axis limits
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
 #' @export
@@ -68,7 +69,9 @@ chart <- function(data = NULL,
                   include_points = FALSE,
                   summary_line = FALSE,
                   waterfall_x = NULL,
-                  palette = NULL){
+                  palette = NULL,
+                  ylim = NULL,
+                  coord_ratio = NULL){
 
   print("Starting chart...")
 
@@ -707,7 +710,8 @@ chart <- function(data = NULL,
           include_points = include_points,
           summary_line = summary_line,
           wf_x = wf_x,
-          palette = palette
+          palette = palette,
+          ylim = ylim
         )
 
       # Set title if provided or turn off

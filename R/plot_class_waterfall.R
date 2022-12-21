@@ -22,6 +22,7 @@
 #' @param fill_colors Default = NULL. Vector of colors for rectangles. If not specified, uses jgcricolors corresponding to classes
 #' @param totals_fill_color Default = "gray90". Color of the param total bars for the ref and diff scenarios
 #' @param palette Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios; class colors will be used if provided)
+#' @param ylim Default = NULL. Y-axis limits
 #' @importFrom magrittr %>%
 #' @export
 
@@ -46,7 +47,8 @@ plot_class_waterfall <- function(data_diff = NULL,
                                  fill_colors = NULL,
                                  totals_fill_color = "gray90",
                                  palette = NULL,
-                                 vertical_dim = NULL){
+                                 vertical_dim = NULL,
+                                 ylim = NULL){
 
   #...........................
   # Initialize
@@ -181,11 +183,22 @@ plot_class_waterfall <- function(data_diff = NULL,
         fill_colors <- palCharts
       }
 
+      # get y limits
+      if(!is.null(ylim)){
+        ymax <- ylim[2]
+        yvals <- seq(from = ylim[1], to = ylim[2],
+                     length.out = length(classes))
+      }
+      else{
+        ymax = max(c(currentVal, prevVal))
+        yvals <- seq(from = min(c(currentVal, prevVal)),
+                        to = max(c(currentVal, prevVal)),
+                        length.out = length(classes))
+      }
+
       # initiate plot
       p <- ggplot2::ggplot(data.frame(x = classes,
-                                      y = seq(from = min(c(currentVal, prevVal)),
-                                              to = max(c(currentVal, prevVal)),
-                                              length.out = length(classes))),
+                                      y = yvals),
                            ggplot2::aes_string(x = "x", y = "y")) +
         ggplot2::geom_blank() +
         ggplot2::geom_hline(yintercept = 0) +
@@ -202,8 +215,6 @@ plot_class_waterfall <- function(data_diff = NULL,
                                      xmax = k + rect_width/2,
                                      ymin = min(prevVal[v,k], currentVal[v,k]),
                                      ymax = max(prevVal[v,k], currentVal[v,k]),
-                                     #ymin = min(currentVal[k], prevVal[k]),
-                                     #ymax = max(currentVal[k], prevVal[k]),
                                      fill = colorspace::darken(
                                        fill_colors[as.character(classes[k])],
                                        amount = darken[v]),
@@ -222,10 +233,15 @@ plot_class_waterfall <- function(data_diff = NULL,
         }
       }
 
+
       p <- p + ggplot2::ylab(paste0(unique(data_diff$param)[i], "_", wf_x)) +
         ggplot2::xlab("") +
         ggplot2::theme_bw() +
-        ggplot2::theme(aspect.ratio = aspect_ratio)
+        #ggplot2::theme(aspect.ratio = aspect_ratio) +
+        # angle x axis labels
+        #ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust=1)) +
+        ggplot2::theme(axis.text.x=ggplot2::element_blank()) +
+        ggplot2::coord_fixed(ratio = 1/ymax*3)
 
       if(!is.null(theme)){p <- p + theme}
 
