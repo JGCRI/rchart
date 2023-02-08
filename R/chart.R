@@ -244,7 +244,7 @@ chart <- function(data = NULL,
 
   ### Scenarios Absolute #######################################################
 
-      if (nrow(data_agg_i) > 0 & any(grepl("all|param_absolute",chart_type,ignore.case = T))) {
+      if (nrow(data_agg_i) > 0 & any(grepl("^all|param_absolute",chart_type,ignore.case = T))) {
         chart_name_i <- "chart_param"
         if(region_subRegion==""){
           fname_i <- paste0(folder, "/", chart_name_i,append,".png")
@@ -307,7 +307,7 @@ chart <- function(data = NULL,
 
   ### Scenarios Difference Absolute ############################################
 
-      if (nrow(data_agg_diff_i) > 0 & any(grepl("all|param_diff_absolute",chart_type,ignore.case = T))) {
+      if (nrow(data_agg_diff_i) > 0 & any(grepl("^all|param_diff_absolute",chart_type,ignore.case = T))) {
 
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_absolute, scenDiff_plot)]
 
@@ -377,7 +377,7 @@ chart <- function(data = NULL,
 
   ### Scenarios Difference Percent ##############################################
 
-      if (nrow(data_agg_diff_i) > 0 & any(grepl("all|param_diff_percent",chart_type,ignore.case = T))) {
+      if (nrow(data_agg_diff_i) > 0 & any(grepl("^all|param_diff_percent",chart_type,ignore.case = T))) {
 
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_percent, scenDiff_plot)]
 
@@ -453,7 +453,7 @@ chart <- function(data = NULL,
   ### Scenarios Absolute #######################################################
 
   if(length(unique(data_full_i$class))>1){
-      if (nrow(data_full_i) > 0 & any(grepl("all|class_absolute",chart_type,ignore.case = T))) {
+      if (nrow(data_full_i) > 0 & any(grepl("^all|class_absolute",chart_type,ignore.case = T))) {
         chart_name_i <- "chart_class"
         if(region_subRegion==""){
           fname_i <- paste0(folder, "/", chart_name_i,append,".png")
@@ -520,7 +520,7 @@ chart <- function(data = NULL,
   ### Scenarios Difference Absolute ############################################
 
 
-      if (nrow(data_full_diff_i) > 0 & any(grepl("all|class_diff_absolute",chart_type,ignore.case = T))) {
+      if (nrow(data_full_diff_i) > 0 & any(grepl("^all|class_diff_absolute",chart_type,ignore.case = T))) {
 
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_absolute, scenDiff_plot)]
 
@@ -598,7 +598,7 @@ chart <- function(data = NULL,
 
   ### Scenarios Difference Percent #############################################
 
-      if (nrow(data_full_diff_i) > 0 & any(grepl("all|class_diff_percent",chart_type,ignore.case = T))) {
+      if (nrow(data_full_diff_i) > 0 & any(grepl("^all|class_diff_percent",chart_type,ignore.case = T))) {
 
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_percent, scenDiff_plot)]
 
@@ -675,7 +675,7 @@ chart <- function(data = NULL,
       }
 
     ### Waterfall chart ########################################################
-    if (nrow(data_full_diff_i) > 0 & any(grepl("all|class_waterfall",chart_type,ignore.case = T))){
+    if (nrow(data_full_diff_i) > 0 & any(grepl("^all|class_waterfall",chart_type,ignore.case = T))){
       # get all the scenDiff names
       scenDiff = unique(data_full$scenario)[!unique(data_full$scenario) %in% scenRef]
 
@@ -771,7 +771,7 @@ chart <- function(data = NULL,
     for(scen_i in 1:length(unique(data_full$scenario))){
       scen_name_i <- unique(data_full$scenario)[scen_i]
       data_full_i <- data_full %>% dplyr::filter(scenario == scen_name_i)
-      if (nrow(data_full_i) > 0 & any(grepl("all|class_absolute",chart_type,ignore.case = T))) {
+      if (nrow(data_full_i) > 0 & any(grepl("^all|class_absolute",chart_type,ignore.case = T))) {
         chart_name_i <- "chart_class"
         if(length(unique(data_full$scenario)) == 1){
           fname_i <- paste0(folder, "/", chart_name_i, "byRegion", append,".png")
@@ -859,7 +859,7 @@ chart <- function(data = NULL,
         dplyr::mutate(class = paste0(region))
     }
 
-    if (nrow(data_agg_reg) > 0 & any(grepl("all|region_absolute",chart_type,ignore.case = T))) {
+    if (nrow(data_agg_reg) > 0 & any(grepl("^all|region_absolute",chart_type,ignore.case = T))) {
 
       chart_name_i <- "chart_region_absolute"
       fname_i <- paste0(folder, "/", chart_name_i,append,".png")
@@ -948,7 +948,7 @@ chart <- function(data = NULL,
     scenDiff = unique(data_full$scenario)[!unique(data_full$scenario) %in% scenRef]
 
     # one waterfall plot with stacked regions for each class
-    if (any(grepl("all|class_region_waterfall",chart_type,ignore.case = T))){
+    if (any(grepl("^all|class_region_waterfall",chart_type,ignore.case = T))){
       chart_name_i <- "chart_class_region_waterfall"
       fname_i <- paste0(folder, "/", chart_name_i,append,".png")
 
