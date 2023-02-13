@@ -25,7 +25,11 @@ plot_class_waterfall(
   lty = 2,
   fill_colors = NULL,
   totals_fill_color = "gray90",
-  palette = NULL
+  palette = NULL,
+  vertical_dim = NULL,
+  ylim = NULL,
+  single_chart = F,
+  scen_order = NULL
 )
 }
 \arguments{
@@ -70,6 +74,14 @@ plot_class_waterfall(
 \item{totals_fill_color}{Default = "gray90". Color of the param total bars for the ref and diff scenarios}
 
 \item{palette}{Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios; class colors will be used if provided)}
+
+\item{vertical_dim}{Default = NULL. Column to use for vertical stacking within classes}
+
+\item{ylim}{Default = NULL. Y-axis limits}
+
+\item{single_chart}{Default = F. If there are multiple diff scenarios, include them all in the same chart?}
+
+\item{scen_order}{Default = F. Order of scenarios to chart if single chart option is selected}
 }
 \description{
 generate chart plot for absolute difference and percent difference

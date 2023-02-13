@@ -36,6 +36,9 @@
 #' @param interaction_col_lty Default = NULL. Column to use for interaction plot linetype.
 #' @param interaction_col_color Default = NULL. Column to use for interaction plot color.
 #' @param palette Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios)
+#' @param ylim Default = NULL. Y-axis limits
+#' @param waterfall_single_chart Default = FALSE. If there are multiple diff scenarios, show them on a single chart?
+#' @param waterfall_scen_order Default = NULL. If waterfall_single_chart option is selected, order of scenarios in chart
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
 #' @export
@@ -71,6 +74,9 @@ chart <- function(data = NULL,
                   summary_line = FALSE,
                   waterfall_x = NULL,
                   palette = NULL,
+                  ylim = NULL,
+                  waterfall_single_chart = F,
+                  waterfall_scen_order = NULL,
                   interaction_col_lty = NULL,
                   interaction_col_color = NULL){
 
@@ -247,7 +253,7 @@ chart <- function(data = NULL,
 
   ### Scenarios Absolute #######################################################
 
-      if (nrow(data_agg_i) > 0 & any(grepl("all|param_absolute",chart_type,ignore.case = T))) {
+      if (nrow(data_agg_i) > 0 & any(grepl("^all|param_absolute",chart_type,ignore.case = T))) {
         chart_name_i <- "chart_param"
         if(region_subRegion==""){
           fname_i <- paste0(folder, "/", chart_name_i,append,".png")
@@ -312,7 +318,7 @@ chart <- function(data = NULL,
 
   ### Scenarios Difference Absolute ############################################
 
-      if (nrow(data_agg_diff_i) > 0 & any(grepl("all|param_diff_absolute",chart_type,ignore.case = T))) {
+      if (nrow(data_agg_diff_i) > 0 & any(grepl("^all|param_diff_absolute",chart_type,ignore.case = T))) {
 
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_absolute, scenDiff_plot)]
 
@@ -384,7 +390,7 @@ chart <- function(data = NULL,
 
   ### Scenarios Difference Percent ##############################################
 
-      if (nrow(data_agg_diff_i) > 0 & any(grepl("all|param_diff_percent",chart_type,ignore.case = T))) {
+      if (nrow(data_agg_diff_i) > 0 & any(grepl("^all|param_diff_percent",chart_type,ignore.case = T))) {
 
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_percent, scenDiff_plot)]
 
@@ -461,7 +467,7 @@ chart <- function(data = NULL,
   ### Scenarios Absolute #######################################################
 
   if(length(unique(data_full_i$class))>1){
-      if (nrow(data_full_i) > 0 & any(grepl("all|class_absolute",chart_type,ignore.case = T))) {
+      if (nrow(data_full_i) > 0 & any(grepl("^all|class_absolute",chart_type,ignore.case = T))) {
         chart_name_i <- "chart_class"
         if(region_subRegion==""){
           fname_i <- paste0(folder, "/", chart_name_i,append,".png")
@@ -528,7 +534,7 @@ chart <- function(data = NULL,
   ### Scenarios Difference Absolute ############################################
 
 
-      if (nrow(data_full_diff_i) > 0 & any(grepl("all|class_diff_absolute",chart_type,ignore.case = T))) {
+      if (nrow(data_full_diff_i) > 0 & any(grepl("^all|class_diff_absolute",chart_type,ignore.case = T))) {
 
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_absolute, scenDiff_plot)]
 
@@ -608,7 +614,7 @@ chart <- function(data = NULL,
 
   ### Scenarios Difference Percent #############################################
 
-      if (nrow(data_full_diff_i) > 0 & any(grepl("all|class_diff_percent",chart_type,ignore.case = T))) {
+      if (nrow(data_full_diff_i) > 0 & any(grepl("^all|class_diff_percent",chart_type,ignore.case = T))) {
 
         scenDiff_plot_i <- scenDiff_plot[grepl(diff_text_percent, scenDiff_plot)]
 
@@ -687,12 +693,9 @@ chart <- function(data = NULL,
       }
 
     ### Waterfall chart ########################################################
-    if (nrow(data_full_diff_i) > 0 & any(grepl("all|class_waterfall",chart_type,ignore.case = T))){
+    if (nrow(data_full_diff_i) > 0 & any(grepl("^all|class_waterfall",chart_type,ignore.case = T))){
       # get all the scenDiff names
       scenDiff = unique(data_full$scenario)[!unique(data_full$scenario) %in% scenRef]
-
-      # make one chart for each scenDiff
-
 
       chart_name_i <- "chart_class_waterfall"
       if(region_subRegion==""){
@@ -723,6 +726,9 @@ chart <- function(data = NULL,
           summary_line = summary_line,
           wf_x = wf_x,
           palette = palette,
+          ylim = ylim,
+          single_chart = waterfall_single_chart,
+          scen_order = waterfall_scen_order,
           scales = scales
         )
 
@@ -783,7 +789,7 @@ chart <- function(data = NULL,
     for(scen_i in 1:length(unique(data_full$scenario))){
       scen_name_i <- unique(data_full$scenario)[scen_i]
       data_full_i <- data_full %>% dplyr::filter(scenario == scen_name_i)
-      if (nrow(data_full_i) > 0 & any(grepl("all|class_absolute",chart_type,ignore.case = T))) {
+      if (nrow(data_full_i) > 0 & any(grepl("^all|class_absolute",chart_type,ignore.case = T))) {
         chart_name_i <- "chart_class"
         if(length(unique(data_full$scenario)) == 1){
           fname_i <- paste0(folder, "/", chart_name_i, "byRegion", append,".png")
@@ -871,7 +877,7 @@ chart <- function(data = NULL,
         dplyr::mutate(class = paste0(region))
     }
 
-    if (nrow(data_agg_reg) > 0 & any(grepl("all|region_absolute",chart_type,ignore.case = T))) {
+    if (nrow(data_agg_reg) > 0 & any(grepl("^all|region_absolute",chart_type,ignore.case = T))) {
 
       chart_name_i <- "chart_region_absolute"
       fname_i <- paste0(folder, "/", chart_name_i,append,".png")
@@ -894,6 +900,99 @@ chart <- function(data = NULL,
           charts_out[[count]] <- charts_out[[count]] +
             ggplot2::ggtitle(paste0(title))}
       }
+
+      names(charts_out)[count] <- chart_name_i
+
+      if(show){ print(charts_out[[count]])}
+
+      if (save) {
+
+        if(is.null(ncol)){
+          if((n_param %% 2) == 0){ncol = as.integer(ceiling(n_param^0.5))}
+          if((n_param %% 2) != 0){ncol = as.integer(ceiling(n_param^0.5))+1}
+        }
+        width_i = 7*n_scenario
+        height_i = 5*n_param
+
+        if(!is.null(width)){width_i = width}
+        if(!is.null(height)){height_i = height}
+
+        ggplot2::ggsave(
+          filename = fname_i,
+          plot = charts_out[[count]],
+          width = width_i,
+          height = height_i,
+          units = "in"
+        )
+        print(paste0("Figure saved as: ", fname_i))
+      }
+
+      count = count + 1
+    }
+
+  }
+
+  ### region-split waterfall plots #############################################
+  if((length(unique(data_full_diff$region))>1) | (length(unique(data_full_diff$subRegion))>1)){
+    # Assign region_subRegion to region category
+    if((length(unique(data_full_diff$region))>1) & (length(unique(data_full_diff$subRegion))>1)){
+      data_full_diff_reg <- data_full_diff %>%
+        dplyr::mutate(region_subRegion_check = region!=subRegion,
+                      region = dplyr::if_else(region_subRegion_check,paste0(region,"_",subRegion),region)) %>%
+        dplyr::select(-region_subRegion_check, -subRegion)
+      data_agg_diff_reg <- data_agg_diff %>%
+        dplyr::mutate(region_subRegion_check = region!=subRegion,
+                      region = dplyr::if_else(region_subRegion_check,paste0(region,"_",subRegion),region)) %>%
+        dplyr::select(-region_subRegion_check, -subRegion)
+    }
+    if(!(length(unique(data_full_diff$region))>1) & (length(unique(data_full_diff$subRegion))>1)){
+      data_full_diff_reg <- data_full_diff %>%
+        dplyr::mutate(region = paste0(subRegion)) %>%
+        dplyr::select(-subRegion)
+      data_agg_diff_reg <- data_agg_diff %>%
+        dplyr::mutate(region = paste0(subRegion)) %>%
+        dplyr::select(-subRegion)
+    }
+    if((length(unique(data_full_diff$region))>1) & !(length(unique(data_full_diff$subRegion))>1)){
+      data_full_diff_reg <- data_full_diff %>%
+        dplyr::mutate(region = paste0(region)) %>%
+        dplyr::select(-subRegion)
+      data_agg_diff_reg <- data_agg_diff %>%
+        dplyr::mutate(region = paste0(region)) %>%
+        dplyr::select(-subRegion)
+    }
+
+    # get all the scenDiff names
+    scenDiff = unique(data_full$scenario)[!unique(data_full$scenario) %in% scenRef]
+
+    # one waterfall plot with stacked regions for each class
+    if (any(grepl("^all|class_region_waterfall",chart_type,ignore.case = T))){
+      chart_name_i <- "chart_class_region_waterfall"
+      fname_i <- paste0(folder, "/", chart_name_i,append,".png")
+
+      # set the year (or x value) for the waterfall plot
+      if(!is.null(waterfall_x)){
+        wf_x <- waterfall_x
+      } else{
+        wf_x <- max(data_full_diff_reg$x)
+      }
+
+      charts_out[[count]] <-
+        rchart::plot_class_waterfall(
+          data_diff = data_full_diff_reg,
+          data_agg = data_agg_diff_reg,
+          scenRef = scenRef,
+          scenDiff = scenDiff,
+          theme = theme,
+          theme_default = theme_default,
+          diff_text = diff_text_absolute,
+          break_interval = break_interval,
+          include_points = include_points,
+          summary_line = summary_line,
+          wf_x = wf_x,
+          palette = palette,
+          vertical_dim = "region"
+        )
 
       names(charts_out)[count] <- chart_name_i
 
