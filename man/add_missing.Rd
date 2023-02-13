@@ -4,10 +4,14 @@
 \alias{add_missing}
 \title{add_missing}
 \usage{
-add_missing(data)
+add_missing(data, interaction_col_lty = NULL, interaction_col_color = NULL)
 }
 \arguments{
 \item{data}{dataframe to test and convert}
+
+\item{interaction_col_lty}{Default = NULL. Column to use for interaction plot linetype.}
+
+\item{interaction_col_color}{Default = NULL. Column to use for interaction plot color.}
 }
 \description{
 Used to add missing data to input files and customize format

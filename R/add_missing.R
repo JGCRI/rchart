@@ -2,11 +2,15 @@
 #'
 #' Used to add missing data to input files and customize format
 #' @param data dataframe to test and convert
+#' @param interaction_col_lty Default = NULL. Column to use for interaction plot linetype.
+#' @param interaction_col_color Default = NULL. Column to use for interaction plot color.
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
 #' @export
 
-add_missing <- function(data){
+add_missing <- function(data,
+                        interaction_col_lty = NULL,
+                        interaction_col_color = NULL){
   NULL -> year -> aggregate -> scenario -> subRegion -> param -> x -> value -> region
 
   if(!any(grepl("\\<scenario\\>",names(data),ignore.case = T))){data<-data%>%dplyr::mutate(scenario="scenario")}else{
@@ -71,8 +75,15 @@ add_missing <- function(data){
                                    class=dplyr::case_when(is.na(class)~"class",TRUE~class))}
   }
 
+  if(!is.null(interaction_col_lty) & !is.null(interaction_col_color) & length((data$scenario)%>%unique())>1){
+    if(any(interaction_col_lty %in% names(data)) & any(interaction_col_color %in% names(data))){
+      data[[interaction_col_lty]] <- as.character(data[[interaction_col_lty]])
+      data[[interaction_col_color]] <- as.character(data[[interaction_col_color]])
+    }
+  }
+
   data <- data %>%
-    dplyr::select(scenario,region,subRegion,param,class,x,aggregate,value)
+    dplyr::select(scenario,region,subRegion,param,class,x,aggregate,value,interaction_col_lty, interaction_col_color)
   if(!is.numeric(data$x)){
     # convert x to factor so values won't be re-ordered alphabetically
     data$x <- factor(data$x, levels=unique(data$x))

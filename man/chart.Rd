@@ -38,7 +38,9 @@ chart(
   palette = NULL,
   ylim = NULL,
   waterfall_single_chart = F,
-  waterfall_scen_order = NULL
+  waterfall_scen_order = NULL,
+  interaction_col_lty = NULL,
+  interaction_col_color = NULL
 )
 }
 \arguments{
@@ -110,6 +112,11 @@ chart(
 \item{waterfall_single_chart}{Default = FALSE. If there are multiple diff scenarios, show them on a single chart?}
 
 \item{waterfall_scen_order}{Default = NULL. If waterfall_single_chart option is selected, order of scenarios in chart}
+
+\item{interaction_col_lty}{Default = NULL. Column to use for interaction plot linetype.}
+
+\item{interaction_col_color}{Default = NULL. Column to use for interaction plot color.}
+
 }
 \description{
 Used to add missing data to input files and customize format

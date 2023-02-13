@@ -99,32 +99,37 @@ plot_class_absolute <- function(data = NULL,
   # if multiple parameters and scenarios/regions, facet wrap by param and scenario/region
   if(length(unique(data[[col_dim]])) > 1 & length(unique(data[[row_dim]])) > 1){
     p1 <- p1 +
-      ggplot2::facet_grid(
-        get(row_dim) ~ get(col_dim),
+      ggplot2::facet_wrap(
+        # get(row_dim) ~ get(col_dim),
+        ~ get(col_dim),
         scales = scales,
         labeller = ggplot2::labeller(row_dim = ggplot2::label_wrap_gen(15)),
-        switch='y'
-      )
+        # switch='y',
+        ncol = ncol
+      )+
+      ggplot2::ylab((unique(data[[row_dim]]))[i])
   } else if(length(unique(data[[col_dim]])) > 1){
     # if one row_dim and multiple col_dims, facet wrap by only col_dim
     # and add row_dim as ylab
     p1 <- p1 +
-      ggplot2::facet_grid(
+      ggplot2::facet_wrap(
         ~ get(col_dim),
-        scales = scales
+        scales = scales,
+        ncol = ncol
       ) +
-      ggplot2::ylab((unique(data[[row_dim]]))[1])
+      ggplot2::ylab((unique(data[[row_dim]]))[i])
   } else if(length(unique(data[[row_dim]])) > 1){
     # if one col dim and multiple row dims, facet wrap only by row dim
     p1 <- p1 +
-      ggplot2::facet_grid(
+      ggplot2::facet_wrap(
         ~ get(row_dim),
-        scales = scales
+        scales = scales,
+        ncol = ncol
       )
   } else{
     # if one row_dim and one col_dim, just add row_dim as ylab
     p1 <- p1 +
-      ggplot2::ylab((unique(data[[row_dim]]))[1])
+      ggplot2::ylab((unique(data[[row_dim]]))[i])
   }
 
 
@@ -166,7 +171,8 @@ plot_class_absolute <- function(data = NULL,
     invisible(p1)
   } else{
     # otherwise, return grid of parameters (cannot be modified later)
-    plot_out <- cowplot::plot_grid(plotlist=plist, ncol = 1, align = "hv", axis = "lr")
+    plot_out <- cowplot::plot_grid(plotlist = plist, ncol = 1,
+                                   align = "hv", axis = "tblr")
     invisible(plot_out)
   }
 

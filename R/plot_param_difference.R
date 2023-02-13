@@ -6,6 +6,7 @@
 #' @param scenDiff Default = NULL.
 #' @param size Default = 1.5. Line size
 #' @param theme Default = NULL
+#' @param ncol Default = 3. Number of columns.
 #' @param theme_default Default = ggplot2::theme_bw(). Default rchart themes.
 #' @param facet_label_diff Default = Difference
 #' @param diff_text Default = NULL. Text to remove from diff scenario names.
@@ -20,6 +21,7 @@ plot_param_difference <- function(data = NULL,
                                 scenRef = NULL,
                                 scenDiff = NULL,
                                 size = 1.5,
+                                ncol = 3,
                                 theme = NULL,
                                 theme_default = ggplot2::theme_bw(),
                                 facet_label_diff = "Difference",
@@ -211,7 +213,7 @@ plot_param_difference <- function(data = NULL,
 
   }
 
-    plot_out <- cowplot::plot_grid(plotlist=plist, ncol=3, rel_widths = c(1,-0.25,1))
+    plot_out <- cowplot::plot_grid(plotlist=plist, ncol=ncol, rel_widths = c(1,-0.25,1))
 
   } else {
 

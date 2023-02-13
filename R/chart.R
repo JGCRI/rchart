@@ -33,6 +33,8 @@
 #' @param include_points Default = FALSE. Add data points to all line charts.
 #' @param summary_line Default = FALSE. Add parameter summary line to all bar charts.
 #' @param waterfall_x Default = NULL. Year (or x value) for which to make waterfall plot. If NULL, latest year will be used
+#' @param interaction_col_lty Default = NULL. Column to use for interaction plot linetype.
+#' @param interaction_col_color Default = NULL. Column to use for interaction plot color.
 #' @param palette Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios)
 #' @param ylim Default = NULL. Y-axis limits
 #' @param waterfall_single_chart Default = FALSE. If there are multiple diff scenarios, show them on a single chart?
@@ -74,7 +76,9 @@ chart <- function(data = NULL,
                   palette = NULL,
                   ylim = NULL,
                   waterfall_single_chart = F,
-                  waterfall_scen_order = NULL){
+                  waterfall_scen_order = NULL,
+                  interaction_col_lty = NULL,
+                  interaction_col_color = NULL){
 
   print("Starting chart...")
 
@@ -141,7 +145,9 @@ chart <- function(data = NULL,
   # Prepare Data ---------------------------------------------------------------
   #.................................
 
-  data_full <- rchart::add_missing(data)
+  data_full <- rchart::add_missing(data,
+                                   interaction_col_lty = interaction_col_lty,
+                                   interaction_col_color = interaction_col_color)
   data_full <- data_full %>%
     dplyr::mutate(class = as.character(class),
                   class = dplyr::if_else(grepl("^class1$|^class$",class),param,class))
@@ -266,7 +272,9 @@ chart <- function(data = NULL,
             scales = scales,
             break_interval = break_interval,
             include_points = include_points,
-            palette = palette
+            palette = palette,
+            interaction_col_lty = interaction_col_lty,
+            interaction_col_color = interaction_col_color
           )
 
         # Set title if provided or turn off
@@ -329,12 +337,14 @@ chart <- function(data = NULL,
             scenDiff = scenDiff_plot_i,
             theme = theme,
             theme_default = theme_default,
+            ncol = ncol,
             facet_label_diff = "Difference Absolute",
             size = size,
             diff_text = diff_text_absolute,
             break_interval = break_interval,
             include_points = include_points,
-            palette = palette
+            palette = palette,
+            scales = scales
           )
 
 
@@ -404,7 +414,8 @@ chart <- function(data = NULL,
             diff_text = diff_text_percent,
             break_interval = break_interval,
             include_points = include_points,
-            palette = palette
+            palette = palette,
+            scales = scales
           )
 
         # Set title if provided or turn off
@@ -543,13 +554,15 @@ chart <- function(data = NULL,
             scenDiff = scenDiff_plot_i,
             theme = theme,
             theme_default = theme_default,
+            ncol = ncol,
             diff_text = diff_text_absolute,
             break_interval = break_interval,
             include_points = include_points,
             summary_line = summary_line,
             data_agg_ref = data_agg_i,
             data_agg_diff = data_agg_diff_i,
-            palette = palette
+            palette = palette,
+            scales = scales
           )
 
         # data = data_full_diff_i
@@ -620,6 +633,7 @@ chart <- function(data = NULL,
             scenDiff = scenDiff_plot_i,
             theme = theme,
             theme_default = theme_default,
+            ncol = ncol,
             diff_text = diff_text_percent,
             diff_type="line",
             break_interval = break_interval,
@@ -627,7 +641,8 @@ chart <- function(data = NULL,
             summary_line = summary_line,
             data_agg_ref = data_agg_i,
             data_agg_diff = data_agg_diff_i,
-            palette = palette
+            palette = palette,
+            scales = scales
           )
 
         # data = data_full_diff_i
@@ -713,7 +728,8 @@ chart <- function(data = NULL,
           palette = palette,
           ylim = ylim,
           single_chart = waterfall_single_chart,
-          scen_order = waterfall_scen_order
+          scen_order = waterfall_scen_order,
+          scales = scales
         )
 
       # Set title if provided or turn off
