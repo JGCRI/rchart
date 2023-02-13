@@ -35,7 +35,10 @@ chart(
   include_points = FALSE,
   summary_line = FALSE,
   waterfall_x = NULL,
-  palette = NULL
+  palette = NULL,
+  ylim = NULL,
+  waterfall_single_chart = F,
+  waterfall_scen_order = NULL
 )
 }
 \arguments{
@@ -101,6 +104,12 @@ chart(
 \item{waterfall_x}{Default = NULL. Year (or x value) for which to make waterfall plot. If NULL, latest year will be used}
 
 \item{palette}{Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios)}
+
+\item{ylim}{Default = NULL. Y-axis limits}
+
+\item{waterfall_single_chart}{Default = FALSE. If there are multiple diff scenarios, show them on a single chart?}
+
+\item{waterfall_scen_order}{Default = NULL. If waterfall_single_chart option is selected, order of scenarios in chart}
 }
 \description{
 Used to add missing data to input files and customize format

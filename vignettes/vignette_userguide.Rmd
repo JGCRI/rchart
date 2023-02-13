@@ -501,6 +501,10 @@ my_chart$chart_class_diff_percent_India
 
 This chart type creates a waterfall plot for a single year (or x value) comparing a reference scenario to difference scenario(s). The leftmost bar in the plot represents the parameter total for the reference scenario, the rightmost bar represents the parameter total for the difference scenario, and the middle rectangles represent the differences between the scenarios for each class. The default year is the latest one in the data (or largest x value), but a different year can be selected using the `waterfall_x` argument.
 
+### Two Scenarios per chart
+
+The default setting for `chart_class_waterfall` creates one chart for each parameter- difference scenario combination, each comparing the respective difference scenario to the same reference scenario given by the `scenRef` argument.
+
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=8, fig.height = 5.5, out.width="100%"}
 library(rchart);
 data = data.frame(region = c(rep("Spain",54),
@@ -531,6 +535,45 @@ my_chart$chart_class_waterfall_Spain
 my_chart2 <- rchart::chart(data, save = F, scenRef = "scen1", waterfall_x = 2020)
 my_chart2$chart_class_waterfall_India
 ```
+
+### Three or more scenarios in one plot
+
+There is also an option to include more than two scenarios in the same waterfall chart using the `waterfall_single_chart` argument. This option compares scenarios sequentially, either in the order present in the data or in an order specified by the `waterfall_single_chart` argument.
+
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=8, fig.height = 5.5, out.width="100%"}
+library(rchart);
+data = data.frame(region = c(rep("Spain",54),
+                             rep("India",54)),
+                  param = rep(rep(c("param_1", "param_2","param_1", "param_2","param_1", "param_2",
+                                "param_1", "param_2","param_1", "param_2","param_1", "param_2",
+                                "param_1", "param_2","param_1", "param_2","param_1", "param_2"),3),2),
+                  scenario = rep(rep(c("scen1","scen1","scen1","scen1","scen1","scen1",
+                               "scen2","scen2","scen2","scen2","scen2","scen2",
+                               "scen3","scen3","scen3","scen3","scen3","scen3"),3),2),
+                  year = rep(rep(rep(c(2010,2010,2020,2020,2030,2030),3),3),2),
+                  class = rep(c(rep("class_1",18),
+                            rep("class_2",18),
+                            rep("class_3",18)),2),
+                  value = rep(c(c(32, 138, 54, 163, 24, 123,
+                              37, 153, 23, 112, 45, 147,
+                              40, 144, 12, 130, 99, 1103),
+                            c(10, 121, 24, 113, 14, 113,
+                              67, 183, 93, 192, 95, 1107,
+                              10, 134, 02, 110, 39, 133),
+                            c(50, 1121, 124, 1113, 214, 1313,
+                              367, 1483, 593, 1692, 795, 1907,
+                              100, 1304, 102, 1107, 339, 1233)),2))
+
+# To compare scenarios in the order present in the data (scen 2 then scen 3)
+my_chart <- rchart::chart(data, save = F, scenRef = "scen1", waterfall_single_chart = T)
+my_chart$chart_class_waterfall_Spain
+
+# To compare scenarios in a different order (scen 3 then scen 2)
+my_chart2 <- rchart::chart(data, save = F, scenRef = "scen1", waterfall_single_chart = T,
+                           waterfall_scen_order = c("scen3", "scen2"))
+my_chart2$chart_class_waterfall_Spain
+```
+
 
 <!-------------------------->
 ## Plot Region Compare

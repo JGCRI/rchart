@@ -35,6 +35,8 @@
 #' @param waterfall_x Default = NULL. Year (or x value) for which to make waterfall plot. If NULL, latest year will be used
 #' @param palette Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios)
 #' @param ylim Default = NULL. Y-axis limits
+#' @param waterfall_single_chart Default = FALSE. If there are multiple diff scenarios, show them on a single chart?
+#' @param waterfall_scen_order Default = NULL. If waterfall_single_chart option is selected, order of scenarios in chart
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
 #' @export
@@ -71,7 +73,8 @@ chart <- function(data = NULL,
                   waterfall_x = NULL,
                   palette = NULL,
                   ylim = NULL,
-                  coord_ratio = NULL){
+                  waterfall_single_chart = F,
+                  waterfall_scen_order = NULL){
 
   print("Starting chart...")
 
@@ -679,9 +682,6 @@ chart <- function(data = NULL,
       # get all the scenDiff names
       scenDiff = unique(data_full$scenario)[!unique(data_full$scenario) %in% scenRef]
 
-      # make one chart for each scenDiff
-
-
       chart_name_i <- "chart_class_waterfall"
       if(region_subRegion==""){
         fname_i <- paste0(folder, "/", chart_name_i, "_", append,".png")
@@ -711,7 +711,9 @@ chart <- function(data = NULL,
           summary_line = summary_line,
           wf_x = wf_x,
           palette = palette,
-          ylim = ylim
+          ylim = ylim,
+          single_chart = waterfall_single_chart,
+          scen_order = waterfall_scen_order
         )
 
       # Set title if provided or turn off

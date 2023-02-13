@@ -23,6 +23,9 @@
 #' @param totals_fill_color Default = "gray90". Color of the param total bars for the ref and diff scenarios
 #' @param palette Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios; class colors will be used if provided)
 #' @param ylim Default = NULL. Y-axis limits
+#' @param vertical_dim Default = NULL. Column to use for vertical stacking within classes
+#' @param single_chart Default = F. If there are multiple diff scenarios, include them all in the same chart?
+#' @param scen_order Default = F. Order of scenarios to chart if single chart option is selected
 #' @importFrom magrittr %>%
 #' @export
 
@@ -48,28 +51,43 @@ plot_class_waterfall <- function(data_diff = NULL,
                                  totals_fill_color = "gray90",
                                  palette = NULL,
                                  vertical_dim = NULL,
-                                 ylim = NULL){
+                                 ylim = NULL,
+                                 single_chart = F,
+                                 scen_order = NULL){
 
   #...........................
   # Initialize
   #...........................
 
-  NULL->x->value->scenario->param
+  NULL->x->value->scenario->param->.->vDim-> include_class
+
+
+  # reorder the diff scens if needed
+  if(!is.null(scen_order)){
+    if(scenRef %in% scen_order){
+      stop("scenRef is included in scen_order. Please only include difference scenarios.")
+    } else if(any(!scen_order %in% scenDiff)){
+      stop("One or more scenarios included in waterfall_scen_order is not present in the data.")
+    }
+    scenDiff <- scen_order
+  }
 
   # subset diff data to only the year for which we're making the waterfall plot
   data_diff_subset <- data_diff %>%
+    dplyr::filter(x == wf_x)
+  data_agg_subset <- data_agg %>%
     dplyr::filter(x == wf_x)
 
   # add a dummy column if there's no vertical dimension
   if(is.null(vertical_dim)){
     data_diff_subset <- data_diff_subset %>%
       dplyr::mutate(vDim = "vDim")
-    data_agg <- data_agg %>%
+    data_agg_subset <- data_agg_subset %>%
       dplyr::mutate(vDim = "vDim")
   } else{
     data_diff_subset <- data_diff_subset %>%
       dplyr::rename(vDim = tidyselect::all_of(vertical_dim))
-    data_agg <- data_agg %>%
+    data_agg_subset <- data_agg_subset %>%
       dplyr::rename(vDim = tidyselect::all_of(vertical_dim))
   }
 
@@ -83,19 +101,22 @@ plot_class_waterfall <- function(data_diff = NULL,
 
   count <- 1
 
+  origScenRef <- scenRef
+
   for(i in 1:length(unique(data_diff$param))){
     # filter to single parameter
     data_diff_param <- data_diff_subset %>%
       dplyr::filter(param == unique(data_diff$param)[i])
-    data_agg_param <- data_agg %>%
+    data_agg_param <- data_agg_subset %>%
       dplyr::filter(param == unique(data_diff$param)[i])
 
-    # give value of zero to class and vDim combinations that don't exist
+
+    # # give value of zero to class-scenario-vDim combinations that don't exist
     all_classes <- unique(data_diff_param$class)
     data_diff_param <- data_diff_param %>%
       tidyr::pivot_wider(names_from = "class", values_from = "value") %>%
       replace(is.na(.), 0) %>%
-      tidyr::pivot_longer(all_of(all_classes), names_to = "class", values_to = "value")
+      tidyr::pivot_longer(tidyselect::all_of(all_classes), names_to = "class", values_to = "value")
 
 
     # Check Color Palettes ....................................
@@ -126,28 +147,49 @@ plot_class_waterfall <- function(data_diff = NULL,
     names(palTotal) <- c(scenRef, scenDiff)
     palCharts <- c(palCharts, palTotal)
 
+    # initiate plotting data if scenarios will be combined in one plot
+    if(single_chart){
+      allClasses <- list()
+      allYVals <- list()
+      allPrevVals <- list()
+      allCurrentVals <- list()
+      allPrevValTotals <- list()
+    }
 
+    # start with the original scenRef
+    scenRef <- origScenRef
     for(j in 1:length(scenDiff)){
-      # initiate lists of refTotals, diffRects, diffTotals
-      refTotals = c()
-      #diffRects = list()
-      diffTotals = c()
-      values = matrix(nrow = length(unique(data_diff_param$vDim)),
-                      ncol = length(unique(data_diff_param$class))+1)
+      # subset data to only include classes with nonzero value for at least one vDim
+      data_diff_param_subset <- data_diff_param %>%
+        dplyr::filter(scenario %in% c(scenRef, scenDiff[j], paste0(scenDiff[j], "_", diff_text, "_", scenRef))) %>%
+        dplyr::group_by(dplyr::across(-c(value, vDim, scenario))) %>%
+        dplyr::mutate(include_class = any(value !=0)) %>%
+        dplyr::ungroup() %>%
+        dplyr::filter(include_class) %>%
+        dplyr::select(-include_class)
 
-      for(v in 1:length(unique(data_diff_param$vDim))){
-        # subset data to the current parameter and vertical dimension
-        data_diff_plot <- data_diff_param %>%
-          dplyr::filter(vDim == unique(data_diff_param$vDim)[v]) %>%
+      # initiate lists of refTotals, diffRects, diffTotals
+      # refTotals are the heights of the ref scenario bars for each vdim
+      refTotals = c()
+      # diffTotals are the heights of the diff scenario bars for each vdim
+      diffTotals = c()
+      # values are the heights of each diff rectangle
+      values = matrix(nrow = length(unique(data_diff_param_subset$vDim)),
+                      ncol = length(unique(data_diff_param_subset$class))+1)
+
+      for(v in 1:length(unique(data_diff_param_subset$vDim))){
+        # subset data to the current vertical dimension
+        data_diff_plot <- data_diff_param_subset %>%
+          dplyr::filter(vDim == unique(data_diff_param_subset$vDim)[v]) %>%
           dplyr::arrange(class)
         data_agg_plot <- data_agg_param %>%
-          dplyr::filter(vDim == unique(data_diff_param$vDim)[v]) %>%
+          dplyr::filter(vDim == unique(data_diff_param_subset$vDim)[v]) %>%
           dplyr::arrange(class)
 
         # get the leftmost rectangle (total of reference case)
-        refTotals[v] <- dplyr::filter(data_agg_plot, x == wf_x,
-                                  scenario == scenRef)[["value"]]
-        diffTotals[v] <- dplyr::filter(data_agg_plot, x == wf_x,
+        refTotals[v] <- dplyr::filter(data_agg_plot,
+                                      scenario == scenRef)[["value"]]
+        diffTotals[v] <- dplyr::filter(data_agg_plot,
                                         scenario == scenDiff[j])[["value"]]
 
         # get values for the rest of the rectangle (diffs)
@@ -158,19 +200,21 @@ plot_class_waterfall <- function(data_diff = NULL,
 
       }
 
+
+
       # get all classes and values in order (excluding the rightmost rectangle)
-      classes <- factor(c(scenRef, sort(unique(data_diff_param$class)), scenDiff[j]),
-                        levels = c(scenRef, sort(unique(data_diff_param$class)), scenDiff[j]))
+      classes <- factor(c(scenRef, sort(unique(data_diff_param_subset$class)), scenDiff[j]),
+                        levels = c(scenRef, sort(unique(data_diff_param_subset$class)), scenDiff[j]))
 
       # calculate the cumulative sum of the values (these correspond to the
       # tops and bottoms of the diff rectangles)
       currentValTotal <- c(sum(refTotals) + cumsum(colSums(values)), 0)
       prevValTotal <- c(0, sum(refTotals) + cumsum(colSums(values)))
       # calculate the heights of the stacked rectangles
-      midVals <- matrix(ncol = length(unique(data_diff_param$class))+2,
-                        nrow = length(unique(data_diff_param$vDim)))
+      midVals <- matrix(ncol = length(unique(data_diff_param_subset$class))+2,
+                        nrow = length(unique(data_diff_param_subset$vDim)))
       midVals[,1] <- cumsum(refTotals)
-      for(c in 2:(length(unique(data_diff_param$class))+1)){
+      for(c in 2:(length(unique(data_diff_param_subset$class))+1)){
         midVals[,c] <- prevValTotal[c] + cumsum(values[,c])
       }
       midVals[,ncol(midVals)] <- sum(diffTotals) -cumsum(diffTotals)
@@ -188,17 +232,122 @@ plot_class_waterfall <- function(data_diff = NULL,
         ymax <- ylim[2]
         yvals <- seq(from = ylim[1], to = ylim[2],
                      length.out = length(classes))
-      }
-      else{
+      }else{
         ymax = max(c(currentVal, prevVal))
         yvals <- seq(from = min(c(currentVal, prevVal)),
                         to = max(c(currentVal, prevVal)),
                         length.out = length(classes))
       }
 
+      if(!single_chart){
+
+        # initiate plot
+        p <- ggplot2::ggplot(data.frame(x = classes,
+                                        y = yvals),
+                             ggplot2::aes_string(x = "x", y = "y")) +
+          ggplot2::geom_blank() +
+          ggplot2::geom_hline(yintercept = 0) +
+          theme_default
+
+        # amounts to darken each class color for each vertical dim
+        darken <- seq(from = 0, to = 0.4, length.out = length(unique(data_diff_param_subset$vDim)))
+
+        for(k in 1:length(classes)){
+          for(v in 1:length(unique(data_diff_param_subset$vDim))){
+            # add rectangles
+            p <- p + ggplot2::annotate("rect",
+                                       xmin = k - rect_width/2,
+                                       xmax = k + rect_width/2,
+                                       ymin = min(prevVal[v,k], currentVal[v,k]),
+                                       ymax = max(prevVal[v,k], currentVal[v,k]),
+                                       fill = colorspace::darken(
+                                         fill_colors[as.character(classes[k])],
+                                         amount = darken[v]),
+                                       color = "black")
+          }
+
+
+          # add lines connecting rectangles
+          if(horizontal_lines && k > 1){
+            p <- p + ggplot2::annotate("segment",
+                                       x = k - rect_width/2,
+                                       xend = k - 1 + rect_width/2,
+                                       y = prevValTotal[k],
+                                       yend = prevValTotal[k],
+                                       lty = lty)
+          }
+        }
+
+
+        p <- p + ggplot2::ylab(paste0(unique(data_diff$param)[i], "_", wf_x)) +
+          ggplot2::xlab("") +
+          ggplot2::theme_bw() +
+          ggplot2::theme(aspect.ratio = aspect_ratio) +
+          # angle x axis labels
+          ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust=1)) +
+          ggplot2::coord_fixed(ratio = 1/ymax*3)
+
+        if(!is.null(theme)){p <- p + theme}
+
+        plist[[count]] <- p
+        count <- count + 1
+      } else{
+        # if single chart, keep track of all data needed for the diff scenario
+        allClasses[[j]] <- classes
+        allYVals[[j]] <- yvals
+        allCurrentVals[[j]] <- currentVal
+        allPrevVals[[j]] <- prevVal
+        allPrevValTotals[[j]] <- prevValTotal
+
+        # for next round, need current class as reference scenario
+        # e.g., need scen3_diffAbs_scen2 which is equal to
+        # (scen3_diffAbs_scen1) - (scen2_diffAbs_scen1)
+        if(j < length(scenDiff)){
+          new_diff_scenario <- paste0(scenDiff[j+1], "_", diff_text, "_", scenDiff[j])
+          data_diff_param <- data_diff_param %>%
+            dplyr::filter(grepl(diff_text, scenario)) %>%
+            tidyr::pivot_wider(names_from = scenario, values_from = value) %>%
+            dplyr::mutate(!!new_diff_scenario := get(paste0(scenDiff[j+1], "_", diff_text, "_", scenRef)) - get(paste0(scenDiff[j], "_", diff_text, "_", scenRef))) %>%
+            tidyr::pivot_longer(cols = tidyr::contains(diff_text), names_to = "scenario", values_to = "value")
+
+          scenRef <- scenDiff[j]
+        }
+      }
+    } # end scenDiff
+
+    # if single chart option is selected, aggregate data into one chart
+    if(single_chart){
+
+      # combine the classes from each scenario
+      classes_combined <- unlist(allClasses)
+
+      # but only keep one of each "in between" scenario;
+      # for any scenario bar other than the first and last, remove the subsequent (repeated) bar
+      classes_keep <- 1:length(classes_combined)
+      c <- 2
+      while(c < length(classes_keep)){
+        if(classes_combined[classes_keep[c]] %in% scenDiff){
+          classes_keep <- classes_keep[-(c+1)]
+        }
+        c <- c+1
+      }
+
+      # classes that will be included in the chart
+      classes_combined_chart <- classes_combined[classes_keep]
+
+      # unique identifiers for all x axis labels
+      # (this is needed to allow repeated labels)
+      classes_id <- paste0(classes_combined, "_", 1:length(classes_combined))[classes_keep]
+
+      # combine all other relevant plotting data from the multiple diff scenarios
+      yvals_combined <- unlist(allYVals)
+      prevVals_combined <- do.call(cbind, allPrevVals)
+      currVals_combined <- do.call(cbind, allCurrentVals)
+      prevValTotals_combined <- unlist(allPrevValTotals)
+
       # initiate plot
-      p <- ggplot2::ggplot(data.frame(x = classes,
-                                      y = yvals),
+      p <- ggplot2::ggplot(data.frame(x = classes_combined_chart,
+                                      y = yvals_combined[classes_keep]),
                            ggplot2::aes_string(x = "x", y = "y")) +
         ggplot2::geom_blank() +
         ggplot2::geom_hline(yintercept = 0) +
@@ -207,16 +356,19 @@ plot_class_waterfall <- function(data_diff = NULL,
       # amounts to darken each class color for each vertical dim
       darken <- seq(from = 0, to = 0.4, length.out = length(unique(data_diff_param$vDim)))
 
-      for(k in 1:length(classes)){
+      # keep track of the x position of each bar
+      pos_x <- 1
+      # add bars and line connectors one by one
+      for(k in classes_keep){
         for(v in 1:length(unique(data_diff_param$vDim))){
           # add rectangles
           p <- p + ggplot2::annotate("rect",
-                                     xmin = k - rect_width/2,
-                                     xmax = k + rect_width/2,
-                                     ymin = min(prevVal[v,k], currentVal[v,k]),
-                                     ymax = max(prevVal[v,k], currentVal[v,k]),
+                                     xmin = pos_x - rect_width/2,
+                                     xmax = pos_x + rect_width/2,
+                                     ymin = min(prevVals_combined[v,k], currVals_combined[v,k]),
+                                     ymax = max(prevVals_combined[v,k], currVals_combined[v,k]),
                                      fill = colorspace::darken(
-                                       fill_colors[as.character(classes[k])],
+                                       fill_colors[as.character(classes_combined[k])],
                                        amount = darken[v]),
                                      color = "black")
         }
@@ -225,37 +377,43 @@ plot_class_waterfall <- function(data_diff = NULL,
         # add lines connecting rectangles
         if(horizontal_lines && k > 1){
           p <- p + ggplot2::annotate("segment",
-                                     x = k - rect_width/2,
-                                     xend = k - 1 + rect_width/2,
-                                     y = prevValTotal[k],
-                                     yend = prevValTotal[k],
+                                     x = pos_x - rect_width/2,
+                                     xend = pos_x - 1 + rect_width/2,
+                                     y = prevValTotals_combined[k],
+                                     yend = prevValTotals_combined[k],
                                      lty = lty)
         }
+        # move to the next x position
+        pos_x <- pos_x + 1
       }
 
 
       p <- p + ggplot2::ylab(paste0(unique(data_diff$param)[i], "_", wf_x)) +
         ggplot2::xlab("") +
         ggplot2::theme_bw() +
-        #ggplot2::theme(aspect.ratio = aspect_ratio) +
-        # angle x axis labels
-        #ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust=1)) +
-        ggplot2::theme(axis.text.x=ggplot2::element_blank()) +
+        ggplot2::theme(aspect.ratio = aspect_ratio) +
+        # need special x scale to make sure repeated x labels are included
+        ggplot2::scale_x_discrete(limits = classes_id, labels = function(x) classes_combined[classes_keep][match(x, classes_id)]) +
+        # angle the x axis labels 45 degrees
+        ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust=1)) +
         ggplot2::coord_fixed(ratio = 1/ymax*3)
 
       if(!is.null(theme)){p <- p + theme}
 
       plist[[count]] <- p
       count <- count + 1
-    } # end scenDiff
+
+    }
+
   } # end param
 
-  # return just the single plot if only one parameter and diff scenario
-  if(length(unique(data_diff$param)) == 1 & length(scenDiff) == 1){
+  # return just the single plot if only one parameter and diff scenario,
+  # or one parameter and single_chart option
+  if(length(unique(data_diff$param)) == 1 & (length(scenDiff) == 1 | single_chart)){
     invisible(p)
   } else{
     # otherwise, return grid of parameters (cannot be modified later)
-    plot_out <- cowplot::plot_grid(plotlist=plist, ncol = length(scenDiff), align = "hv", axis = "lr")
+    plot_out <- cowplot::plot_grid(plotlist=plist, nrow = length(unique(data_diff$param)), align = "hv", axis = "lr")
     invisible(plot_out)
   }
 
