@@ -39,6 +39,7 @@
 #' @param ylim Default = NULL. Y-axis limits
 #' @param waterfall_single_chart Default = FALSE. If there are multiple diff scenarios, show them on a single chart?
 #' @param waterfall_scen_order Default = NULL. If waterfall_single_chart option is selected, order of scenarios in chart
+#' @param waterfall_vertical_dim Default = NULL. Column defining vertical stacking for waterfall charts
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
 #' @export
@@ -77,6 +78,7 @@ chart <- function(data = NULL,
                   ylim = NULL,
                   waterfall_single_chart = F,
                   waterfall_scen_order = NULL,
+                  waterfall_vertical_dim = NULL,
                   interaction_col_lty = NULL,
                   interaction_col_color = NULL){
 
@@ -705,13 +707,6 @@ chart <- function(data = NULL,
         chart_name_i <- paste0(chart_name_i, "_", region_subRegion)
       }
 
-      # set the year (or x value) for the waterfall plot
-      if(!is.null(waterfall_x)){
-        wf_x <- waterfall_x
-      } else{
-        wf_x <- max(data_full_diff_i$x)
-      }
-
       charts_out[[count]] <-
         rchart::plot_class_waterfall(
           data_diff = data_full_diff_i,
@@ -724,7 +719,7 @@ chart <- function(data = NULL,
           break_interval = break_interval,
           include_points = include_points,
           summary_line = summary_line,
-          wf_x = wf_x,
+          wf_x = waterfall_x,
           palette = palette,
           ylim = ylim,
           single_chart = waterfall_single_chart,
@@ -970,13 +965,6 @@ chart <- function(data = NULL,
       chart_name_i <- "chart_class_region_waterfall"
       fname_i <- paste0(folder, "/", chart_name_i,append,".png")
 
-      # set the year (or x value) for the waterfall plot
-      if(!is.null(waterfall_x)){
-        wf_x <- waterfall_x
-      } else{
-        wf_x <- max(data_full_diff_reg$x)
-      }
-
       charts_out[[count]] <-
         rchart::plot_class_waterfall(
           data_diff = data_full_diff_reg,
@@ -989,9 +977,12 @@ chart <- function(data = NULL,
           break_interval = break_interval,
           include_points = include_points,
           summary_line = summary_line,
-          wf_x = wf_x,
+          wf_x = waterfall_x,
           palette = palette,
-          vertical_dim = "region"
+          vertical_dim = "region",
+          single_chart = waterfall_single_chart,
+          scen_order = waterfall_scen_order,
+          scales = scales
         )
 
       names(charts_out)[count] <- chart_name_i
