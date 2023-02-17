@@ -72,22 +72,17 @@ plot_class_waterfall <- function(data_diff = NULL,
     scenDiff <- scen_order
   }
 
-  # subset diff data to only the year for which we're making the waterfall plot
-  data_diff_subset <- data_diff %>%
-    dplyr::filter(x == wf_x)
-  data_agg_subset <- data_agg %>%
-    dplyr::filter(x == wf_x)
 
   # add a dummy column if there's no vertical dimension
   if(is.null(vertical_dim)){
-    data_diff_subset <- data_diff_subset %>%
+    data_diff_full <- data_diff %>%
       dplyr::mutate(vDim = "vDim")
-    data_agg_subset <- data_agg_subset %>%
+    data_agg_full <- data_agg %>%
       dplyr::mutate(vDim = "vDim")
   } else{
-    data_diff_subset <- data_diff_subset %>%
+    data_diff_full <- data_diff %>%
       dplyr::rename(vDim = tidyselect::all_of(vertical_dim))
-    data_agg_subset <- data_agg_subset %>%
+    data_agg_full <- data_agg %>%
       dplyr::rename(vDim = tidyselect::all_of(vertical_dim))
   }
 
@@ -105,11 +100,26 @@ plot_class_waterfall <- function(data_diff = NULL,
 
   for(i in 1:length(unique(data_diff$param))){
     # filter to single parameter
-    data_diff_param <- data_diff_subset %>%
-      dplyr::filter(param == unique(data_diff$param)[i])
-    data_agg_param <- data_agg_subset %>%
-      dplyr::filter(param == unique(data_diff$param)[i])
+    data_diff_param_all <- data_diff_full %>%
+      dplyr::filter(param == unique(data_diff_full$param)[i])
+    data_agg_param_all <- data_agg_full %>%
+      dplyr::filter(param == unique(data_diff_full$param)[i])
 
+    # set the year for the waterfall chart
+    if(!is.null(wf_x)){
+      if(!wf_x %in% unique(data_diff_param_all$x)){
+        print(paste0("waterfall_x value provided is not present in data for param ",
+                     unique(data_diff$param)[i], ". Using ",
+                     max(data_diff_param_all$x), " instead."))
+        wf_x <- max(data_diff_param_all$x)
+      }
+    } else{wf_x <- max(data_diff_param_all$x)}
+
+    # filter data to only include selected year
+    data_diff_param <- data_diff_param_all %>%
+      dplyr::filter(x == wf_x)
+    data_agg_param <- data_agg_param_all %>%
+      dplyr::filter(x == wf_x)
 
     # # give value of zero to class-scenario-vDim combinations that don't exist
     all_classes <- unique(data_diff_param$class)
@@ -126,7 +136,7 @@ plot_class_waterfall <- function(data_diff = NULL,
     # remove custom palette names from jgcricolors
     jgcricolors_subset <- jgcricolors::jgcricol()$pal_all[!names(jgcricolors::jgcricol()$pal_all) %in% names(palCustom)]
     # get classes not in the custom palette
-    missNamesCustom <- unique(data_diff_subset$class)[!unique(data_diff_subset$class) %in% names(palCustom)]
+    missNamesCustom <- unique(data_diff_full$class)[!unique(data_diff_full$class) %in% names(palCustom)]
     # get classes not in the custom palette or in jgcricolors
     missNames <- missNamesCustom[!missNamesCustom %in% names(jgcricolors::jgcricol()$pal_all)]
     # get extra colors to use for nonspecified classes
@@ -168,6 +178,7 @@ plot_class_waterfall <- function(data_diff = NULL,
         dplyr::filter(include_class) %>%
         dplyr::select(-include_class)
 
+
       # initiate lists of refTotals, diffRects, diffTotals
       # refTotals are the heights of the ref scenario bars for each vdim
       refTotals = c()
@@ -176,6 +187,7 @@ plot_class_waterfall <- function(data_diff = NULL,
       # values are the heights of each diff rectangle
       values = matrix(nrow = length(unique(data_diff_param_subset$vDim)),
                       ncol = length(unique(data_diff_param_subset$class))+1)
+
 
       for(v in 1:length(unique(data_diff_param_subset$vDim))){
         # subset data to the current vertical dimension
@@ -254,27 +266,58 @@ plot_class_waterfall <- function(data_diff = NULL,
 
         for(k in 1:length(classes)){
           for(v in 1:length(unique(data_diff_param_subset$vDim))){
-            # add rectangles
-            p <- p + ggplot2::annotate("rect",
-                                       xmin = k - rect_width/2,
-                                       xmax = k + rect_width/2,
-                                       ymin = min(prevVal[v,k], currentVal[v,k]),
-                                       ymax = max(prevVal[v,k], currentVal[v,k]),
-                                       fill = colorspace::darken(
-                                         fill_colors[as.character(classes[k])],
-                                         amount = darken[v]),
-                                       color = "black")
-          }
+            # if there are only 2 vdim classes, use stripes for one of them
+            if(length(unique(data_diff_param_subset$vDim)) == 2){
+              if(v == 1){
+                # striped portion
+                p <- p + ggplot2::annotate("rect",
+                                           xmin = k - rect_width/2,
+                                           xmax = k + rect_width/2,
+                                           ymin = min(prevVal[v,k], currentVal[v,k]),
+                                           ymax = max(prevVal[v,k], currentVal[v,k]),
+                                           fill = fill_colors[as.character(classes[k])],
+                                           color = "black")
+                #TODO: make stripes diagonal
+                p <- p + ggplot2::annotate("segment",
+                                           x = seq(k - rect_width/2, k + rect_width/2, length.out = 6),
+                                           xend = seq(k - rect_width/2, k + rect_width/2, length.out = 6),
+                                           y = rep(min(prevVal[v,k], currentVal[v,k]), 6),
+                                           yend = rep(max(prevVal[v,k], currentVal[v,k]),6),
+                                           color = "black")
+
+              } else{
+                # non-striped portion
+                p <- p + ggplot2::annotate("rect",
+                                           xmin = k - rect_width/2,
+                                           xmax = k + rect_width/2,
+                                           ymin = min(prevVal[v,k], currentVal[v,k]),
+                                           ymax = max(prevVal[v,k], currentVal[v,k]),
+                                           fill = fill_colors[as.character(classes[k])],
+                                           color = "black")
+              }
+            } else{
+              # if more than 2 vdim classes, use various shades of the original color
+              p <- p + ggplot2::annotate("rect",
+                                         xmin = k - rect_width/2,
+                                         xmax = k + rect_width/2,
+                                         ymin = min(prevVal[v,k], currentVal[v,k]),
+                                         ymax = max(prevVal[v,k], currentVal[v,k]),
+                                         fill = colorspace::darken(
+                                           fill_colors[as.character(classes[k])],
+                                           amount = darken[v]),
+                                         color = "black")
+            }
 
 
-          # add lines connecting rectangles
-          if(horizontal_lines && k > 1){
-            p <- p + ggplot2::annotate("segment",
-                                       x = k - rect_width/2,
-                                       xend = k - 1 + rect_width/2,
-                                       y = prevValTotal[k],
-                                       yend = prevValTotal[k],
-                                       lty = lty)
+            # add lines connecting rectangles
+            if(horizontal_lines && k > 1){
+              p <- p + ggplot2::annotate("segment",
+                                         x = k - rect_width/2,
+                                         xend = k - 1 + rect_width/2,
+                                         y = prevValTotal[k],
+                                         yend = prevValTotal[k],
+                                         lty = lty)
+            }
           }
         }
 
@@ -361,17 +404,45 @@ plot_class_waterfall <- function(data_diff = NULL,
       # add bars and line connectors one by one
       for(k in classes_keep){
         for(v in 1:length(unique(data_diff_param$vDim))){
-          # add rectangles
-          p <- p + ggplot2::annotate("rect",
-                                     xmin = pos_x - rect_width/2,
-                                     xmax = pos_x + rect_width/2,
-                                     ymin = min(prevVals_combined[v,k], currVals_combined[v,k]),
-                                     ymax = max(prevVals_combined[v,k], currVals_combined[v,k]),
-                                     fill = colorspace::darken(
-                                       fill_colors[as.character(classes_combined[k])],
-                                       amount = darken[v]),
-                                     color = "black")
-        }
+          if(length(unique(data_diff_param$vDim)) == 2){
+            if(v == 1){
+              # striped portion
+              p <- p + ggplot2::annotate("rect",
+                                         xmin = pos_x - rect_width/2,
+                                         xmax = pos_x + rect_width/2,
+                                         ymin = min(prevVals_combined[v,k], currVals_combined[v,k]),
+                                         ymax = max(prevVals_combined[v,k], currVals_combined[v,k]),
+                                         fill = fill_colors[as.character(classes_combined[k])],
+                                         color = "black")
+              #TODO: make stripes diagonal
+              p <- p + ggplot2::annotate("segment",
+                                         x = seq(pos_x - rect_width/2, pos_x + rect_width/2, length.out = 6),
+                                         xend = seq(pos_x - rect_width/2, pos_x + rect_width/2, length.out = 6),
+                                         y = rep(min(prevVals_combined[v,k], currVals_combined[v,k]), 6),
+                                         yend = rep(max(prevVals_combined[v,k], currVals_combined[v,k]),6),
+                                         color = "black")
+            } else{
+              p <- p + ggplot2::annotate("rect",
+                                         xmin = pos_x - rect_width/2,
+                                         xmax = pos_x + rect_width/2,
+                                         ymin = min(prevVals_combined[v,k], currVals_combined[v,k]),
+                                         ymax = max(prevVals_combined[v,k], currVals_combined[v,k]),
+                                         fill = fill_colors[as.character(classes_combined[k])],
+                                         color = "black")
+            }
+          } else{
+            # add rectangles
+            p <- p + ggplot2::annotate("rect",
+                                       xmin = pos_x - rect_width/2,
+                                       xmax = pos_x + rect_width/2,
+                                       ymin = min(prevVals_combined[v,k], currVals_combined[v,k]),
+                                       ymax = max(prevVals_combined[v,k], currVals_combined[v,k]),
+                                       fill = colorspace::darken(
+                                         fill_colors[as.character(classes_combined[k])],
+                                         amount = darken[v]),
+                                       color = "black")
+            }
+          }
 
 
         # add lines connecting rectangles

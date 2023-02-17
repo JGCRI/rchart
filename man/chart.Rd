@@ -39,6 +39,7 @@ chart(
   ylim = NULL,
   waterfall_single_chart = F,
   waterfall_scen_order = NULL,
+  waterfall_vertical_dim = NULL,
   interaction_col_lty = NULL,
   interaction_col_color = NULL
 )
@@ -113,10 +114,11 @@ chart(
 
 \item{waterfall_scen_order}{Default = NULL. If waterfall_single_chart option is selected, order of scenarios in chart}
 
+\item{waterfall_vertical_dim}{Default = NULL. Column defining vertical stacking for waterfall charts}
+
 \item{interaction_col_lty}{Default = NULL. Column to use for interaction plot linetype.}
 
 \item{interaction_col_color}{Default = NULL. Column to use for interaction plot color.}
-
 }
 \description{
 Used to add missing data to input files and customize format
