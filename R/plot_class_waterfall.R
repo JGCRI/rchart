@@ -469,7 +469,6 @@ plot_class_waterfall <- function(data_diff = NULL,
         p <- p + ggplot2::ylab(paste0(unique(data_diff$param)[i], "_", wf_x)) +
           ggplot2::xlab("") +
           ggplot2::theme_bw() +
-          ggplot2::theme(aspect.ratio = aspect_ratio) +
           # add x labels
           ggplot2::scale_x_discrete(limits = classes, labels = classes) +
           # angle x axis labels
@@ -657,7 +656,6 @@ plot_class_waterfall <- function(data_diff = NULL,
         ggplot2::xlab("") +
         ggplot2::theme_bw() +
         # fix the aspect ratio
-        ggplot2::theme(aspect.ratio = aspect_ratio) +
         # add a special x scale to make sure repeated x labels are included
         ggplot2::scale_x_discrete(limits = classes_id, labels = function(x) classes_combined_vec[classes_keep][match(x, classes_id)]) +
         # angle the x axis labels 45 degrees
