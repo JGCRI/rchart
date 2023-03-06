@@ -16,7 +16,6 @@
 #' @param summary_line Default = FALSE. Add parameter summary line to all bar charts.
 #' @param wf_x Default = NULL. Year (or x value) for which to make the waterfall plot.
 #' @param rect_width Default = 0.7. Width of the rectangles in the waterfall plot.
-#' @param aspect_ratio Default = 0.6. Aspect ratio of the plot. Default is lower (more horizontal) than other rchart default
 #' @param horizontal_lines Default = TRUE. Whether to include horizontal lines between rectangles
 #' @param lty Default = 2. Line type for the horizontal lines between rectangles
 #' @param fill_colors Default = NULL. Vector of colors for rectangles. If not specified, uses jgcricolors corresponding to classes
@@ -44,7 +43,6 @@ plot_class_waterfall <- function(data_diff = NULL,
                                  summary_line = FALSE,
                                  wf_x = NULL,
                                  rect_width = 0.7,
-                                 aspect_ratio = 0.6,
                                  horizontal_lines = TRUE,
                                  lty = 2,
                                  fill_colors = NULL,
@@ -325,7 +323,6 @@ plot_class_waterfall <- function(data_diff = NULL,
         p <- p + ggplot2::ylab(paste0(unique(data_diff$param)[i], "_", wf_x)) +
           ggplot2::xlab("") +
           ggplot2::theme_bw() +
-          ggplot2::theme(aspect.ratio = aspect_ratio) +
           # angle x axis labels
           ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust=1)) +
           ggplot2::coord_fixed(ratio = 1/ymax*3)
@@ -462,7 +459,6 @@ plot_class_waterfall <- function(data_diff = NULL,
       p <- p + ggplot2::ylab(paste0(unique(data_diff$param)[i], "_", wf_x)) +
         ggplot2::xlab("") +
         ggplot2::theme_bw() +
-        ggplot2::theme(aspect.ratio = aspect_ratio) +
         # need special x scale to make sure repeated x labels are included
         ggplot2::scale_x_discrete(limits = classes_id, labels = function(x) classes_combined[classes_keep][match(x, classes_id)]) +
         # angle the x axis labels 45 degrees

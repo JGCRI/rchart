@@ -20,7 +20,6 @@ plot_class_waterfall(
   summary_line = FALSE,
   wf_x = NULL,
   rect_width = 0.7,
-  aspect_ratio = 0.6,
   horizontal_lines = TRUE,
   lty = 2,
   fill_colors = NULL,
@@ -62,8 +61,6 @@ plot_class_waterfall(
 \item{wf_x}{Default = NULL. Year (or x value) for which to make the waterfall plot.}
 
 \item{rect_width}{Default = 0.7. Width of the rectangles in the waterfall plot.}
-
-\item{aspect_ratio}{Default = 0.6. Aspect ratio of the plot. Default is lower (more horizontal) than other rchart default}
 
 \item{horizontal_lines}{Default = TRUE. Whether to include horizontal lines between rectangles}
 
