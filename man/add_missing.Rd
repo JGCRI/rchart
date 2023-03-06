@@ -4,7 +4,12 @@
 \alias{add_missing}
 \title{add_missing}
 \usage{
-add_missing(data, interaction_col_lty = NULL, interaction_col_color = NULL)
+add_missing(
+  data,
+  interaction_col_lty = NULL,
+  interaction_col_color = NULL,
+  waterfall_vertical_dim = NULL
+)
 }
 \arguments{
 \item{data}{dataframe to test and convert}
@@ -12,6 +17,8 @@ add_missing(data, interaction_col_lty = NULL, interaction_col_color = NULL)
 \item{interaction_col_lty}{Default = NULL. Column to use for interaction plot linetype.}
 
 \item{interaction_col_color}{Default = NULL. Column to use for interaction plot color.}
+
+\item{waterfall_vertical_dim}{Default = NULL.}
 }
 \description{
 Used to add missing data to input files and customize format

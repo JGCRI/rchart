@@ -18,18 +18,18 @@
 #' @export
 
 plot_param_difference <- function(data = NULL,
-                                scenRef = NULL,
-                                scenDiff = NULL,
-                                size = 1.5,
-                                ncol = 3,
-                                theme = NULL,
-                                theme_default = ggplot2::theme_bw(),
-                                facet_label_diff = "Difference",
-                                diff_text = NULL,
-                                scales = "free",
-                                break_interval = NULL,
-                                include_points = FALSE,
-                                palette = NULL) {
+                                  scenRef = NULL,
+                                  scenDiff = NULL,
+                                  size = 1.5,
+                                  ncol = 3,
+                                  theme = NULL,
+                                  theme_default = ggplot2::theme_bw(),
+                                  facet_label_diff = "Difference",
+                                  diff_text = NULL,
+                                  scales = "free",
+                                  break_interval = NULL,
+                                  include_points = FALSE,
+                                  palette = NULL) {
 
 
   # data = NULL
@@ -213,7 +213,7 @@ plot_param_difference <- function(data = NULL,
 
   }
 
-    plot_out <- cowplot::plot_grid(plotlist=plist, ncol=ncol, rel_widths = c(1,-0.25,1))
+    plot_out <- cowplot::plot_grid(plotlist=plist, ncol=3, rel_widths = c(1,-0.25,1))
 
   } else {
 

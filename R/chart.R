@@ -149,7 +149,8 @@ chart <- function(data = NULL,
 
   data_full <- rchart::add_missing(data,
                                    interaction_col_lty = interaction_col_lty,
-                                   interaction_col_color = interaction_col_color)
+                                   interaction_col_color = interaction_col_color,
+                                   waterfall_vertical_dim = waterfall_vertical_dim)
   data_full <- data_full %>%
     dplyr::mutate(class = as.character(class),
                   class = dplyr::if_else(grepl("^class1$|^class$",class),param,class))
@@ -165,7 +166,8 @@ chart <- function(data = NULL,
                                            diff_text_percent = diff_text_percent,
                                            diff_text_absolute = diff_text_absolute,
                                            diff_text_percent_x = diff_text_percent_x,
-                                           diff_text_absolute_x = diff_text_absolute_x)
+                                           diff_text_absolute_x = diff_text_absolute_x,
+                                           waterfall_vertical_dim = waterfall_vertical_dim)
 
   data_agg_diff <- rchart::calculate_diff(data = data_agg,
                                            scenRef = scenRef,
@@ -177,7 +179,8 @@ chart <- function(data = NULL,
                                            diff_text_percent = diff_text_percent,
                                            diff_text_absolute = diff_text_absolute,
                                            diff_text_percent_x = diff_text_percent_x,
-                                           diff_text_absolute_x = diff_text_absolute_x)
+                                           diff_text_absolute_x = diff_text_absolute_x,
+                                          waterfall_vertical_dim = waterfall_vertical_dim)
   } else {
     data_full_diff <- tibble::tibble()
     data_agg_diff <- tibble::tibble()
@@ -411,6 +414,7 @@ chart <- function(data = NULL,
             scenDiff = scenDiff_plot_i,
             theme = theme,
             theme_default = theme_default,
+            ncol = ncol,
             facet_label_diff = "Difference Percent",
             size = size,
             diff_text = diff_text_percent,
@@ -724,7 +728,8 @@ chart <- function(data = NULL,
           ylim = ylim,
           single_chart = waterfall_single_chart,
           scen_order = waterfall_scen_order,
-          scales = scales
+          scales = scales,
+          vertical_dim = waterfall_vertical_dim
         )
 
       # Set title if provided or turn off

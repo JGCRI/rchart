@@ -13,6 +13,7 @@
 #' @param diff_text_absolute Default = "_diffAbs"
 #' @param diff_text_percent_x Default = "_xdiffPrcnt"
 #' @param diff_text_absolute_x Default = "_xdiffAbs"
+#' @param waterfall_vertical_dim Default = NULL
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
 #' @export
@@ -27,7 +28,8 @@ calculate_diff <- function(data = NULL,
                            diff_text_percent = "diffPrcnt",
                            diff_text_absolute = "diffAbs",
                            diff_text_percent_x = "xdiffPrcnt",
-                           diff_text_absolute_x = "xdiffAbs") {
+                           diff_text_absolute_x = "xdiffAbs",
+                           waterfall_vertical_dim = NULL) {
 
   # data = data_full
   # scenRef = "GCAM_SSP3"
@@ -50,7 +52,8 @@ calculate_diff <- function(data = NULL,
   NULL -> scenario -> value -> x
 
   orig_cols <- colnames(data)
-  data_full <- rchart::add_missing(data)
+  data_full <- rchart::add_missing(data,
+                                   waterfall_vertical_dim = waterfall_vertical_dim)
 
   data_out <- tibble::tibble()
 

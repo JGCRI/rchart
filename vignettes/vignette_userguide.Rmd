@@ -574,6 +574,77 @@ my_chart2 <- rchart::chart(data, save = F, scenRef = "scen1", waterfall_single_c
 my_chart2$chart_class_waterfall_Spain
 ```
 
+### Vertical dimension
+
+Waterfall charts can also incorporate a second discrete dimension by splitting each bar into multiple vertical sections. This feature can be used to include multiple regions in one chart, with the "vertical dimension" corresponding to region. For this combined region waterfall chart, use the chart type `chart_class_region_waterfall`.
+
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=8, fig.height = 5.5, out.width="100%"}
+library(rchart);
+data = data.frame(region = c(rep("Spain",54),
+                             rep("India",54)),
+                  param = rep(rep(c("param_1", "param_2","param_1", "param_2","param_1", "param_2",
+                                "param_1", "param_2","param_1", "param_2","param_1", "param_2",
+                                "param_1", "param_2","param_1", "param_2","param_1", "param_2"),3),2),
+                  scenario = rep(rep(c("scen1","scen1","scen1","scen1","scen1","scen1",
+                               "scen2","scen2","scen2","scen2","scen2","scen2",
+                               "scen3","scen3","scen3","scen3","scen3","scen3"),3),2),
+                  year = rep(rep(rep(c(2010,2010,2020,2020,2030,2030),3),3),2),
+                  class = rep(c(rep("class_1",18),
+                            rep("class_2",18),
+                            rep("class_3",18)),2),
+                  value = rep(c(c(32, 138, 54, 163, 24, 123,
+                              37, 153, 23, 112, 45, 147,
+                              40, 144, 12, 130, 99, 1103),
+                            c(10, 121, 24, 113, 14, 113,
+                              67, 183, 93, 192, 95, 1107,
+                              10, 134, 02, 110, 39, 133),
+                            c(50, 1121, 124, 1113, 214, 1313,
+                              367, 1483, 593, 1692, 795, 1907,
+                              100, 1304, 102, 1107, 339, 1233)),2))
+
+# Include both regions in each chart, split charts by diff scenario
+my_chart <- rchart::chart(data, save = F, scenRef = "scen1")
+my_chart$chart_class_region_waterfall
+
+# Include both regions in each chart with diff scenarios combined into a single chart
+my_chart2 <- rchart::chart(data, save = F, scenRef = "scen1", waterfall_single_chart = T)
+my_chart2$chart_class_region_waterfall
+```
+
+To incorporate a "vertical dimension" corresponding to a column other than `region`, use the `waterfall_vertical_dim` argument with chart type `chart_class_waterfall`.
+
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.width=8, fig.height = 3, out.width="100%"}
+library(rchart);
+data = data.frame(region = c(rep("Spain",54),
+                             rep("India",54)),
+                  param = rep("param_1", 108),
+                  scenario = rep(rep(c("scen1","scen1","scen1","scen1","scen1","scen1",
+                               "scen2","scen2","scen2","scen2","scen2","scen2",
+                               "scen3","scen3","scen3","scen3","scen3","scen3"),3),2),
+                  year = rep(rep(rep(c(2010,2010,2020,2020,2030,2030),3),3),2),
+                  class = rep(c(rep("class_1",18),
+                            rep("class_2",18),
+                            rep("class_3",18)),2),
+                  vertDim = rep(c("v_1", "v_2"), 54),
+                  value = rep(c(c(32, 16, 54, 10, 24, 30,
+                              37, 20, 23, 40, 45, 45,
+                              40, 10, 12, 12, 99, 50),
+                            c(10, 20, 24, 20, 14, 14,
+                              67, 30, 93, 90, 95, 90,
+                              10, 20, 02, 10, 39, 39),
+                            c(50, 25, 124, 100, 214, 100,
+                              367, 300, 593, 700, 795, 795,
+                              100, 100, 102, 50, 339, 150)),2))
+
+# Include the vertical dimension in each chart, split charts by diff scenario
+my_chart <- rchart::chart(data, save = F, scenRef = "scen1", waterfall_vertical_dim = "vertDim")
+my_chart$chart_class_waterfall_Spain
+
+# Include the vertical dimension in each chart with diff scenarios combined into a single chart
+my_chart2 <- rchart::chart(data, save = F, scenRef = "scen1", 
+                           waterfall_vertical_dim = "vertDim", waterfall_single_chart = T)
+my_chart2$chart_class_waterfall_Spain
+```
 
 <!-------------------------->
 ## Plot Region Compare

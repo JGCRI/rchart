@@ -15,7 +15,8 @@ calculate_diff(
   diff_text_percent = "diffPrcnt",
   diff_text_absolute = "diffAbs",
   diff_text_percent_x = "xdiffPrcnt",
-  diff_text_absolute_x = "xdiffAbs"
+  diff_text_absolute_x = "xdiffAbs",
+  waterfall_vertical_dim = NULL
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ calculate_diff(
 \item{diff_text_percent_x}{Default = "_xdiffPrcnt"}
 
 \item{diff_text_absolute_x}{Default = "_xdiffAbs"}
+
+\item{waterfall_vertical_dim}{Default = NULL}
 }
 \description{
 Calculate difference between scenarios or time periods

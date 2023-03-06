@@ -4,13 +4,15 @@
 #' @param data dataframe to test and convert
 #' @param interaction_col_lty Default = NULL. Column to use for interaction plot linetype.
 #' @param interaction_col_color Default = NULL. Column to use for interaction plot color.
+#' @param waterfall_vertical_dim Default = NULL.
 #' @importFrom magrittr %>%
 #' @importFrom data.table :=
 #' @export
 
 add_missing <- function(data,
                         interaction_col_lty = NULL,
-                        interaction_col_color = NULL){
+                        interaction_col_color = NULL,
+                        waterfall_vertical_dim = NULL){
   NULL -> year -> aggregate -> scenario -> subRegion -> param -> x -> value -> region
 
   if(!any(grepl("\\<scenario\\>",names(data),ignore.case = T))){data<-data%>%dplyr::mutate(scenario="scenario")}else{
@@ -82,8 +84,19 @@ add_missing <- function(data,
     }
   }
 
+  if(!is.null(waterfall_vertical_dim)){
+    if(any(waterfall_vertical_dim %in% names(data))){
+      data[[waterfall_vertical_dim]] <- as.character(data[[waterfall_vertical_dim]])
+    }
+  }
+
   data <- data %>%
-    dplyr::select(scenario,region,subRegion,param,class,x,aggregate,value,interaction_col_lty, interaction_col_color)
+    dplyr::select(scenario,region,subRegion,param,class,x,aggregate,value,
+                  interaction_col_lty, interaction_col_color, waterfall_vertical_dim) %>%
+    dplyr::group_by(dplyr::across(-c(value))) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::ungroup()
+
   if(!is.numeric(data$x)){
     # convert x to factor so values won't be re-ordered alphabetically
     data$x <- factor(data$x, levels=unique(data$x))
