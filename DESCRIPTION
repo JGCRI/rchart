@@ -37,7 +37,8 @@ Imports:
     purrr,
     jgcricolors,
     colorspace,
-    tidyselect
+    tidyselect,
+    ggpattern
 Suggests: 
     rmarkdown,
     testthat (>= 3.0.0),

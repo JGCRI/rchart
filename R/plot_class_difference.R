@@ -49,7 +49,7 @@ plot_class_difference <- function(data = NULL,
   # Initialize
   #...........................
 
-  NULL -> value -> param -> x -> scenario -> width_diff
+  NULL -> value -> param -> x -> scenario -> width_diff -> vars
 
   #...........................
   # Plots

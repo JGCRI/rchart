@@ -57,7 +57,8 @@ plot_class_waterfall <- function(data_diff = NULL,
   # Initialize data ------------------------------------------------------------
   # ............................................................................
 
-  NULL->x->value->scenario->param->.->vDim-> include_class
+  NULL->x->value->scenario->param->.->vDim-> include_class -> region -> aggregate ->
+    xmax -> fill -> pattern -> xmin
 
 
   # reorder the diff scenarios if a new order is given
