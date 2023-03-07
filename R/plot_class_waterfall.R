@@ -473,8 +473,7 @@ plot_class_waterfall <- function(data_diff = NULL,
           ggplot2::scale_x_discrete(limits = classes, labels = classes) +
           # angle x axis labels
           ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust=1),
-                         legend.position = "right") +
-          ggplot2::coord_fixed(ratio = 1/ymax*3)
+                         legend.position = "right")
 
         # add custom theme if given
         if(!is.null(theme)){p <- p + theme}
@@ -655,14 +654,12 @@ plot_class_waterfall <- function(data_diff = NULL,
         # remove the x label
         ggplot2::xlab("") +
         ggplot2::theme_bw() +
-        # fix the aspect ratio
-        # add a special x scale to make sure repeated x labels are included
-        ggplot2::scale_x_discrete(limits = classes_id, labels = function(x) classes_combined_vec[classes_keep][match(x, classes_id)]) +
         # angle the x axis labels 45 degrees
         ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust=1),
                        legend.position = "right") +
-        # fix the coordinates for aspect ratio
-        ggplot2::coord_fixed(ratio = 1/ymax*3)
+        # add a special x scale to make sure repeated x labels are included
+        ggplot2::scale_x_discrete(limits = classes_id, labels = function(x) classes_combined_vec[classes_keep][match(x, classes_id)]) +
+
 
       if(!is.null(theme)){p <- p + theme}
 
