@@ -119,6 +119,8 @@ chart(
 \item{interaction_col_lty}{Default = NULL. Column to use for interaction plot linetype.}
 
 \item{interaction_col_color}{Default = NULL. Column to use for interaction plot color.}
+
+\item{linetype}{Default = NULL. Named vector with custom linetypes (solid lines will be used if not provided)}
 }
 \description{
 Used to add missing data to input files and customize format

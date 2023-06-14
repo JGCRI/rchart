@@ -14,6 +14,7 @@ plot_param_absolute(
   break_interval = NULL,
   include_points = FALSE,
   palette = NULL,
+  linetype = NULL,
   interaction_col_lty = NULL,
   interaction_col_color = NULL
 )
@@ -36,6 +37,8 @@ plot_param_absolute(
 \item{include_points}{Default = FALSE. Add data points to all line charts.}
 
 \item{palette}{Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios; scenario colors will be used if provided)}
+
+\item{linetype}{Default = NULL. Named vector with custom linetypes (solid lines will be used if not provided)}
 
 \item{interaction_col_lty}{Default = NULL. Column to use for interaction plot linetype.}
 
