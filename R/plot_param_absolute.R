@@ -67,10 +67,12 @@ plot_param_absolute <- function(data = NULL,
   ltyCustom <- linetype
   # check classes not in the custom linetypes
   missNames <- unique(data$scenario)[!unique(data$scenario) %in% names(ltyCustom)]
+  # linetype options
+  ltyAdd <- rep(c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash"), 100)
 
   if (length(missNames) > 0) {
     # assign extra colors to nonspecified classes
-    ltyAdd <- rep('solid', times = length(missNames))
+    ltyAdd <- ltyAdd[1:length(missNames)]
     names(ltyAdd) <- missNames
     ltyCharts <- c(ltyCustom, ltyAdd)
   } else{
@@ -81,11 +83,15 @@ plot_param_absolute <- function(data = NULL,
   if(!is.null(interaction_col_lty) & !is.null(interaction_col_color) & length((data$scenario)%>%unique())>1){
     if(any(interaction_col_lty %in% names(data)) & any(interaction_col_color %in% names(data))){
 
-      palCharts <- c(palCharts, palCustom[names(palCustom) %in% unique(data[[interaction_col_color]])])
-      palCharts <- palCharts[names(palCharts) %in% unique(data[[interaction_col_color]])]
+      palCharts <- c(palCustom[names(palCustom) %in% unique(data[[interaction_col_color]])], palCharts)
+      if(is.null(palCustom)){
+        palCharts <- palCharts %>% as.vector()
+      }
 
-      ltyCharts <- c(ltyCharts, ltyCustom[names(ltyCustom) %in% unique(data[[interaction_col_lty]])])
-      ltyCharts <- ltyCharts[names(ltyCharts) %in% unique(data[[interaction_col_lty]])]
+      ltyCharts <- c(ltyCustom[names(ltyCustom) %in% unique(data[[interaction_col_lty]])], ltyCharts)
+      if(is.null(ltyCustom)){
+        ltyCharts <- ltyCharts %>% as.vector()
+      }
 
       data$interaction <- interaction(data[[interaction_col_lty]],data[[interaction_col_color]])
 
