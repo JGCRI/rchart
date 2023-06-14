@@ -68,7 +68,7 @@ plot_param_absolute <- function(data = NULL,
   # check classes not in the custom linetypes
   missNames <- unique(data$scenario)[!unique(data$scenario) %in% names(ltyCustom)]
   # linetype options
-  ltyAdd <- rep(c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash"), 100)
+  ltyAdd <- rep(c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash"), 10)
 
   if (length(missNames) > 0) {
     # assign extra colors to nonspecified classes
@@ -83,13 +83,23 @@ plot_param_absolute <- function(data = NULL,
   if(!is.null(interaction_col_lty) & !is.null(interaction_col_color) & length((data$scenario)%>%unique())>1){
     if(any(interaction_col_lty %in% names(data)) & any(interaction_col_color %in% names(data))){
 
-      palCharts <- c(palCustom[names(palCustom) %in% unique(data[[interaction_col_color]])], palCharts)
-      if(is.null(palCustom)){
+      # check if customized colors are corresponding to all the items
+      if(!is.null(palCustom) & all(unique(data[[interaction_col_color]]) %in% names(palCustom))){
+        palCharts <- palCustom[names(palCustom) %in% unique(data[[interaction_col_color]])]
+      } else {
+        message(paste0('Custom color palette does not identify colors for one or more of the followings: ',
+                       paste0(unique(data[[interaction_col_color]]), collapse = ', '),
+                       '. Using ramdom color palette instead.'))
         palCharts <- palCharts %>% as.vector()
       }
 
-      ltyCharts <- c(ltyCustom[names(ltyCustom) %in% unique(data[[interaction_col_lty]])], ltyCharts)
-      if(is.null(ltyCustom)){
+      # check if customized line types are corresponding to all the items
+      if(!is.null(ltyCustom) & all(unique(data[[interaction_col_lty]]) %in% names(ltyCustom))){
+        ltyCharts <- ltyCustom[names(ltyCustom) %in% unique(data[[interaction_col_lty]])]
+      } else {
+        message(paste0('Custom linetype does not identify line types for one or more of the followings: ',
+                       paste0(unique(data[[interaction_col_lty]]), collapse = ', '),
+                       '. Using ramdom line types instead.'))
         ltyCharts <- ltyCharts %>% as.vector()
       }
 
