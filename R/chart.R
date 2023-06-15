@@ -36,6 +36,7 @@
 #' @param interaction_col_lty Default = NULL. Column to use for interaction plot linetype.
 #' @param interaction_col_color Default = NULL. Column to use for interaction plot color.
 #' @param palette Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios)
+#' @param linetype Default = NULL. Named vector with custom linetypes (solid lines will be used if not provided)
 #' @param ylim Default = NULL. Y-axis limits
 #' @param waterfall_single_chart Default = FALSE. If there are multiple diff scenarios, show them on a single chart?
 #' @param waterfall_scen_order Default = NULL. If waterfall_single_chart option is selected, order of scenarios in chart
@@ -75,6 +76,7 @@ chart <- function(data = NULL,
                   summary_line = FALSE,
                   waterfall_x = NULL,
                   palette = NULL,
+                  linetype = NULL,
                   ylim = NULL,
                   waterfall_single_chart = F,
                   waterfall_scen_order = NULL,
@@ -275,6 +277,7 @@ chart <- function(data = NULL,
             break_interval = break_interval,
             include_points = include_points,
             palette = palette,
+            linetype = linetype,
             interaction_col_lty = interaction_col_lty,
             interaction_col_color = interaction_col_color
           )

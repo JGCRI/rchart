@@ -12,6 +12,7 @@
 #' @param interaction_col_lty Default = NULL. Column to use for interaction plot linetype.
 #' @param interaction_col_color Default = NULL. Column to use for interaction plot color.
 #' @param palette Default = NULL. Named vector with custom palette colors (can include classes, regions, and/or scenarios; scenario colors will be used if provided)
+#' @param linetype Default = NULL. Named vector with custom linetypes (solid lines will be used if not provided)
 #' @importFrom magrittr %>%
 #' @export
 
@@ -24,6 +25,7 @@ plot_param_absolute <- function(data = NULL,
                                break_interval = NULL,
                                include_points = FALSE,
                                palette = NULL,
+                               linetype = NULL,
                                interaction_col_lty = NULL,
                                interaction_col_color = NULL) {
 
@@ -61,9 +63,45 @@ plot_param_absolute <- function(data = NULL,
   palCharts <- palCharts[names(palCharts) %in% unique(data$scenario)]
   palCharts <- palCharts[names(palCharts)%>%sort()]; palCharts
 
+  # Check Line Types ....................................
+  ltyCustom <- linetype
+  # check classes not in the custom linetypes
+  missNames <- unique(data$scenario)[!unique(data$scenario) %in% names(ltyCustom)]
+  # linetype options
+  ltyAdd <- rep(c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash"), 10)
+
+  if (length(missNames) > 0) {
+    # assign extra colors to nonspecified classes
+    ltyAdd <- ltyAdd[1:length(missNames)]
+    names(ltyAdd) <- missNames
+    ltyCharts <- c(ltyCustom, ltyAdd)
+  } else{
+    ltyCharts <- ltyCustom
+  }
+
   # Interactions
   if(!is.null(interaction_col_lty) & !is.null(interaction_col_color) & length((data$scenario)%>%unique())>1){
     if(any(interaction_col_lty %in% names(data)) & any(interaction_col_color %in% names(data))){
+
+      # check if customized colors are corresponding to all the items
+      if(!is.null(palCustom) & all(unique(data[[interaction_col_color]]) %in% names(palCustom))){
+        palCharts <- palCustom[names(palCustom) %in% unique(data[[interaction_col_color]])]
+      } else {
+        message(paste0('Custom color palette does not identify colors for one or more of the followings: ',
+                       paste0(unique(data[[interaction_col_color]]), collapse = ', '),
+                       '. Using ramdom color palette instead.'))
+        palCharts <- palCharts %>% as.vector()
+      }
+
+      # check if customized line types are corresponding to all the items
+      if(!is.null(ltyCustom) & all(unique(data[[interaction_col_lty]]) %in% names(ltyCustom))){
+        ltyCharts <- ltyCustom[names(ltyCustom) %in% unique(data[[interaction_col_lty]])]
+      } else {
+        message(paste0('Custom linetype does not identify line types for one or more of the followings: ',
+                       paste0(unique(data[[interaction_col_lty]]), collapse = ', '),
+                       '. Using ramdom line types instead.'))
+        ltyCharts <- ltyCharts %>% as.vector()
+      }
 
       data$interaction <- interaction(data[[interaction_col_lty]],data[[interaction_col_color]])
 
@@ -75,7 +113,8 @@ plot_param_absolute <- function(data = NULL,
                                                lty=interaction_col_lty)) +
         ggplot2::theme_bw() +
         theme_default +
-        ggplot2::scale_color_manual(values=palCharts%>%as.vector()) +
+        ggplot2::scale_color_manual(values=palCharts) +
+        ggplot2::scale_linetype_manual(values=ltyCharts) +
         ggplot2::geom_line(size=size) +
         ggplot2::ylab(NULL) +
         ggplot2::xlab(NULL) +
