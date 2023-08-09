@@ -180,7 +180,7 @@ plot_class_difference <- function(data = NULL,
         ggplot2::xlab(NULL) +
         ggplot2::ylab(NULL) +
         ggplot2::scale_y_continuous(position = "left") +
-        ggplot2::theme(legend.position="right") +
+        ggplot2::theme(legend.position="none") +
         theme_default
 
       if(is.null(ncol)){
@@ -252,6 +252,16 @@ plot_class_difference <- function(data = NULL,
                                    align = "h", axis = "tblr")
 
 
+    # extract legend from first plot
+    legend_b <- cowplot::get_legend(
+      p1 +
+        ggplot2::guides(fill = guide_legend(nrow = 2)) +
+        ggplot2::theme(legend.position = "bottom")
+    )
+
+    # add the legend underneath the plots made earlier. Give it 20%
+    # of the height of plots made earlier (via rel_heights).
+    plot_out <- cowplot::plot_grid(plot_out, legend_b, ncol = 1, rel_heights = c(1, .2))
 
   } else {
 

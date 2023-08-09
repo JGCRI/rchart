@@ -357,11 +357,11 @@ chart <- function(data = NULL,
         if(title != F){
           if(is.character(title)){
             title_label <- cowplot::ggdraw() +
-              cowplot::draw_label(paste0(title," ",region_subRegion), fontface='bold', vjust=0, hjust=-0.25,x=0, y=0)
+              cowplot::draw_label(paste0(title," ",region_subRegion), size=size_text, vjust=0, hjust=-0.25,x=0, y=0)
             charts_out[[count]] <- cowplot::plot_grid(title_label, charts_out[[count]], ncol=1, rel_heights=c(0.5,5*n_param))
           }else{
             title_label <- cowplot::ggdraw() +
-              cowplot::draw_label(paste0(region_subRegion), fontface='bold', vjust=0, hjust=-0.25,x=0, y=0)
+              cowplot::draw_label(paste0(region_subRegion), size=size_text, vjust=0, hjust=-0.25,x=0, y=0)
             charts_out[[count]] <- cowplot::plot_grid(title_label, charts_out[[count]], ncol=1, rel_heights=c(0.5,5*n_param))
 
           }
@@ -427,11 +427,11 @@ chart <- function(data = NULL,
         if(title != F){
           if(is.character(title)){
             title_label <- cowplot::ggdraw() +
-              cowplot::draw_label(paste0(title," ",region_subRegion), fontface='bold', vjust=0, hjust=-0.25,x=0, y=0)
+              cowplot::draw_label(paste0(title," ",region_subRegion), size=size_text, vjust=0, hjust=-0.25,x=0, y=0)
             charts_out[[count]] <- cowplot::plot_grid(title_label, charts_out[[count]], ncol=1, rel_heights=c(0.5,5*n_param))
           }else{
             title_label <- cowplot::ggdraw() +
-              cowplot::draw_label(paste0(region_subRegion), fontface='bold', vjust=0, hjust=-0.25,x=0, y=0)
+              cowplot::draw_label(paste0(region_subRegion), size=size_text, vjust=0, hjust=-0.25,x=0, y=0)
             charts_out[[count]] <- cowplot::plot_grid(title_label, charts_out[[count]], ncol=1, rel_heights=c(0.5,5*n_param))
 
           }
@@ -581,11 +581,11 @@ chart <- function(data = NULL,
         if(title != F){
           if(is.character(title)){
             title_label <- cowplot::ggdraw() +
-              cowplot::draw_label(paste0(title," ",region_subRegion), fontface='bold', vjust=0, hjust=-0.25,x=0, y=0)
+              cowplot::draw_label(paste0(title," ",region_subRegion), size=size_text, vjust=0, hjust=-0.25,x=0, y=0)
             charts_out[[count]] <- cowplot::plot_grid(title_label, charts_out[[count]], ncol=1, rel_heights=c(0.5,5*n_param))
           }else{
             title_label <- cowplot::ggdraw() +
-              cowplot::draw_label(paste0(region_subRegion), fontface='bold', vjust=0, hjust=-0.25,x=0, y=0)
+              cowplot::draw_label(paste0(region_subRegion), size=size_text, vjust=0, hjust=-0.25,x=0, y=0)
             charts_out[[count]] <- cowplot::plot_grid(title_label, charts_out[[count]], ncol=1, rel_heights=c(0.5,5*n_param))
 
           }
@@ -661,11 +661,11 @@ chart <- function(data = NULL,
         if(title != F){
           if(is.character(title)){
             title_label <- cowplot::ggdraw() +
-              cowplot::draw_label(paste0(title," ",region_subRegion), fontface='bold', vjust=0, hjust=-0.25,x=0, y=0)
+              cowplot::draw_label(paste0(title," ",region_subRegion), size=size_text, vjust=0, hjust=-0.25,x=0, y=0)
             charts_out[[count]] <- cowplot::plot_grid(title_label, charts_out[[count]], ncol=1, rel_heights=c(0.5,5*n_param))
           }else{
             title_label <- cowplot::ggdraw() +
-              cowplot::draw_label(paste0(region_subRegion), fontface='bold', vjust=0, hjust=-0.25,x=0, y=0)
+              cowplot::draw_label(paste0(region_subRegion), size=size_text, vjust=0, hjust=-0.25,x=0, y=0)
             charts_out[[count]] <- cowplot::plot_grid(title_label, charts_out[[count]], ncol=1, rel_heights=c(0.5,5*n_param))
 
           }
