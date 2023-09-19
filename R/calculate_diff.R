@@ -125,6 +125,8 @@ calculate_diff <- function(data = NULL,
 
     if(xRef %in% unique(data_out$x)){
 
+      if(is.numeric(xRef)){xRef = as.character(xRef)}
+
       if(is.null(xDiff) & !is.null(xRef)){xDiff = as.character(unique(data_out$x)[!unique(data_out$x) %in% xRef])}
 
       for (xDiff_i in xDiff) {
