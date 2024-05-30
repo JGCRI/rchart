@@ -105,7 +105,7 @@ plot_class_absolute <- function(data = NULL,
         scales = scales,
         labeller = ggplot2::labeller(row_dim = ggplot2::label_wrap_gen(15)),
         # switch='y',
-        ncol = ncol
+        #ncol = ncol
       )+
       ggplot2::ylab((unique(data[[row_dim]]))[i])
   } else if(length(unique(data[[col_dim]])) > 1){
@@ -115,7 +115,7 @@ plot_class_absolute <- function(data = NULL,
       ggplot2::facet_wrap(
         ~ get(col_dim),
         scales = scales,
-        ncol = ncol
+        #ncol = ncol
       ) +
       ggplot2::ylab((unique(data[[row_dim]]))[i])
   } else if(length(unique(data[[row_dim]])) > 1){
@@ -124,7 +124,7 @@ plot_class_absolute <- function(data = NULL,
       ggplot2::facet_wrap(
         ~ get(row_dim),
         scales = scales,
-        ncol = ncol
+        #ncol = ncol
       )
   } else{
     # if one row_dim and one col_dim, just add row_dim as ylab
