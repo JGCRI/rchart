@@ -189,7 +189,7 @@ plot_class_difference <- function(data = NULL,
                               labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15)))
       } else {
         p2 <- p2 +
-          ggplot2::facet_wrap(vars(scenario), scales=scales, ncol = ncol,
+          ggplot2::facet_wrap(ggplot2::vars(scenario), scales=scales, ncol = ncol,
                               labeller = ggplot2::labeller(param = ggplot2::label_wrap_gen(15)))
       }
 
